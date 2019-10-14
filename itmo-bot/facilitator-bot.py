@@ -112,12 +112,17 @@ def error(update, context):
     """Log Errors caused by Updates."""
     logger.warning('Update "%s" caused error "%s"', update, context.error)
 
+def gettoken(source):
+    with open(source, 'r') as file:
+        token = file.read().replace('\n', '')
+    return token
 
 def main():
     # Create the Updater and pass it your bot's token.
     # Make sure to set use_context=True to use the new context based callbacks
     # Post version 12 this will no longer be necessary
-    updater = Updater("getMeThroughBot-token", use_context=True)
+
+    updater = Updater(gettoken("tokens/getmethroughbot-token"), use_context=True)
 
     # Get the dispatcher to register handlers
     dp = updater.dispatcher
