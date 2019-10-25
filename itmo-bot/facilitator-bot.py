@@ -33,6 +33,7 @@ intro_questionary_reply_keyboard = [['Изучить новую теорию', '
 markup = ReplyKeyboardMarkup(intro_questionary_reply_keyboard, one_time_keyboard=True)
 
 
+
 def facts_to_str(user_data):
     facts = list()
 
@@ -42,15 +43,22 @@ def facts_to_str(user_data):
     return "\n".join(facts).join(['\n', '\n'])
 
 
+def intro_choice_1_callback(update, context):
+    if 'choice' in context.user_data:
+        del context.user_data['choice']
+    update.message.reply_text("Отлично! За эти 10 дней ты познакомишься с 4частной моделью описания корпоративных культур и профессий. С ее помощью ты сможешь сформулировать стратегию следующих шагов в своей карьере")
+    return ConversationHandler.END
+
+
+
 def start(update, context):
-    reply_text = "Hi! My name is Doctor Botter."
+    reply_text = "Привет, рада тебя приветствовать на нашем марафоне! "
     if context.user_data:
         reply_text += " You already told me your {}. Why don't you tell me something more " \
                       "about yourself? Or change enything I " \
                       "already know.".format(", ".join(context.user_data.keys()))
     else:
-        reply_text += " I will hold a more complex conversation with you. Why don't you tell me " \
-                      "something about yourself?"
+        reply_text += " Расскажи, что тебя интересует в первую очередь"
     update.message.reply_text(reply_text, reply_markup=markup)
 
     return CHOOSING
@@ -134,6 +142,14 @@ def main():
                                       regular_choice),
                        MessageHandler(Filters.regex('^Something else...$'),
                                       custom_choice),
+                       MessageHandler(Filters.regex('^Изучить новую теорию'),
+                                      intro_choice_1_callback),
+                       MessageHandler(Filters.regex('^Сформулировать конкретные шаги в развитии карьеры$'),
+                                      intro_choice_1_callback),
+                       MessageHandler(Filters.regex('^Понять как работает система$'),
+                                      intro_choice_1_callback),
+                       MessageHandler(Filters.regex('^Лучше узнать себя$'),
+                                      intro_choice_1_callback),
                        ],
 
             TYPING_CHOICE: [MessageHandler(Filters.text,
