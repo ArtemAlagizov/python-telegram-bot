@@ -14,7 +14,7 @@ Press Ctrl-C on the command line or send a signal to the process to stop the
 bot.
 """
 
-from telegram import ReplyKeyboardMarkup, Message
+from telegram import ReplyKeyboardMarkup
 from telegram.ext import (Updater, CommandHandler, MessageHandler, Filters,
                           ConversationHandler, PicklePersistence)
 
@@ -22,19 +22,15 @@ import logging
 
 # Enable logging
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-                    level=logging.INFO)
+                    level=logging.DEBUG)
 
 logger = logging.getLogger(__name__)
 
 CHOOSING, TYPING_REPLY, TYPING_CHOICE = range(3)
 
-aims_reply_keyboard = [['Изучить новую теорию', 'Сформулировать конкретные шаги в развитии карьеры'],
-                       ['Понять как работает система', 'Лучше узнать себя']]
-
-temp_reply_keyboard = [['Age', 'Favourite colour'],
-                       ['Number of siblings', 'Something else...'],
-                       ['Done']]
-initial_markup = ReplyKeyboardMarkup(aims_reply_keyboard, one_time_keyboard=True)
+intro_questionary_reply_keyboard = [['Изучить новую теорию', 'Сформулировать конкретные шаги в развитии карьеры'],
+                                    ['Понять как работает система', 'Лучше узнать себя']]
+markup = ReplyKeyboardMarkup(intro_questionary_reply_keyboard, one_time_keyboard=True)
 
 
 def facts_to_str(user_data):
@@ -47,14 +43,15 @@ def facts_to_str(user_data):
 
 
 def start(update, context):
-    reply_text = "Привет, рада тебя приветствовать на нашем марафоне! "
+    reply_text = "Hi! My name is Doctor Botter."
     if context.user_data:
         reply_text += " You already told me your {}. Why don't you tell me something more " \
                       "about yourself? Or change enything I " \
                       "already know.".format(", ".join(context.user_data.keys()))
     else:
-        reply_text += "Расскажи, что тебя интересует в первую очередь"
-    update.message.reply_text(reply_text, reply_markup=initial_markup)
+        reply_text += " I will hold a more complex conversation with you. Why don't you tell me " \
+                      "something about yourself?"
+    update.message.reply_text(reply_text, reply_markup=markup)
 
     return CHOOSING
 
@@ -89,7 +86,7 @@ def received_information(update, context):
                               "{}"
                               "You can tell me more, or change your opinion on "
                               "something.".format(facts_to_str(context.user_data)),
-                              reply_markup=initial_markup)
+                              reply_markup=markup)
 
     return CHOOSING
 
@@ -120,14 +117,10 @@ def gettoken(source):
     return token
 
 
-def create_profile(userid):
-    pp = PicklePersistence(filename=str(userid) + '_user_data')
-    return pp
-
-
 def main():
     # Create the Updater and pass it your bot's token.
-    updater = Updater(gettoken("tokens/getmethroughbot-token"), persistence=create_profile("id"), use_context=True)
+    pp = PicklePersistence(filename='conversationbot')
+    updater = Updater(gettoken("tokens/getmethroughbot-token"), persistence=pp, use_context=True)
 
     # Get the dispatcher to register handlers
     dp = updater.dispatcher
