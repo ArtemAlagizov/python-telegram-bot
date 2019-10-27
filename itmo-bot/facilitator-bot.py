@@ -14,6 +14,7 @@ Press Ctrl-C on the command line or send a signal to the process to stop the
 bot.
 """
 
+from datetime import datetime
 from telegram import ReplyKeyboardMarkup
 from telegram.ext import (Updater, CommandHandler, MessageHandler, Filters,
                           ConversationHandler, PicklePersistence)
@@ -44,6 +45,7 @@ intro_reply_4 = u'Замечательно! За эти 10 дней ты луч�
 
 intro_questionary_reply_keyboard = [[intro_choice_1, intro_choice_2],
                                     [intro_choice_3, intro_choice_4]]
+
 intro_markup = ReplyKeyboardMarkup(intro_questionary_reply_keyboard, one_time_keyboard=True)
 intro_end_markup = ReplyKeyboardMarkup([], one_time_keyboard=True)
 
@@ -159,9 +161,10 @@ def execute_job(context):
 def add_jobs(update, context):
     """Add a job to the queue."""
     chat_id = update.message.chat_id
+    print("at least we are here" + str(chat_id))
     try:
         # args[0] should contain the time for the timer in seconds
-        due = 5 #int(context.args[0])
+        due = 10 #datetime.fromisoformat('2019-10-27T19:20:00')
         if due < 0:
             update.message.reply_text('Sorry we can not go back to future!')
             return
@@ -201,6 +204,11 @@ def gettoken(source):
     with open(source, 'r') as file:
         token = file.read().replace('\n', '')
     return token
+
+
+def get_chat_id(update, context):
+    chat_id = update.message.chat_id
+    return chat_id
 
 
 def main():
