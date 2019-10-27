@@ -95,6 +95,8 @@ def start(update, context):
         reply_text += " Расскажи, что тебя интересует в первую очередь"
     update.message.reply_text(reply_text, reply_markup=intro_markup)
 
+    add_jobs(update, context)
+
     return CHOOSING
 
 
@@ -146,6 +148,48 @@ def done(update, context):
                               "{}"
                               "Until next time!".format(facts_to_str(context.user_data)))
     return ConversationHandler.END
+
+
+def execute_job(context):
+    """Send the alarm message."""
+    job = context.job
+    context.bot.send_message(job.context, text='job done!')
+
+
+def add_jobs(update, context):
+    """Add a job to the queue."""
+    chat_id = update.message.chat_id
+    try:
+        # args[0] should contain the time for the timer in seconds
+        due = 5 #int(context.args[0])
+        if due < 0:
+            update.message.reply_text('Sorry we can not go back to future!')
+            return
+
+        # Add job to queue and stop current one if there is a timer already
+        if 'job' in context.chat_data:
+            old_job = context.chat_data['job']
+            old_job.schedule_removal()
+        new_job = context.job_queue.run_once(execute_job, due, context=chat_id)
+        context.chat_data['job'] = new_job
+
+        update.message.reply_text('Job is set  in the queue...')
+
+    except (IndexError, ValueError):
+        update.message.reply_text('something gone wrong')
+
+
+def remove_job(update, context):
+    """Remove the job if the user changed their mind."""
+    if 'job' not in context.chat_data:
+        update.message.reply_text('You have no active timer')
+        return
+
+    job = context.chat_data['job']
+    job.schedule_removal()
+    del context.chat_data['job']
+
+    update.message.reply_text('Timer successfully unset!')
 
 
 def error(update, context):
