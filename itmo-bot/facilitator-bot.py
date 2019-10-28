@@ -14,7 +14,7 @@ Press Ctrl-C on the command line or send a signal to the process to stop the
 bot.
 """
 
-from datetime import datetime
+from datetime import datetime, date, time
 from telegram import ReplyKeyboardMarkup
 from telegram.ext import (Updater, CommandHandler, MessageHandler, Filters,
                           ConversationHandler, PicklePersistence)
@@ -161,13 +161,13 @@ def execute_job(context):
 def add_jobs(update, context):
     """Add a job to the queue."""
     chat_id = update.message.chat_id
-    print("at least we are here" + str(chat_id))
+    print("at least we are here " + str(chat_id))
     try:
         # args[0] should contain the time for the timer in seconds
-        due = 10 #datetime.fromisoformat('2019-10-27T19:20:00')
-        if due < 0:
-            update.message.reply_text('Sorry we can not go back to future!')
-            return
+        d = date(2019, 10, 28)
+        t = time(20, 57)
+        due = datetime.combine(d, t)
+        print(due)
 
         # Add job to queue and stop current one if there is a timer already
         if 'job' in context.chat_data:
