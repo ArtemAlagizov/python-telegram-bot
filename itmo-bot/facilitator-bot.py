@@ -153,7 +153,6 @@ def done(update, context):
 
 
 def execute_job(context):
-    """Send the alarm message."""
     job = context.job
     context.bot.send_message(job.context, text='job done!')
 
@@ -161,13 +160,11 @@ def execute_job(context):
 def add_jobs(update, context):
     """Add a job to the queue."""
     chat_id = update.message.chat_id
-    print("at least we are here " + str(chat_id))
     try:
         # args[0] should contain the time for the timer in seconds
         d = date(2019, 10, 28)
         t = time(20, 57)
         due = datetime.combine(d, t)
-        print(due)
 
         # Add job to queue and stop current one if there is a timer already
         if 'job' in context.chat_data:
@@ -176,7 +173,7 @@ def add_jobs(update, context):
         new_job = context.job_queue.run_once(execute_job, due, context=chat_id)
         context.chat_data['job'] = new_job
 
-        update.message.reply_text('Job is set  in the queue...')
+        update.message.reply_text('Job is set in the queue...')
 
     except (IndexError, ValueError):
         update.message.reply_text('something gone wrong')
