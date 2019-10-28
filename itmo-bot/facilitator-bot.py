@@ -152,9 +152,14 @@ def done(update, context):
     return ConversationHandler.END
 
 
-def execute_job(context):
+def execute_job_1(context):
     job = context.job
-    context.bot.send_message(job.context, text='job done!')
+    context.bot.send_message(job.context, text='job 1 done!')
+
+
+def execute_job_2(context):
+    job = context.job
+    context.bot.send_message(job.context, text='job 2 done!')
 
 
 def add_jobs(update, context):
@@ -162,16 +167,18 @@ def add_jobs(update, context):
     chat_id = update.message.chat_id
     try:
         # args[0] should contain the time for the timer in seconds
-        d = date(2019, 10, 28)
-        t = time(20, 57)
-        due = datetime.combine(d, t)
+        d_1 = date(2019, 10, 28)
+        t_1 = time(21, 18)
+        due_1 = datetime.combine(d_1, t_1)
 
-        # Add job to queue and stop current one if there is a timer already
-        if 'job' in context.chat_data:
-            old_job = context.chat_data['job']
-            old_job.schedule_removal()
-        new_job = context.job_queue.run_once(execute_job, due, context=chat_id)
-        context.chat_data['job'] = new_job
+        d_2 = date(2019, 10, 28)
+        t_2 = time(21, 19)
+        due_2 = datetime.combine(d_2, t_2)
+
+        new_job_1 = context.job_queue.run_once(execute_job_1, due_1, context=chat_id)
+        context.chat_data['job'] = new_job_1
+        new_job_2 = context.job_queue.run_once(execute_job_2, due_2, context=chat_id)
+        context.chat_data['job'] = new_job_2
 
         update.message.reply_text('Job is set in the queue...')
 
