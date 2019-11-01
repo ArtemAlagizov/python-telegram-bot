@@ -51,10 +51,9 @@ def error(update, context):
 
 def start_qestionary(update, context):
     """Send message on `/start`."""
-    question = 1
     user = update.message.from_user
-    chat_id = update.message.chat_id
     logger.info("User %s started the conversation.", user.first_name)
+
     keyboard = [
         [InlineKeyboardButton(" 3 ", callback_data=str(ONE)),
          InlineKeyboardButton(" 2 ", callback_data=str(TWO)),
@@ -65,7 +64,9 @@ def start_qestionary(update, context):
          InlineKeyboardButton(" 3 ", callback_data=str(SEVEN))]
     ]
     reply_markup = InlineKeyboardMarkup(keyboard)
+
     # Send message with picture and appended InlineKeyboard
+    question = 1
     update.message.reply_photo(photo=open('archetype-test/' + str(question) + '.png', 'rb'), reply_markup=reply_markup)
     # Tell CosversationHandler that we're in State `FIRST` now
     return ANSWER
@@ -87,7 +88,7 @@ def next(update, context):
     reply_markup = InlineKeyboardMarkup(keyboard)
     query = update.callback_query
     chat_id = query.message.chat_id
-    question = 20
+    question = 24
     print("@@###@#@#@#@#@     Question is   " + str(question) + "       ")
     context.bot.send_photo(chat_id=chat_id, photo=open('archetype-test/' + str(question) + '.png', 'rb'), reply_markup=reply_markup)
     print("@@@@@@@@@    PHOTO UPDATED HAHA     @@@@@@@")
@@ -99,10 +100,18 @@ def one(update, context):
     """Show new choice of buttons"""
     query = update.callback_query
     chat_id = query.message.chat_id
+    if open('archetype-test-answers/' + str(chat_id) + '-answers.txt', 'a'):
+        print("############## @@@@@@@@@@@@@@@@@@@@              ИМЕЕТСЯ В БАЗЕ - ДОПОЛНЯЕМ              @@@@@@@@@@@@@@@@@@ ##################")
+        f = open("archetype-test-answers/" + str(chat_id) + "-answers"".txt", "a")
+        f.write("3;;;;;;;\r\n")
+        f.close()
+    else:
+        print(
+            "############## @@@@@@@@@@@@@@@@@@@@              create НОВЫЙ              @@@@@@@@@@@@@@@@@@ ##################")
+        f = open("archetype-test-answers/" + str(chat_id) + "-answers"".txt", "a")
+        f.write("3;;;;;;;\r\n")
+        f.close()
 
-    f = open("archetype-test-answers/" + str(chat_id) + "-answers"".txt", "a+")
-    f.write("3;;;;;;;\r\n")
-    f.close()
     print("@@@@@@@@@    writen     @@@@@@@")
     next(update, context)
 
@@ -111,170 +120,59 @@ def one(update, context):
 
 def two(update, context):
     """Show new choice of buttons"""
-    keyboard = [
-        [InlineKeyboardButton("   ", callback_data=str()),
-         InlineKeyboardButton(" 2 ", callback_data=str()),
-         InlineKeyboardButton("   ", callback_data=str()),
-         InlineKeyboardButton("   ", callback_data=str()),
-         InlineKeyboardButton("   ", callback_data=str()),
-         InlineKeyboardButton("   ", callback_data=str()),
-         InlineKeyboardButton("   ", callback_data=str())]
-    ]
-    reply_markup = InlineKeyboardMarkup(keyboard)
-    query = update.callback_query
-    chat_id = query.message.chat_id
-
-    f = open("archetype-test-answers/" + str(chat_id) + "-answers"".txt", "a+")
+    f = open("archetype-test-answers/" + str() + "-answers"".txt", "a+")
     f.write(";2;;;;;;\r\n")
     f.close()
 
-    context.bot.edit_message_text(
-        chat_id=chat_id,
-        message_id=query.message.message_id,
-        text="Записано",
-        reply_markup=reply_markup
-    )
     return ANSWER
 
 
 def three(update, context):
     """Show new choice of buttons"""
-    keyboard = [
-        [InlineKeyboardButton("   ", callback_data=str()),
-         InlineKeyboardButton("   ", callback_data=str()),
-         InlineKeyboardButton(" 1 ", callback_data=str()),
-         InlineKeyboardButton("   ", callback_data=str()),
-         InlineKeyboardButton("   ", callback_data=str()),
-         InlineKeyboardButton("   ", callback_data=str()),
-         InlineKeyboardButton("   ", callback_data=str())]
-    ]
-    reply_markup = InlineKeyboardMarkup(keyboard)
-    query = update.callback_query
-    chat_id = query.message.chat_id
 
-    f = open("archetype-test-answers/" + str(chat_id) + "-answers"".txt", "a+")
+    f = open("archetype-test-answers/" + str() + "-answers"".txt", "a+")
     f.write(";;1;;;;;\r\n")
     f.close()
 
-    context.bot.edit_message_text(
-        chat_id=chat_id,
-        message_id=query.message.message_id,
-        text="Записано",
-        reply_markup=reply_markup
-    )
-    # Transfer to conversation state `SECOND`
     return ANSWER
 
 
 def four(update, context):
     """Show new choice of buttons"""
-    keyboard = [
-        [InlineKeyboardButton("   ", callback_data=str()),
-         InlineKeyboardButton("   ", callback_data=str()),
-         InlineKeyboardButton("   ", callback_data=str()),
-         InlineKeyboardButton(" 0 ", callback_data=str()),
-         InlineKeyboardButton("   ", callback_data=str()),
-         InlineKeyboardButton("   ", callback_data=str()),
-         InlineKeyboardButton("   ", callback_data=str())]
-    ]
-    reply_markup = InlineKeyboardMarkup(keyboard)
-    query = update.callback_query
-    chat_id = query.message.chat_id
 
-    f = open("archetype-test-answers/" + str(chat_id) + "-answers"".txt", "a+")
+    f = open("archetype-test-answers/" + str() + "-answers"".txt", "a+")
     f.write(";;;0;;;;\r\n")
     f.close()
-
-    context.bot.edit_message_text(
-        chat_id=chat_id,
-        message_id=query.message.message_id,
-        text="Записано",
-        reply_markup=reply_markup
-    )
     return ANSWER
 
 
 def five(update, context):
     """Show new choice of buttons"""
-    keyboard = [
-        [InlineKeyboardButton("   ", callback_data=str()),
-         InlineKeyboardButton("   ", callback_data=str()),
-         InlineKeyboardButton("   ", callback_data=str()),
-         InlineKeyboardButton("   ", callback_data=str()),
-         InlineKeyboardButton(" 1 ", callback_data=str()),
-         InlineKeyboardButton("   ", callback_data=str()),
-         InlineKeyboardButton("   ", callback_data=str())]
-    ]
-    reply_markup = InlineKeyboardMarkup(keyboard)
-    query = update.callback_query
-    chat_id = query.message.chat_id
 
-    f = open("archetype-test-answers/" + str(chat_id) + "-answers"".txt", "a+")
+    f = open("archetype-test-answers/" + str() + "-answers"".txt", "a+")
     f.write(";;;;1;;;\r\n")
     f.close()
 
-    context.bot.edit_message_text(
-        chat_id=chat_id,
-        message_id=query.message.message_id,
-        text="Записано",
-        reply_markup=reply_markup
-    )
     return ANSWER
 
 
 def six(update, context):
     """Show new choice of buttons"""
-    keyboard = [
-        [InlineKeyboardButton("   ", callback_data=str()),
-         InlineKeyboardButton("   ", callback_data=str()),
-         InlineKeyboardButton("   ", callback_data=str()),
-         InlineKeyboardButton("   ", callback_data=str()),
-         InlineKeyboardButton("   ", callback_data=str()),
-         InlineKeyboardButton(" 2 ", callback_data=str()),
-         InlineKeyboardButton("   ", callback_data=str())]
-    ]
-    reply_markup = InlineKeyboardMarkup(keyboard)
-    query = update.callback_query
-    chat_id = query.message.chat_id
 
-    f = open("archetype-test-answers/" + str(chat_id) + "-answers"".txt", "a+")
+    f = open("archetype-test-answers/" + str() + "-answers"".txt", "a+")
     f.write(";;;;;2;;\r\n")
     f.close()
 
-    context.bot.edit_message_text(
-        chat_id=chat_id,
-        message_id=query.message.message_id,
-        text="Записано",
-        reply_markup=reply_markup
-    )
     return ANSWER
 
 
 def seven(update, context):
     """Show new choice of buttons"""
-    keyboard = [
-        [InlineKeyboardButton("   ", callback_data=str()),
-         InlineKeyboardButton("   ", callback_data=str()),
-         InlineKeyboardButton("   ", callback_data=str()),
-         InlineKeyboardButton("   ", callback_data=str()),
-         InlineKeyboardButton("   ", callback_data=str()),
-         InlineKeyboardButton("   ", callback_data=str()),
-         InlineKeyboardButton(" 3 ", callback_data=str())]
-    ]
-    reply_markup = InlineKeyboardMarkup(keyboard)
-    query = update.callback_query
-    chat_id = query.message.chat_id
 
-    f = open("archetype-test-answers/" + str(chat_id) + "-answers"".txt", "a+")
+    f = open("archetype-test-answers/" + str() + "-answers"".txt", "a+")
     f.write(";;;;;;3;\r\n")
     f.close()
 
-    context.bot.edit_message_text(
-        chat_id=chat_id,
-        message_id=query.message.message_id,
-        text="Записано",
-        reply_markup=reply_markup
-    )
     return ANSWER
 
 
@@ -285,7 +183,7 @@ def end(update, context):
     context.bot.edit_message_text(
         chat_id=query.message.chat_id,
         message_id=query.message.message_id,
-        text="Вы прошли опросник. Спасибо! Ваши ответы записаны и будут проанализированы."
+        text="Вы прошли опросник. Отлично! Ваши ответы записаны и будут проанализированы."
     )
     return ConversationHandler.END
 
@@ -331,7 +229,8 @@ def main():
                      CallbackQueryHandler(four, pattern='^' + str(FOUR) + '$'),
                      CallbackQueryHandler(five, pattern='^' + str(FIVE) + '$'),
                      CallbackQueryHandler(six, pattern='^' + str(SIX) + '$'),
-                     CallbackQueryHandler(seven, pattern='^' + str(SEVEN) + '$')],
+                     CallbackQueryHandler(seven, pattern='^' + str(SEVEN) + '$'),
+                     CallbackQueryHandler(next, pattern='^' + str(SEVEN) + '$')],
             NEXT: [CallbackQueryHandler(next, pattern='^' + str() + '$')],
             FINISH: [CallbackQueryHandler(end, pattern='^' + str() + '$')]
         },
