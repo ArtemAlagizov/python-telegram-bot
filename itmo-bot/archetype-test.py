@@ -15,6 +15,7 @@ Press Ctrl-C on the command line to stop the bot.
 import os
 import platform
 import requests
+import telegram
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, bot
 from telegram import ParseMode
 from io import BytesIO
@@ -33,6 +34,7 @@ ANSWER, START, NEXT, FINISH = range(4)
 ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN = range(7)
 
 
+
 def button(update, context):
     query = update.callback_query
     query.edit_message_text(text="Selected option: {}".format(query.data))
@@ -49,15 +51,10 @@ def error(update, context):
 
 def start_qestionary(update, context):
     """Send message on `/start`."""
-    # Get user that sent /start and log his name
     question = 1
     user = update.message.from_user
     chat_id = update.message.chat_id
     logger.info("User %s started the conversation.", user.first_name)
-    # Build InlineKeyboard where each button has a displayed text
-    # and a string as callback_data
-    # The keyboard is a list of button rows, where each row is in turn
-    # a list (henc `[[...]]`).
     keyboard = [
         [InlineKeyboardButton(" 3 ", callback_data=str(ONE)),
          InlineKeyboardButton(" 2 ", callback_data=str(TWO)),
@@ -75,7 +72,6 @@ def start_qestionary(update, context):
 
 
 def next(update, context):
-    """Prompt same text & keyboard as `start` does but not as new message"""
     # Get CallbackQuery from Update
     # Get Bot from CallbackContext
     print("@@@@@@@@@    Entered in NEXT     @@@@@@@")
@@ -91,18 +87,9 @@ def next(update, context):
     reply_markup = InlineKeyboardMarkup(keyboard)
     query = update.callback_query
     chat_id = query.message.chat_id
-    question = file_len("archetype-test-answers/" + str(chat_id) + "-answers"".txt")
+    question = 20
     print("@@###@#@#@#@#@     Question is   " + str(question) + "       ")
-    # Instead of sending a new message, edit the message that
-    # originated the CallbackQuery. This gives the feeling of an
-    # interactive menu.
-
-    context.bot.edit_message_text(
-        chat_id=chat_id,
-        message_id=query.message.message_id,
-        photo=open('archetype-test/' + str(question) + '.png', 'rb'),
-        reply_markup=reply_markup
-    )
+    context.bot.send_photo(chat_id=chat_id, photo=open('archetype-test/' + str(question) + '.png', 'rb'), reply_markup=reply_markup)
     print("@@@@@@@@@    PHOTO UPDATED HAHA     @@@@@@@")
     # update.message.reply_photo(photo=open('archetype-test/' + str(question) + '.png', 'rb'), reply_markup=reply_markup)
     return ANSWER
@@ -110,39 +97,16 @@ def next(update, context):
 
 def one(update, context):
     """Show new choice of buttons"""
-    print("@@@@@@@@@    Entered in ONE     @@@@@@@")
-    keyboard = [
-        [InlineKeyboardButton(" 3 ", callback_data=str(ONE)),
-         InlineKeyboardButton(" 2 ", callback_data=str(TWO)),
-         InlineKeyboardButton(" 1 ", callback_data=str(THREE)),
-         InlineKeyboardButton(" 0 ", callback_data=str(FOUR)),
-         InlineKeyboardButton(" 1 ", callback_data=str(FIVE)),
-         InlineKeyboardButton(" 2 ", callback_data=str(SIX)),
-         InlineKeyboardButton(" 3 ", callback_data=str(SEVEN))]
-    ]
-    reply_markup = InlineKeyboardMarkup(keyboard)
     query = update.callback_query
     chat_id = query.message.chat_id
-
-    print("@@@@@@@@@    PREPARED     @@@@@@@")
 
     f = open("archetype-test-answers/" + str(chat_id) + "-answers"".txt", "a+")
     f.write("3;;;;;;;\r\n")
     f.close()
-
     print("@@@@@@@@@    writen     @@@@@@@")
-    # context.bot.send_photo(chat_id=chat_id, photo=open('archetype-test/2.png', 'rb'), reply_markup=reply_markup)
-    msg = context.bot.send_photo(chat_id=chat_id, photo=open('archetype-test/2.png', 'rb'))
-    file_id = msg.photo[0].file_id
+    next(update, context)
 
-    context.bot.edit_message_media(
-        chat_id=chat_id,
-        message_id=query.message.message_id,
-        reply_markup=reply_markup,
-        media=context.bot.get_file('https://telegram.me/filesbot?start=BQADAgADrQQAAvdw4EnxFjliKJ0tlBYE')
-    )
-    print("@@@@@@@@@    EDITED     @@@@@@@")
-    return NEXT
+    return ANSWER
 
 
 def two(update, context):
@@ -170,7 +134,7 @@ def two(update, context):
         text="Записано",
         reply_markup=reply_markup
     )
-    return NEXT
+    return ANSWER
 
 
 def three(update, context):
@@ -199,7 +163,7 @@ def three(update, context):
         reply_markup=reply_markup
     )
     # Transfer to conversation state `SECOND`
-    return NEXT
+    return ANSWER
 
 
 def four(update, context):
@@ -227,7 +191,7 @@ def four(update, context):
         text="Записано",
         reply_markup=reply_markup
     )
-    return NEXT
+    return ANSWER
 
 
 def five(update, context):
@@ -255,7 +219,7 @@ def five(update, context):
         text="Записано",
         reply_markup=reply_markup
     )
-    return NEXT
+    return ANSWER
 
 
 def six(update, context):
@@ -283,7 +247,7 @@ def six(update, context):
         text="Записано",
         reply_markup=reply_markup
     )
-    return NEXT
+    return ANSWER
 
 
 def seven(update, context):
@@ -311,7 +275,7 @@ def seven(update, context):
         text="Записано",
         reply_markup=reply_markup
     )
-    return NEXT
+    return ANSWER
 
 
 def end(update, context):
