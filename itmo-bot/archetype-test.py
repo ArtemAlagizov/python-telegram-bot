@@ -12,14 +12,18 @@ ConversationHandler.
 Send /start to initiate the conversation.
 Press Ctrl-C on the command line to stop the bot.
 """
+import os
+import platform
+import requests
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, bot
 from telegram import ParseMode
+from io import BytesIO
 from telegram.ext import Updater, CommandHandler, CallbackQueryHandler, ConversationHandler
 import logging
 
 # Enable logging
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-                    level=logging.INFO)
+                    level=logging.DEBUG)
 
 logger = logging.getLogger(__name__)
 
@@ -31,7 +35,6 @@ ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN = range(7)
 
 def button(update, context):
     query = update.callback_query
-
     query.edit_message_text(text="Selected option: {}".format(query.data))
 
 
@@ -65,8 +68,7 @@ def start_qestionary(update, context):
          InlineKeyboardButton(" 3 ", callback_data=str(SEVEN))]
     ]
     reply_markup = InlineKeyboardMarkup(keyboard)
-    # Send message with text and appended InlineKeyboard
-
+    # Send message with picture and appended InlineKeyboard
     update.message.reply_photo(photo=open('archetype-test/' + str(question) + '.png', 'rb'), reply_markup=reply_markup)
     # Tell CosversationHandler that we're in State `FIRST` now
     return ANSWER
@@ -121,19 +123,23 @@ def one(update, context):
     reply_markup = InlineKeyboardMarkup(keyboard)
     query = update.callback_query
     chat_id = query.message.chat_id
+
     print("@@@@@@@@@    PREPARED     @@@@@@@")
 
     f = open("archetype-test-answers/" + str(chat_id) + "-answers"".txt", "a+")
     f.write("3;;;;;;;\r\n")
     f.close()
+
     print("@@@@@@@@@    writen     @@@@@@@")
-    update.message.reply_photo(photo=open('archetype-test/2.png', 'rb'), reply_markup=reply_markup)
-    photo = open('archetype-test/2.png', 'rb')
+    # context.bot.send_photo(chat_id=chat_id, photo=open('archetype-test/2.png', 'rb'), reply_markup=reply_markup)
+    msg = context.bot.send_photo(chat_id=chat_id, photo=open('archetype-test/2.png', 'rb'))
+    file_id = msg.photo[0].file_id
+
     context.bot.edit_message_media(
         chat_id=chat_id,
         message_id=query.message.message_id,
-        media=photo.fileno(),
-        reply_markup=reply_markup
+        reply_markup=reply_markup,
+        media=context.bot.get_file('https://telegram.me/filesbot?start=BQADAgADrQQAAvdw4EnxFjliKJ0tlBYE')
     )
     print("@@@@@@@@@    EDITED     @@@@@@@")
     return NEXT
@@ -330,11 +336,13 @@ def gettoken(source):
         token = file.read().replace('\n', '')
     return token
 
+
 def file_len(fname):
     with open(fname) as f:
         for i in enumerate(f):
             pass
     return i + 1
+
 
 def main():
     # Create the Updater and pass it your bot's token.
@@ -354,13 +362,13 @@ def main():
         entry_points=[CommandHandler('start', start_qestionary)],
         states={
             ANSWER: [CallbackQueryHandler(one, pattern='^' + str(ONE) + '$'),
-                    CallbackQueryHandler(two, pattern='^' + str(TWO) + '$'),
-                    CallbackQueryHandler(three, pattern='^' + str(THREE) + '$'),
-                    CallbackQueryHandler(four, pattern='^' + str(FOUR) + '$'),
-                    CallbackQueryHandler(five, pattern='^' + str(FIVE) + '$'),
-                    CallbackQueryHandler(six, pattern='^' + str(SIX) + '$'),
-                    CallbackQueryHandler(seven, pattern='^' + str(SEVEN) + '$')],
-            NEXT:   [CallbackQueryHandler(next, pattern='^' + str() + '$')],
+                     CallbackQueryHandler(two, pattern='^' + str(TWO) + '$'),
+                     CallbackQueryHandler(three, pattern='^' + str(THREE) + '$'),
+                     CallbackQueryHandler(four, pattern='^' + str(FOUR) + '$'),
+                     CallbackQueryHandler(five, pattern='^' + str(FIVE) + '$'),
+                     CallbackQueryHandler(six, pattern='^' + str(SIX) + '$'),
+                     CallbackQueryHandler(seven, pattern='^' + str(SEVEN) + '$')],
+            NEXT: [CallbackQueryHandler(next, pattern='^' + str() + '$')],
             FINISH: [CallbackQueryHandler(end, pattern='^' + str() + '$')]
         },
         fallbacks=[CommandHandler('start', start_qestionary)]
