@@ -438,7 +438,7 @@ def gettoken(source):
 
 def main():
     # Create the Updater and pass it your bot's token.
-    pp = PicklePersistence(filename='conversationbot')
+    pp = PicklePersistence(filename='conversationbot_persistence_log')
     updater = Updater(gettoken("tokens/getmethroughbot-token"), persistence=pp, use_context=True)
 
     # Get the dispatcher to register handlers
