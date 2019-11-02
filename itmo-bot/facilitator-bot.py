@@ -48,8 +48,56 @@ broadcast_3_reply = u'Начинается подкаст 3 ({}), не проп�
 broadcast_4_reply = u'Начинается подкаст 4 ({}), не пропусти!'
 broadcast_5_reply = u'Начинается подкаст 5 ({}), не пропусти!'
 
+# job_due_1 = datetime.combine(date(2019, 11, 7), time(11, 00))
+# job_due_2 = datetime.combine(date(2019, 11, 7), time(19, 00))
+# job_due_3 = datetime.combine(date(2019, 11, 7), time(20, 00))
+# job_due_4 = datetime.combine(date(2019, 11, 8), time(13, 00))
+# job_due_5 = datetime.combine(date(2019, 11, 8), time(19, 00))
+# job_due_6 = datetime.combine(date(2019, 11, 9), time(11, 00))
+# job_due_7 = datetime.combine(date(2019, 11, 10), time(11, 00))
+# job_due_8 = datetime.combine(date(2019, 11, 10), time(18, 00))
+# job_due_9 = datetime.combine(date(2019, 11, 10), time(19, 00))
+# job_due_10 = datetime.combine(date(2019, 11, 12), time(19, 00))
+# job_due_11 = datetime.combine(date(2019, 11, 13), time(11, 00))
+# job_due_12 = datetime.combine(date(2019, 11, 13), time(19, 00))
+# job_due_13 = datetime.combine(date(2019, 11, 14), time(19, 00))
+# job_due_14 = datetime.combine(date(2019, 11, 15), time(11, 00))
+# job_due_15 = datetime.combine(date(2019, 11, 15), time(15, 00))
+# job_due_16 = datetime.combine(date(2019, 11, 15), time(19, 00))
+# job_due_17 = datetime.combine(date(2019, 11, 16), time(11, 00))
+# job_due_18 = datetime.combine(date(2019, 11, 16), time(13, 00))
+# job_due_19 = datetime.combine(date(2019, 11, 16), time(19, 00))
+# job_due_20 = datetime.combine(date(2019, 11, 17), time(13, 00))
+# job_due_21 = datetime.combine(date(2019, 11, 17), time(19, 00))
+
+job_due_base_1 = 20
+job_due_base_2 = 00
+
+job_due_1 = datetime.combine(date(2019, 11, 2), time(job_due_base_1, job_due_base_2))
+job_due_2 = datetime.combine(date(2019, 11, 2), time(job_due_base_1, job_due_base_2))
+job_due_3 = datetime.combine(date(2019, 11, 2), time(job_due_base_1, job_due_base_2))
+job_due_4 = datetime.combine(date(2019, 11, 2), time(job_due_base_1, job_due_base_2 + 1))
+job_due_5 = datetime.combine(date(2019, 11, 2), time(job_due_base_1, job_due_base_2 + 2))
+job_due_6 = datetime.combine(date(2019, 11, 2), time(job_due_base_1, job_due_base_2 + 3))
+job_due_7 = datetime.combine(date(2019, 11, 2), time(job_due_base_1, job_due_base_2 + 4))
+job_due_8 = datetime.combine(date(2019, 11, 2), time(job_due_base_1, job_due_base_2 + 5))
+job_due_9 = datetime.combine(date(2019, 11, 2), time(job_due_base_1, job_due_base_2 + 6))
+job_due_10 = datetime.combine(date(2019, 11, 2), time(job_due_base_1, job_due_base_2 + 7))
+job_due_11 = datetime.combine(date(2019, 11, 2), time(job_due_base_1, job_due_base_2 + 8))
+job_due_12 = datetime.combine(date(2019, 11, 2), time(job_due_base_1, job_due_base_2 + 9))
+job_due_13 = datetime.combine(date(2019, 11, 2), time(job_due_base_1, job_due_base_2 + 10))
+job_due_14 = datetime.combine(date(2019, 11, 2), time(job_due_base_1, job_due_base_2 + 11))
+job_due_15 = datetime.combine(date(2019, 11, 2), time(job_due_base_1, job_due_base_2 + 12))
+job_due_16 = datetime.combine(date(2019, 11, 2), time(job_due_base_1, job_due_base_2 + 13))
+job_due_17 = datetime.combine(date(2019, 11, 2), time(job_due_base_1, job_due_base_2 + 14))
+job_due_18 = datetime.combine(date(2019, 11, 2), time(job_due_base_1, job_due_base_2 + 15))
+job_due_19 = datetime.combine(date(2019, 11, 2), time(job_due_base_1, job_due_base_2 + 16))
+job_due_20 = datetime.combine(date(2019, 11, 2), time(job_due_base_1, job_due_base_2 + 17))
+
 intro_questionary_reply_keyboard = [[intro_choice_1, intro_choice_2],
                                     [intro_choice_3, intro_choice_4]]
+default_facilitator_keyboard = [["intro_choice_1", "intro_choice_2"],
+                                ["intro_choice_3", "intro_choice_4"]]
 
 intro_markup = ReplyKeyboardMarkup(intro_questionary_reply_keyboard, one_time_keyboard=True)
 intro_end_markup = ReplyKeyboardMarkup([], one_time_keyboard=True)
@@ -172,7 +220,7 @@ def received_information(update, context):
                               "{}"
                               "You can tell me more, or change your opinion on "
                               "something.".format(facts_to_str(context.user_data)),
-                              reply_markup=markup)
+                              reply_markup=intro_markup)
 
     return CHOOSING
 
@@ -202,23 +250,161 @@ def execute_job_2(context):
     context.bot.send_message(job.context, text='job 2 done!')
 
 
+def execute_job_3(context):
+    job = context.job
+    context.bot.send_message(job.context, text='job 3 done!')
+
+
+def execute_job_4(context):
+    job = context.job
+    context.bot.send_message(job.context, text='job 4 done!')
+
+
+def execute_job_5(context):
+    job = context.job
+    context.bot.send_message(job.context, text='job 5 done!')
+
+
+def execute_job_6(context):
+    job = context.job
+    context.bot.send_message(job.context, text='job 6 done!')
+
+
+def execute_job_7(context):
+    job = context.job
+    context.bot.send_message(job.context, text='job 7 done!')
+
+
+def execute_job_8(context):
+    job = context.job
+    context.bot.send_message(job.context, text='job 8 done!')
+
+
+def execute_job_9(context):
+    job = context.job
+    context.bot.send_message(job.context, text='job 9 done!')
+
+
+def execute_job_10(context):
+    job = context.job
+    context.bot.send_message(job.context, text='job 10 done!')
+
+
+def execute_job_11(context):
+    job = context.job
+    context.bot.send_message(job.context, text='job 11 done!')
+
+
+def execute_job_12(context):
+    job = context.job
+    context.bot.send_message(job.context, text='job 12 done!')
+
+
+def execute_job_13(context):
+    job = context.job
+    context.bot.send_message(job.context, text='job 13 done!')
+
+
+def execute_job_14(context):
+    job = context.job
+    context.bot.send_message(job.context, text='job 14 done!')
+
+
+def execute_job_15(context):
+    job = context.job
+    context.bot.send_message(job.context, text='job 15 done!')
+
+
+def execute_job_16(context):
+    job = context.job
+    context.bot.send_message(job.context, text='job 16 done!')
+
+
+def execute_job_17(context):
+    job = context.job
+    context.bot.send_message(job.context, text='job 17 done!')
+
+
+def execute_job_18(context):
+    job = context.job
+    context.bot.send_message(job.context, text='job 18 done!')
+
+
+def execute_job_19(context):
+    job = context.job
+    context.bot.send_message(job.context, text='job 19 done!')
+
+
+def execute_job_20(context):
+    job = context.job
+    context.bot.send_message(job.context, text='job 20 done!')
+
+
 def add_jobs(update, context):
     """Add a job to the queue."""
     chat_id = update.message.chat_id
     try:
         # args[0] should contain the time for the timer in seconds
-        d_1 = date(2019, 11, 2)
-        t_1 = time(18, 50)
-        due_1 = datetime.combine(d_1, t_1)
 
-        d_2 = date(2019, 11, 2)
-        t_2 = time(18, 55)
-        due_2 = datetime.combine(d_2, t_2)
-
-        new_job_1 = context.job_queue.run_once(execute_job_1, due_1, context=chat_id)
+        new_job_1 = context.job_queue.run_once(execute_job_1, job_due_1, context=chat_id)
         context.chat_data['job'] = new_job_1
-        new_job_2 = context.job_queue.run_once(execute_job_2, due_2, context=chat_id)
+
+        new_job_2 = context.job_queue.run_once(execute_job_2, job_due_2, context=chat_id)
         context.chat_data['job'] = new_job_2
+
+        new_job_3 = context.job_queue.run_once(execute_job_3, job_due_3, context=chat_id)
+        context.chat_data['job'] = new_job_3
+
+        new_job_4 = context.job_queue.run_once(execute_job_4, job_due_4, context=chat_id)
+        context.chat_data['job'] = new_job_4
+
+        new_job_5 = context.job_queue.run_once(execute_job_5, job_due_5, context=chat_id)
+        context.chat_data['job'] = new_job_5
+
+        new_job_6 = context.job_queue.run_once(execute_job_6, job_due_6, context=chat_id)
+        context.chat_data['job'] = new_job_6
+
+        new_job_7 = context.job_queue.run_once(execute_job_7, job_due_7, context=chat_id)
+        context.chat_data['job'] = new_job_7
+
+        new_job_8 = context.job_queue.run_once(execute_job_8, job_due_8, context=chat_id)
+        context.chat_data['job'] = new_job_8
+
+        new_job_9 = context.job_queue.run_once(execute_job_9, job_due_9, context=chat_id)
+        context.chat_data['job'] = new_job_9
+
+        new_job_10 = context.job_queue.run_once(execute_job_10, job_due_10, context=chat_id)
+        context.chat_data['job'] = new_job_10
+
+        new_job_11 = context.job_queue.run_once(execute_job_11, job_due_11, context=chat_id)
+        context.chat_data['job'] = new_job_11
+
+        new_job_12 = context.job_queue.run_once(execute_job_12, job_due_12, context=chat_id)
+        context.chat_data['job'] = new_job_12
+
+        new_job_13 = context.job_queue.run_once(execute_job_13, job_due_13, context=chat_id)
+        context.chat_data['job'] = new_job_13
+
+        new_job_14 = context.job_queue.run_once(execute_job_14, job_due_14, context=chat_id)
+        context.chat_data['job'] = new_job_14
+
+        new_job_15 = context.job_queue.run_once(execute_job_15, job_due_15, context=chat_id)
+        context.chat_data['job'] = new_job_15
+
+        new_job_16 = context.job_queue.run_once(execute_job_16, job_due_16, context=chat_id)
+        context.chat_data['job'] = new_job_16
+
+        new_job_17 = context.job_queue.run_once(execute_job_17, job_due_17, context=chat_id)
+        context.chat_data['job'] = new_job_17
+
+        new_job_18 = context.job_queue.run_once(execute_job_18, job_due_18, context=chat_id)
+        context.chat_data['job'] = new_job_18
+
+        new_job_19 = context.job_queue.run_once(execute_job_19, job_due_19, context=chat_id)
+        context.chat_data['job'] = new_job_19
+
+        new_job_20 = context.job_queue.run_once(execute_job_20, job_due_20, context=chat_id)
+        context.chat_data['job'] = new_job_20
 
         update.message.reply_text('Job is set in the queue...')
 
@@ -250,11 +436,6 @@ def gettoken(source):
     return token
 
 
-def get_chat_id(update, context):
-    chat_id = update.message.chat_id
-    return chat_id
-
-
 def main():
     # Create the Updater and pass it your bot's token.
     pp = PicklePersistence(filename='conversationbot')
@@ -268,7 +449,7 @@ def main():
         entry_points=[CommandHandler('start', start)],
 
         states={
-            CHOOSING: [MessageHandler(Filters.regex('^(Age|Favourite colour|Number of siblings)$'),
+            CHOOSING: [MessageHandler(Filters.regex('^(Age|Favour|Number)$'),
                                       regular_choice),
                        MessageHandler(Filters.regex('^Something else...$'),
                                       custom_choice),
