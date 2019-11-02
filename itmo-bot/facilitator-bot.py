@@ -42,6 +42,11 @@ intro_reply_3 = u'Прекрасно! За эти 10 дней ты узнаеш�
                 u'культуры и виды профессий, и как это сочетание влияет на развитие твоей карьеры '
 intro_reply_4 = u'Замечательно! За эти 10 дней ты лучше узнаешь, какие компании и корпоративные культуры тебе ' \
                 u'подходят, а какие противопоказаны; в чем область твоих талантов, и как ты можешь их применить! '
+broadcast_1_reply = u'Начинается подкаст 1 ({}), не пропусти!'
+broadcast_2_reply = u'Начинается подкаст 2 ({}), не пропусти!'
+broadcast_3_reply = u'Начинается подкаст 3 ({}), не пропусти!'
+broadcast_4_reply = u'Начинается подкаст 4 ({}), не пропусти!'
+broadcast_5_reply = u'Начинается подкаст 5 ({}), не пропусти!'
 
 intro_questionary_reply_keyboard = [[intro_choice_1, intro_choice_2],
                                     [intro_choice_3, intro_choice_4]]
@@ -84,6 +89,41 @@ def intro_choice_4_callback(update, context):
     if 'choice' in context.user_data:
         del context.user_data['choice']
     update.message.reply_text(intro_reply_4, reply_markup=intro_end_markup)
+    return ConversationHandler.END
+
+
+def broadcast_1(update, context):
+    if 'choice' in context.user_data:
+        del context.user_data['choice']
+    update.message.reply_text(broadcast_1_reply, reply_markup=intro_end_markup)
+    return ConversationHandler.END
+
+
+def broadcast_2(update, context):
+    if 'choice' in context.user_data:
+        del context.user_data['choice']
+    update.message.reply_text(broadcast_2_reply, reply_markup=intro_end_markup)
+    return ConversationHandler.END
+
+
+def broadcast_3(update, context):
+    if 'choice' in context.user_data:
+        del context.user_data['choice']
+    update.message.reply_text(broadcast_3_reply, reply_markup=intro_end_markup)
+    return ConversationHandler.END
+
+
+def broadcast_4(update, context):
+    if 'choice' in context.user_data:
+        del context.user_data['choice']
+    update.message.reply_text(broadcast_4_reply, reply_markup=intro_end_markup)
+    return ConversationHandler.END
+
+
+def broadcast_5(update, context):
+    if 'choice' in context.user_data:
+        del context.user_data['choice']
+    update.message.reply_text(broadcast_5_reply, reply_markup=intro_end_markup)
     return ConversationHandler.END
 
 
@@ -167,12 +207,12 @@ def add_jobs(update, context):
     chat_id = update.message.chat_id
     try:
         # args[0] should contain the time for the timer in seconds
-        d_1 = date(2019, 10, 28)
-        t_1 = time(21, 18)
+        d_1 = date(2019, 11, 2)
+        t_1 = time(18, 50)
         due_1 = datetime.combine(d_1, t_1)
 
-        d_2 = date(2019, 10, 28)
-        t_2 = time(21, 19)
+        d_2 = date(2019, 11, 2)
+        t_2 = time(18, 55)
         due_2 = datetime.combine(d_2, t_2)
 
         new_job_1 = context.job_queue.run_once(execute_job_1, due_1, context=chat_id)
