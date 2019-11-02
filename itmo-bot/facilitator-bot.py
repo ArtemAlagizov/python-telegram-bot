@@ -409,20 +409,20 @@ def add_jobs(update, context):
         update.message.reply_text('Job is set in the queue...')
 
     except (IndexError, ValueError):
-        update.message.reply_text('something gone wrong')
+        update.message.reply_text('something gone wrong while setting jobs On')
 
 
 def remove_job(update, context):
     """Remove the job if the user changed their mind."""
     if 'job' not in context.chat_data:
-        update.message.reply_text('You have no active timer')
+        update.message.reply_text('You have no active jobs yet')
         return
 
     job = context.chat_data['job']
     job.schedule_removal()
     del context.chat_data['job']
 
-    update.message.reply_text('Timer successfully unset!')
+    update.message.reply_text('job removed')
 
 
 def error(update, context):
