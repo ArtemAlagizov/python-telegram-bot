@@ -21,6 +21,7 @@ from telegram.ext import (Updater, CommandHandler, MessageHandler, Filters,
                           ConversationHandler, PicklePersistence, CallbackQueryHandler)
 
 import logging
+import abc
 
 # Enable logging
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
@@ -28,7 +29,7 @@ logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s
 
 logger = logging.getLogger(__name__)
 
-CHOOSING, TYPING_REPLY, TYPING_CHOICE, ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN = range(10)
+START_CHOOSING, DEFAULT_CHOOSING, TYPING_REPLY, TYPING_CHOICE, ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN = range(11)
 
 
 intro_choice_1 = u'Изучить новую теорию'
@@ -92,7 +93,7 @@ job_due_base_2 = 00
 job_due_1 = datetime.combine(date(2019, 11, 2), time(job_due_base_1, job_due_base_2))
 job_due_2 = datetime.combine(date(2019, 11, 2), time(job_due_base_1, job_due_base_2))
 job_due_3 = datetime.combine(date(2019, 11, 2), time(job_due_base_1, job_due_base_2))
-job_due_4 = datetime.combine(date(2019, 11, 2), time(job_due_base_1, job_due_base_2 + 1))
+job_due_4 = datetime.combine(date(2019, 11, 2), time(job_due_base_1, job_due_base_2))
 job_due_5 = datetime.combine(date(2019, 11, 2), time(job_due_base_1, job_due_base_2 + 2))
 job_due_6 = datetime.combine(date(2019, 11, 2), time(job_due_base_1, job_due_base_2 + 3))
 job_due_7 = datetime.combine(date(2019, 11, 2), time(job_due_base_1, job_due_base_2 + 4))
@@ -115,63 +116,67 @@ def intro_choice_1_callback(update, context):
     if 'choice' in context.user_data:
         del context.user_data['choice']
     update.message.reply_text(intro_reply_button_1, reply_markup=default_markup)
-    return CHOOSING
+    start_user_profile(update, context)
+    return DEFAULT_CHOOSING
 
 
 def intro_choice_2_callback(update, context):
     if 'choice' in context.user_data:
         del context.user_data['choice']
     update.message.reply_text(intro_reply_button_2, reply_markup=default_markup)
-    return CHOOSING
+    start_user_profile(update, context)
+    return DEFAULT_CHOOSING
 
 
 def intro_choice_3_callback(update, context):
     if 'choice' in context.user_data:
         del context.user_data['choice']
     update.message.reply_text(intro_reply_button_3, reply_markup=default_markup)
-    return CHOOSING
+    start_user_profile(update, context)
+    return DEFAULT_CHOOSING
 
 
 def intro_choice_4_callback(update, context):
     if 'choice' in context.user_data:
         del context.user_data['choice']
     update.message.reply_text(intro_reply_button_4, reply_markup=default_markup)
-    return CHOOSING
+    start_user_profile(update, context)
+    return DEFAULT_CHOOSING
 
 
 def broadcast_1(update, context):
     if 'choice' in context.user_data:
         del context.user_data['choice']
     update.message.reply_text(broadcast_1_reply, reply_markup=default_markup)
-    return CHOOSING
+    return DEFAULT_CHOOSING
 
 
 def broadcast_2(update, context):
     if 'choice' in context.user_data:
         del context.user_data['choice']
     update.message.reply_text(broadcast_2_reply, reply_markup=default_markup)
-    return CHOOSING
+    return DEFAULT_CHOOSING
 
 
 def broadcast_3(update, context):
     if 'choice' in context.user_data:
         del context.user_data['choice']
     update.message.reply_text(broadcast_3_reply, reply_markup=default_markup)
-    return CHOOSING
+    return DEFAULT_CHOOSING
 
 
 def broadcast_4(update, context):
     if 'choice' in context.user_data:
         del context.user_data['choice']
     update.message.reply_text(broadcast_4_reply, reply_markup=default_markup)
-    return CHOOSING
+    return DEFAULT_CHOOSING
 
 
 def broadcast_5(update, context):
     if 'choice' in context.user_data:
         del context.user_data['choice']
     update.message.reply_text(broadcast_5_reply, reply_markup=default_markup)
-    return CHOOSING
+    return DEFAULT_CHOOSING
 
 
 def execute_job_1(context):
@@ -181,11 +186,34 @@ def execute_job_1(context):
 
 def execute_job_2(context):
     job = context.job
+    keyboard = [
+        [InlineKeyboardButton(" 3 ", callback_data=str(ONE)),
+         InlineKeyboardButton(" 2 ", callback_data=str(TWO)),
+         InlineKeyboardButton(" 1 ", callback_data=str(THREE)),
+         InlineKeyboardButton(" 0 ", callback_data=str(FOUR)),
+         InlineKeyboardButton(" 1 ", callback_data=str(FIVE)),
+         InlineKeyboardButton(" 2 ", callback_data=str(SIX)),
+         InlineKeyboardButton(" 3 ", callback_data=str(SEVEN))]
+    ]
+    inline_reply_markup = InlineKeyboardMarkup(keyboard)
     question = 1
-    context.bot.sendPhoto(job.context, photo=open('archetype-test/' + str(question) + '.png', 'rb'), reply_markup=default_markup)
+    context.bot.sendPhoto(job.context,
+                          photo=open('archetype-test/' + str(question) + '.png', 'rb'),
+                          caption='job 2 done',
+                          reply_markup=inline_reply_markup)
 
 
 def execute_job_3(context):
+    job = context.job
+    context.bot.sendPoll(
+        job.context,
+        question="В каком типе компании вы бы сейчас хотели работать?",
+        options=['Культура достижений', 'Культура отношений', 'Культура знаний', 'Культура правил']
+        , reply_markup=None
+    )
+
+
+def execute_job_4(context):
     job = context.job
     keyboard = [
         [InlineKeyboardButton(" 3 ", callback_data=str(ONE)),
@@ -197,19 +225,26 @@ def execute_job_3(context):
          InlineKeyboardButton(" 3 ", callback_data=str(SEVEN))]
     ]
     reply_markup = InlineKeyboardMarkup(keyboard)
-    context.bot.sendMessage(job.context, text="Start handler, Choose a routes, Choose a routes, Choose a routes, "
-                                              "Choose a routes\nStart handler, Choose a routes, Choose a routes",
+    context.bot.sendMessage(job.context, text='[Job 4 is done](https://t.me/) *Всем привет, Это карточка опросника*\n'
+                                              '[Fuck me](https://t.me/) _ë-мобиль ХYú комментарий_ \n'
+                                              '`На сколько утверждение относится к  `'
+                                              '`тебе / свойственно тебе?            `\n\n'
+                                              '`  23                                `\n'
+                                              '` ___________________________ `\n'
+                                              '`|             |             |`\n'
+                                              '`|    Перед    | Я принимаю  |`\n'
+                                              '`|  принятием  |   решение   |`\n'
+                                              '`|  решения я  | достаточно  |`\n'
+                                              '`|  тщательно  |   быстро    |`\n'
+                                              '`| продумываю  |             |`\n'
+                                              '`|             |             |`\n'
+                                              '`|_____________|_____________|`\n'
+                                              '`                                    `\n\n',
                             parse_mode='Markdown', reply_markup=reply_markup)
-
-
-def execute_job_4(context):
-    job = context.job
-    #context.bot.send_message(job.context, text='job 4 done!')
 
 
 def execute_job_5(context):
     job = context.job
-    #context.bot.send_message(job.context, text='job 5 done!')
 
 
 def execute_job_6(context):
@@ -287,7 +322,7 @@ def execute_job_20(context):
     #context.bot.send_message(job.context, text='job 20 done!')
 
 
-def add_jobs(update, context):
+def add_user_jobs(update, context):
     """Add a job to the queue."""
     chat_id = update.message.chat_id
     try:
@@ -391,9 +426,7 @@ def start(update, context):
         reply_text += " Расскажи, что тебя интересует в первую очередь"
     update.message.reply_text(reply_text, reply_markup=intro_markup)
 
-    add_jobs(update, context)
-
-    return CHOOSING
+    return START_CHOOSING
 
 
 def default_choice(update, context):
@@ -407,6 +440,10 @@ def default_choice(update, context):
     update.message.reply_text(reply_text)
 
     return TYPING_REPLY
+
+
+def start_user_profile(update, context):
+    add_user_jobs(update, context)
 
 
 def custom_choice(update, context):
@@ -428,7 +465,7 @@ def received_information(update, context):
                               "something.".format(facts_to_str(context.user_data)),
                               reply_markup=default_markup)
 
-    return CHOOSING
+    return DEFAULT_CHOOSING
 
 
 def show_data(update, context):
@@ -473,7 +510,7 @@ def main():
         entry_points=[CommandHandler('start', start)],
 
         states={
-            CHOOSING: [MessageHandler(Filters.regex(default_reply_button_1),
+            DEFAULT_CHOOSING: [MessageHandler(Filters.regex(default_reply_button_1),
                                       default_choice),
                        MessageHandler(Filters.regex(default_reply_button_2),
                                       default_choice),
@@ -483,16 +520,16 @@ def main():
                                       default_choice),
                        MessageHandler(Filters.regex('^Something else...$'),
                                       custom_choice),
-                       MessageHandler(Filters.regex(intro_choice_1),
-                                      intro_choice_1_callback),
-                       MessageHandler(Filters.regex(intro_choice_2),
-                                      intro_choice_2_callback),
-                       MessageHandler(Filters.regex(intro_choice_3),
-                                      intro_choice_3_callback),
-                       MessageHandler(Filters.regex(intro_choice_4),
-                                      intro_choice_4_callback),
                        ],
-
+            START_CHOOSING: [MessageHandler(Filters.regex(intro_choice_1),
+                                              intro_choice_1_callback),
+                               MessageHandler(Filters.regex(intro_choice_2),
+                                              intro_choice_2_callback),
+                               MessageHandler(Filters.regex(intro_choice_3),
+                                              intro_choice_3_callback),
+                               MessageHandler(Filters.regex(intro_choice_4),
+                                              intro_choice_4_callback),
+                               ],
             TYPING_CHOICE: [MessageHandler(Filters.text,
                                            default_choice),
                             ],
