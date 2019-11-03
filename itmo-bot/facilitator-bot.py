@@ -29,7 +29,8 @@ logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s
 
 logger = logging.getLogger(__name__)
 
-START_CHOOSING, DEFAULT_CHOOSING, TYPING_REPLY, TYPING_CHOICE, ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN = range(11)
+START_CHOOSING, DEFAULT_CHOOSING, TYPING_REPLY, TYPING_CHOICE, ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, HW_YES, HW_NO, \
+HW_A, HW_B, HW_C, HW_D, REMINDER_LOOP_LEVEL_1, REMINDER_LOOP_LEVEL_2, REMINDER_LOOP_LEVEL_3 = range(20)
 
 intro_choice_1 = u'Изучить новую теорию'
 intro_choice_2 = u'Сформулировать конкретные шаги в развитии карьеры'
@@ -96,22 +97,38 @@ job_due_1 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4)
 job_due_2 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2))
 job_due_3 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2))
 job_due_4 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2))
-job_due_5 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2 + 2))
-job_due_6 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2 + 3))
-job_due_7 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2 + 4))
-job_due_8 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2 + 5))
-job_due_9 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2 + 6))
-job_due_10 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2 + 7))
-job_due_11 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2 + 8))
-job_due_12 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2 + 9))
-job_due_13 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2 + 10))
-job_due_14 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2 + 11))
-job_due_15 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2 + 12))
-job_due_16 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2 + 13))
-job_due_17 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2 + 14))
-job_due_18 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2 + 15))
-job_due_19 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2 + 16))
-job_due_20 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2 + 17))
+job_due_5 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4),
+                             time(job_due_base_1, job_due_base_2 + 2))
+job_due_6 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4),
+                             time(job_due_base_1, job_due_base_2 + 3))
+job_due_7 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4),
+                             time(job_due_base_1, job_due_base_2 + 4))
+job_due_8 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4),
+                             time(job_due_base_1, job_due_base_2 + 5))
+job_due_9 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4),
+                             time(job_due_base_1, job_due_base_2 + 6))
+job_due_10 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4),
+                              time(job_due_base_1, job_due_base_2 + 7))
+job_due_11 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4),
+                              time(job_due_base_1, job_due_base_2 + 8))
+job_due_12 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4),
+                              time(job_due_base_1, job_due_base_2 + 9))
+job_due_13 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4),
+                              time(job_due_base_1, job_due_base_2 + 10))
+job_due_14 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4),
+                              time(job_due_base_1, job_due_base_2 + 11))
+job_due_15 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4),
+                              time(job_due_base_1, job_due_base_2 + 12))
+job_due_16 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4),
+                              time(job_due_base_1, job_due_base_2 + 13))
+job_due_17 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4),
+                              time(job_due_base_1, job_due_base_2 + 14))
+job_due_18 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4),
+                              time(job_due_base_1, job_due_base_2 + 15))
+job_due_19 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4),
+                              time(job_due_base_1, job_due_base_2 + 16))
+job_due_20 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4),
+                              time(job_due_base_1, job_due_base_2 + 17))
 
 
 def intro_choice_1_callback(update, context):
@@ -179,6 +196,10 @@ def broadcast_5(update, context):
         del context.user_data['choice']
     update.message.reply_text(broadcast_5_reply, reply_markup=default_markup)
     return DEFAULT_CHOOSING
+
+
+def empty(context):
+    aaa = 1
 
 
 def execute_job_1(context):
@@ -266,7 +287,38 @@ def execute_job_4(context):
 
 
 def execute_job_5(context):
+    init_question = "*Job 5 done*"
+    text_reply_yes = u'Отлично! Если хочешь посмотреть еще раз материалы, они тут [ссыль]' \
+                     u'Напоминаю, что есть домашнее задание по архетипу Воина'
+    text_reply_no = u'А зря! Там я рассказываю про первый архетип, культуре которого соответствуют такие компании' \
+                    u'как McKinsey, PwC, Северсталь и другие. Ссылка'
+    text_reply_a = u'Помни о будущем, соблюдай правила'
+    text_reply_b = u'Главное, чтобы нам было хорошо вместе'
+    text_reply_c = u'Истина в познании'
+    text_reply_d = u'Побеждает сильнейший'
+    text_response_reply_yes = u'Супер! Все правильно :)'
+    text_response_reply_no = u'Не совсем верно... другая фраза лучше описывает человека с архетипом Воина'
+
     job = context.job
+
+    keyboard_first_stage = [
+        [InlineKeyboardButton(u'Да', callback_data=str(HW_YES)),
+         InlineKeyboardButton(u'Нет', callback_data=str(HW_NO))],
+    ]
+    keyboard_second_stage = [
+        [InlineKeyboardButton(text_reply_a, callback_data=str(HW_A)),
+         InlineKeyboardButton(text_reply_b, callback_data=str(HW_B))],
+        [InlineKeyboardButton(text_reply_c, callback_data=str(HW_C)),
+         InlineKeyboardButton(text_reply_d, callback_data=str(HW_D))]
+    ]
+    reply_markup_1 = InlineKeyboardMarkup(keyboard_first_stage)
+    reply_markup_2 = InlineKeyboardMarkup(keyboard_second_stage)
+
+    context.bot.sendMessage(job.context,
+                            text=init_question,
+                            parse_mode='Markdown',
+                            reply_markup=reply_markup_1
+                            )
 
 
 def execute_job_6(context):
@@ -350,16 +402,16 @@ def add_user_jobs(update, context):
     try:
         # args[0] should contain the time for the timer in seconds
 
-        new_job_1 = context.job_queue.run_once(execute_job_1, job_due_1, context=chat_id)
+        new_job_1 = context.job_queue.run_once(empty, job_due_1, context=chat_id)
         context.chat_data['job'] = new_job_1
 
-        new_job_2 = context.job_queue.run_once(execute_job_2, job_due_2, context=chat_id)
+        new_job_2 = context.job_queue.run_once(empty, job_due_2, context=chat_id)
         context.chat_data['job'] = new_job_2
 
-        new_job_3 = context.job_queue.run_once(execute_job_3, job_due_3, context=chat_id)
+        new_job_3 = context.job_queue.run_once(empty, job_due_3, context=chat_id)
         context.chat_data['job'] = new_job_3
 
-        new_job_4 = context.job_queue.run_once(execute_job_4, job_due_4, context=chat_id)
+        new_job_4 = context.job_queue.run_once(empty, job_due_4, context=chat_id)
         context.chat_data['job'] = new_job_4
 
         new_job_5 = context.job_queue.run_once(execute_job_5, job_due_5, context=chat_id)
@@ -464,6 +516,116 @@ def default_choice(update, context):
     return TYPING_REPLY
 
 
+def homework_dialog_1(update, context):
+    query = update.callback_query
+    bot = context.bot
+    init_question = u'Привет! Ты уже прослушал новый урок? *[ссылка](https://t.me/)* \n'
+    keyboard_first_stage = [
+        [InlineKeyboardButton(u'Да', callback_data=str(HW_YES)),
+         InlineKeyboardButton(u'Нет', callback_data=str(HW_NO))],
+    ]
+    reply_markup_1 = InlineKeyboardMarkup(keyboard_first_stage)
+    #update.message.reply_text(init_question, parse_mode='Markdown', reply_markup=reply_markup_1)
+    bot.edit_message_text(
+        chat_id=query.message.chat_id,
+        message_id=query.message.message_id,
+        text=init_question,
+        reply_markup=reply_markup_1
+    )
+
+    return REMINDER_LOOP_LEVEL_1
+
+
+def homework_dialog_2_yes(update, context):
+    query = update.callback_query
+    bot = context.bot
+    text_reply_a = u'Помни о будущем, соблюдай правила'
+    text_reply_b = u'Главное, чтобы нам было хорошо вместе'
+    text_reply_c = u'Истина в познании'
+    text_reply_d = u'Побеждает сильнейший'
+    text_reply_yes = u'Отлично! Если хочешь посмотреть еще раз материалы, они тут [ссыль]' \
+                     u'Напоминаю, что есть домашнее задание по архетипу Воина'
+    keyboard_second_stage = [
+        [InlineKeyboardButton(text_reply_a, callback_data=str(HW_A)),
+         InlineKeyboardButton(text_reply_b, callback_data=str(HW_B))],
+        [InlineKeyboardButton(text_reply_c, callback_data=str(HW_C)),
+         InlineKeyboardButton(text_reply_d, callback_data=str(HW_D))]
+    ]
+    reply_markup_2 = InlineKeyboardMarkup(keyboard_second_stage)
+    bot.edit_message_text(
+        chat_id=query.message.chat_id,
+        message_id=query.message.message_id,
+        text=text_reply_yes,
+        reply_markup=reply_markup_2
+    )
+    return REMINDER_LOOP_LEVEL_2
+
+
+def homework_dialog_2_no(update, context):
+    query = update.callback_query
+    bot = context.bot
+    text_reply_no = u'А зря! Там я рассказываю про первый архетип, культуре которого соответствуют такие компании' \
+                    u'как McKinsey, PwC, Северсталь и другие. Ссылка'
+    bot.edit_message_text(
+        chat_id=query.message.chat_id,
+        message_id=query.message.message_id,
+        text=text_reply_no,
+        reply_markup=default_markup
+    )
+    return REMINDER_LOOP_LEVEL_2
+
+
+def homework_dialog_3_correct(update, context):
+    query = update.callback_query
+    bot = context.bot
+    text_reply_a = u'Помни о будущем, соблюдай правила'
+    text_reply_b = u'Главное, чтобы нам было хорошо вместе'
+    text_reply_c = u'Истина в познании'
+    text_reply_d = u'Побеждает сильнейший'
+    text_response_reply_yes = u'Супер! Все правильно :)'
+    text_response_reply_no = u'Не совсем верно... другая фраза лучше описывает человека с архетипом Воина'
+    keyboard_second_stage = [
+        [InlineKeyboardButton(text_reply_a, callback_data=str(HW_A)),
+         InlineKeyboardButton(text_reply_b, callback_data=str(HW_B))],
+        [InlineKeyboardButton(text_reply_c, callback_data=str(HW_C)),
+         InlineKeyboardButton(text_reply_d, callback_data=str(HW_D))]
+    ]
+    reply_markup_2 = InlineKeyboardMarkup(keyboard_second_stage)
+
+    bot.edit_message_text(
+        chat_id=query.message.chat_id,
+        message_id=query.message.message_id,
+        text=text_response_reply_yes,
+        reply_markup=reply_markup_2
+    )
+    return DEFAULT_CHOOSING
+
+
+def homework_dialog_3_incorrect(update, context):
+    query = update.callback_query
+    bot = context.bot
+    text_reply_a = u'Помни о будущем, соблюдай правила'
+    text_reply_b = u'Главное, чтобы нам было хорошо вместе'
+    text_reply_c = u'Истина в познании'
+    text_reply_d = u'Побеждает сильнейший'
+    text_response_reply_no = u'Не совсем верно... другая фраза лучше описывает человека с архетипом Воина'
+    keyboard_second_stage = [
+        [InlineKeyboardButton(text_reply_a, callback_data=str(HW_A)),
+         InlineKeyboardButton(text_reply_b, callback_data=str(HW_B))],
+        [InlineKeyboardButton(text_reply_c, callback_data=str(HW_C)),
+         InlineKeyboardButton(text_reply_d, callback_data=str(HW_D))]
+    ]
+    reply_markup_2 = InlineKeyboardMarkup(keyboard_second_stage)
+
+    bot.edit_message_text(
+        chat_id=query.message.chat_id,
+        message_id=query.message.message_id,
+        text=text_response_reply_no,
+        reply_markup=reply_markup_2
+    )
+    return DEFAULT_CHOOSING
+
+
 def start_user_profile(update, context):
     add_user_jobs(update, context)
 
@@ -553,6 +715,21 @@ def main():
                              MessageHandler(Filters.regex(intro_choice_4),
                                             intro_choice_4_callback),
                              ],
+            REMINDER_LOOP_LEVEL_1: [CallbackQueryHandler(homework_dialog_1, pattern='^' + str(HW_YES) + '$'),
+                                    CallbackQueryHandler(homework_dialog_1, pattern='^' + str(HW_NO) + '$')],
+            REMINDER_LOOP_LEVEL_2: [CallbackQueryHandler(homework_dialog_1, pattern='^' + str(HW_A) + '$'),
+                                    CallbackQueryHandler(homework_dialog_1, pattern='^' + str(HW_B) + '$'),
+                                    CallbackQueryHandler(homework_dialog_1, pattern='^' + str(HW_C) + '$'),
+                                    CallbackQueryHandler(homework_dialog_1, pattern='^' + str(HW_D) + '$')],
+            REMINDER_LOOP_LEVEL_3: [MessageHandler(Filters.regex(intro_choice_1),
+                                                   intro_choice_1_callback),
+                                    MessageHandler(Filters.regex(intro_choice_2),
+                                                   intro_choice_2_callback),
+                                    MessageHandler(Filters.regex(intro_choice_3),
+                                                   intro_choice_3_callback),
+                                    MessageHandler(Filters.regex(intro_choice_4),
+                                                   intro_choice_4_callback),
+                                    ],
             TYPING_CHOICE: [MessageHandler(Filters.text,
                                            default_choice),
                             ],
