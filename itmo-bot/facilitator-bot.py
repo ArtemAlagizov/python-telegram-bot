@@ -544,7 +544,10 @@ def homework_dialog_2_yes(update, context):
     text_reply_c = u'Истина в познании'
     text_reply_d = u'Побеждает сильнейший'
     text_reply_yes = u'Отлично! Если хочешь посмотреть еще раз материалы, они тут [ссыль]' \
-                     u'Напоминаю, что есть домашнее задание по архетипу Воина'
+                     u'Напоминаю, что есть домашнее задание по архетипу Воина\n\n'
+    text_reply_quest = u'Как думаешь, какая фраза характеризует человека с архетипом Воина? (один из вариантов ' \
+                       u'правильный) '
+    text_reply = text_reply_yes + text_reply_quest
     keyboard_second_stage = [
         [InlineKeyboardButton(text_reply_a, callback_data=str(HW_A)),
          InlineKeyboardButton(text_reply_b, callback_data=str(HW_B))],
@@ -555,7 +558,7 @@ def homework_dialog_2_yes(update, context):
     bot.edit_message_text(
         chat_id=query.message.chat_id,
         message_id=query.message.message_id,
-        text=text_reply_yes,
+        text=text_reply,
         reply_markup=reply_markup_2
     )
     return REMINDER_LOOP_LEVEL_2
@@ -583,7 +586,6 @@ def homework_dialog_3_correct(update, context):
     text_reply_c = u'Истина в познании'
     text_reply_d = u'Побеждает сильнейший'
     text_response_reply_yes = u'Супер! Все правильно :)'
-    text_response_reply_no = u'Не совсем верно... другая фраза лучше описывает человека с архетипом Воина'
     keyboard_second_stage = [
         [InlineKeyboardButton(text_reply_a, callback_data=str(HW_A)),
          InlineKeyboardButton(text_reply_b, callback_data=str(HW_B))],
@@ -715,8 +717,8 @@ def main():
                              MessageHandler(Filters.regex(intro_choice_4),
                                             intro_choice_4_callback),
                              ],
-            REMINDER_LOOP_LEVEL_1: [CallbackQueryHandler(homework_dialog_1, pattern='^' + str(HW_YES) + '$'),
-                                    CallbackQueryHandler(homework_dialog_1, pattern='^' + str(HW_NO) + '$')],
+            REMINDER_LOOP_LEVEL_1: [CallbackQueryHandler(homework_dialog_2_yes, pattern='^' + str(HW_YES) + '$'),
+                                    CallbackQueryHandler(homework_dialog_2_no, pattern='^' + str(HW_NO) + '$')],
             REMINDER_LOOP_LEVEL_2: [CallbackQueryHandler(homework_dialog_1, pattern='^' + str(HW_A) + '$'),
                                     CallbackQueryHandler(homework_dialog_1, pattern='^' + str(HW_B) + '$'),
                                     CallbackQueryHandler(homework_dialog_1, pattern='^' + str(HW_C) + '$'),
