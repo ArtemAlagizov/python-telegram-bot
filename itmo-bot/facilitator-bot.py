@@ -184,23 +184,23 @@ def broadcast_5(update, context):
 def execute_job_1(context):
     job = context.job
     context.bot.sendVoice(job.context,
-                          voice=open('broadcast-warrior/w1.ogg', 'rb'),
-                          caption='job 1 1done',
+                          voice=open('voice-messages/broadcast-warrior/w1.ogg', 'rb'),
+                          caption='Архетип воина...',
                           reply_markup=default_markup
                           )
     context.bot.sendVoice(job.context,
-                          voice=open('broadcast-warrior/w2.ogg', 'rb'),
-                          caption='job 1 2done',
+                          voice=open('voice-messages/broadcast-warrior/w2.ogg', 'rb'),
+                          caption='... продолжене 1 Архетип воина',
                           reply_markup=default_markup
                           )
     context.bot.sendVoice(job.context,
-                          voice=open('broadcast-warrior/w3.ogg', 'rb'),
-                          caption='job 1 3done',
+                          voice=open('voice-messages/broadcast-warrior/w3.ogg', 'rb'),
+                          caption='... продолжене 2 Архетип воина',
                           reply_markup=default_markup
                           )
     context.bot.sendVoice(job.context,
-                          voice=open('broadcast-warrior/w4.ogg', 'rb'),
-                          caption='job 1 4done',
+                          voice=open('voice-messages/broadcast-warrior/w4.ogg', 'rb'),
+                          caption='... окончание Архетип воина',
                           reply_markup=default_markup
                           )
 
