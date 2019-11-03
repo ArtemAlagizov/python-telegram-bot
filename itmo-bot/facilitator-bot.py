@@ -31,20 +31,19 @@ logger = logging.getLogger(__name__)
 
 START_CHOOSING, DEFAULT_CHOOSING, TYPING_REPLY, TYPING_CHOICE, ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN = range(11)
 
-
 intro_choice_1 = u'Изучить новую теорию'
 intro_choice_2 = u'Сформулировать конкретные шаги в развитии карьеры'
 intro_choice_3 = u'Понять как работает система'
 intro_choice_4 = u'Лучше узнать себя'
 
 intro_reply_button_1 = u'Отлично! За эти 10 дней ты познакомишься с 4х-частной моделью описания корпоративных культур и ' \
-                u'профессий. С ее помощью ты сможешь сформулировать стратегию следующих шагов в своей карьере '
+                       u'профессий. С ее помощью ты сможешь сформулировать стратегию следующих шагов в своей карьере '
 intro_reply_button_2 = u'Супер! За эти 10 дней ты получишь понятный и работающий инструмент для развития в карьере. Ты ' \
-                u'поймешь, в чем твои сильные стороны и где сможешь добиться максимальных результатов! '
+                       u'поймешь, в чем твои сильные стороны и где сможешь добиться максимальных результатов! '
 intro_reply_button_3 = u'Прекрасно! За эти 10 дней ты узнаешь на примере 4частной модели, какие бывают корпоративные ' \
-                u'культуры и виды профессий, и как это сочетание влияет на развитие твоей карьеры '
+                       u'культуры и виды профессий, и как это сочетание влияет на развитие твоей карьеры '
 intro_reply_button_4 = u'Замечательно! За эти 10 дней ты лучше узнаешь, какие компании и корпоративные культуры тебе ' \
-                u'подходят, а какие противопоказаны; в чем область твоих талантов, и как ты можешь их применить! '
+                       u'подходят, а какие противопоказаны; в чем область твоих талантов, и как ты можешь их применить! '
 
 default_reply_button_1 = u'Пройти тест'
 default_reply_button_2 = u'xxx'
@@ -181,7 +180,12 @@ def broadcast_5(update, context):
 
 def execute_job_1(context):
     job = context.job
-    context.bot.send_message(job.context, text='job 1 done!')
+    context.bot.sendVoice(job.context,
+                          voice=open('voice-messages/1.ogg', 'rb'),
+                          caption='job 1 done',
+                          reply_markup=default_markup
+
+                          )
 
 
 def execute_job_2(context):
@@ -249,77 +253,77 @@ def execute_job_5(context):
 
 def execute_job_6(context):
     job = context.job
-    #context.bot.send_message(job.context, text='job 6 done!')
+    # context.bot.send_message(job.context, text='job 6 done!')
 
 
 def execute_job_7(context):
     job = context.job
-    #context.bot.send_message(job.context, text='job 7 done!')
+    # context.bot.send_message(job.context, text='job 7 done!')
 
 
 def execute_job_8(context):
     job = context.job
-    #context.bot.send_message(job.context, text='job 8 done!')
+    # context.bot.send_message(job.context, text='job 8 done!')
 
 
 def execute_job_9(context):
     job = context.job
-    #context.bot.send_message(job.context, text='job 9 done!')
+    # context.bot.send_message(job.context, text='job 9 done!')
 
 
 def execute_job_10(context):
     job = context.job
-    #context.bot.send_message(job.context, text='job 10 done!')
+    # context.bot.send_message(job.context, text='job 10 done!')
 
 
 def execute_job_11(context):
     job = context.job
-    #context.bot.send_message(job.context, text='job 11 done!')
+    # context.bot.send_message(job.context, text='job 11 done!')
 
 
 def execute_job_12(context):
     job = context.job
-    #context.bot.send_message(job.context, text='job 12 done!')
+    # context.bot.send_message(job.context, text='job 12 done!')
 
 
 def execute_job_13(context):
     job = context.job
-    #context.bot.send_message(job.context, text='job 13 done!')
+    # context.bot.send_message(job.context, text='job 13 done!')
 
 
 def execute_job_14(context):
     job = context.job
-    #context.bot.send_message(job.context, text='job 14 done!')
+    # context.bot.send_message(job.context, text='job 14 done!')
 
 
 def execute_job_15(context):
     job = context.job
-    #context.bot.send_message(job.context, text='job 15 done!')
+    # context.bot.send_message(job.context, text='job 15 done!')
 
 
 def execute_job_16(context):
     job = context.job
-    #context.bot.send_message(job.context, text='job 16 done!')
+    # context.bot.send_message(job.context, text='job 16 done!')
 
 
 def execute_job_17(context):
     job = context.job
-    #context.bot.send_message(job.context, text='job 17 done!')
+    # context.bot.send_message(job.context, text='job 17 done!')
 
 
 def execute_job_18(context):
     job = context.job
-    #context.bot.send_message(job.context, text='job 18 done!')
+    # context.bot.send_message(job.context, text='job 18 done!')
 
 
 def execute_job_19(context):
     job = context.job
-    #context.bot.send_message(job.context, text='job 19 done!')
+    # context.bot.send_message(job.context, text='job 19 done!')
 
 
 def execute_job_20(context):
     job = context.job
-    #context.bot.send_message(job.context, text='job 20 done!')
+    # context.bot.send_message(job.context, text='job 20 done!')
 
 
 def add_user_jobs(update, context):
@@ -483,8 +487,6 @@ def done(update, context):
     return ConversationHandler.END
 
 
-
-
 def error(update, context):
     """Log Errors caused by Updates."""
     logger.warning('Update "%s" caused error "%s"', update, context.error)
@@ -494,8 +496,11 @@ def gettoken(source):
     with open(source, 'r') as file:
         token = file.read().replace('\n', '')
     return token
+
+
 default_facilitator_keyboard = [[u'Пройти тест', u''],
                                 [u'Help FAQ', u'Вопрос автору']]
+
 
 def main():
     # Create the Updater and pass it your bot's token.
@@ -511,25 +516,25 @@ def main():
 
         states={
             DEFAULT_CHOOSING: [MessageHandler(Filters.regex(default_reply_button_1),
-                                      default_choice),
-                       MessageHandler(Filters.regex(default_reply_button_2),
-                                      default_choice),
-                       MessageHandler(Filters.regex(default_reply_button_3),
-                                      default_choice),
-                       MessageHandler(Filters.regex(default_reply_button_4),
-                                      default_choice),
-                       MessageHandler(Filters.regex('^Something else...$'),
-                                      custom_choice),
-                       ],
-            START_CHOOSING: [MessageHandler(Filters.regex(intro_choice_1),
-                                              intro_choice_1_callback),
-                               MessageHandler(Filters.regex(intro_choice_2),
-                                              intro_choice_2_callback),
-                               MessageHandler(Filters.regex(intro_choice_3),
-                                              intro_choice_3_callback),
-                               MessageHandler(Filters.regex(intro_choice_4),
-                                              intro_choice_4_callback),
+                                              default_choice),
+                               MessageHandler(Filters.regex(default_reply_button_2),
+                                              default_choice),
+                               MessageHandler(Filters.regex(default_reply_button_3),
+                                              default_choice),
+                               MessageHandler(Filters.regex(default_reply_button_4),
+                                              default_choice),
+                               MessageHandler(Filters.regex('^Something else...$'),
+                                              custom_choice),
                                ],
+            START_CHOOSING: [MessageHandler(Filters.regex(intro_choice_1),
+                                            intro_choice_1_callback),
+                             MessageHandler(Filters.regex(intro_choice_2),
+                                            intro_choice_2_callback),
+                             MessageHandler(Filters.regex(intro_choice_3),
+                                            intro_choice_3_callback),
+                             MessageHandler(Filters.regex(intro_choice_4),
+                                            intro_choice_4_callback),
+                             ],
             TYPING_CHOICE: [MessageHandler(Filters.text,
                                            default_choice),
                             ],
