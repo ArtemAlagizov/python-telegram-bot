@@ -86,29 +86,32 @@ default_markup = ReplyKeyboardMarkup(default_facilitator_keyboard, one_time_keyb
 # job_due_20 = datetime.combine(date(2019, 11, 17), time(13, 00))
 # job_due_21 = datetime.combine(date(2019, 11, 17), time(19, 00))
 
-job_due_base_1 = 20
-job_due_base_2 = 00
+job_due_base_1 = 18
+job_due_base_2 = 10
+ob_due_base_3 = 11
+job_due_base_4 = 3
+job_due_base_5 = 2019
 
-job_due_1 = datetime.combine(date(2019, 11, 2), time(job_due_base_1, job_due_base_2))
-job_due_2 = datetime.combine(date(2019, 11, 2), time(job_due_base_1, job_due_base_2))
-job_due_3 = datetime.combine(date(2019, 11, 2), time(job_due_base_1, job_due_base_2))
-job_due_4 = datetime.combine(date(2019, 11, 2), time(job_due_base_1, job_due_base_2))
-job_due_5 = datetime.combine(date(2019, 11, 2), time(job_due_base_1, job_due_base_2 + 2))
-job_due_6 = datetime.combine(date(2019, 11, 2), time(job_due_base_1, job_due_base_2 + 3))
-job_due_7 = datetime.combine(date(2019, 11, 2), time(job_due_base_1, job_due_base_2 + 4))
-job_due_8 = datetime.combine(date(2019, 11, 2), time(job_due_base_1, job_due_base_2 + 5))
-job_due_9 = datetime.combine(date(2019, 11, 2), time(job_due_base_1, job_due_base_2 + 6))
-job_due_10 = datetime.combine(date(2019, 11, 2), time(job_due_base_1, job_due_base_2 + 7))
-job_due_11 = datetime.combine(date(2019, 11, 2), time(job_due_base_1, job_due_base_2 + 8))
-job_due_12 = datetime.combine(date(2019, 11, 2), time(job_due_base_1, job_due_base_2 + 9))
-job_due_13 = datetime.combine(date(2019, 11, 2), time(job_due_base_1, job_due_base_2 + 10))
-job_due_14 = datetime.combine(date(2019, 11, 2), time(job_due_base_1, job_due_base_2 + 11))
-job_due_15 = datetime.combine(date(2019, 11, 2), time(job_due_base_1, job_due_base_2 + 12))
-job_due_16 = datetime.combine(date(2019, 11, 2), time(job_due_base_1, job_due_base_2 + 13))
-job_due_17 = datetime.combine(date(2019, 11, 2), time(job_due_base_1, job_due_base_2 + 14))
-job_due_18 = datetime.combine(date(2019, 11, 2), time(job_due_base_1, job_due_base_2 + 15))
-job_due_19 = datetime.combine(date(2019, 11, 2), time(job_due_base_1, job_due_base_2 + 16))
-job_due_20 = datetime.combine(date(2019, 11, 2), time(job_due_base_1, job_due_base_2 + 17))
+job_due_1 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2))
+job_due_2 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2))
+job_due_3 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2))
+job_due_4 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2))
+job_due_5 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2 + 2))
+job_due_6 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2 + 3))
+job_due_7 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2 + 4))
+job_due_8 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2 + 5))
+job_due_9 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2 + 6))
+job_due_10 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2 + 7))
+job_due_11 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2 + 8))
+job_due_12 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2 + 9))
+job_due_13 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2 + 10))
+job_due_14 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2 + 11))
+job_due_15 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2 + 12))
+job_due_16 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2 + 13))
+job_due_17 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2 + 14))
+job_due_18 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2 + 15))
+job_due_19 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2 + 16))
+job_due_20 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2 + 17))
 
 
 def intro_choice_1_callback(update, context):
@@ -181,10 +184,24 @@ def broadcast_5(update, context):
 def execute_job_1(context):
     job = context.job
     context.bot.sendVoice(job.context,
-                          voice=open('voice-messages/1.ogg', 'rb'),
-                          caption='job 1 done',
+                          voice=open('broadcast-warrior/w1.ogg', 'rb'),
+                          caption='job 1 1done',
                           reply_markup=default_markup
-
+                          )
+    context.bot.sendVoice(job.context,
+                          voice=open('broadcast-warrior/w2.ogg', 'rb'),
+                          caption='job 1 2done',
+                          reply_markup=default_markup
+                          )
+    context.bot.sendVoice(job.context,
+                          voice=open('broadcast-warrior/w3.ogg', 'rb'),
+                          caption='job 1 3done',
+                          reply_markup=default_markup
+                          )
+    context.bot.sendVoice(job.context,
+                          voice=open('broadcast-warrior/w4.ogg', 'rb'),
+                          caption='job 1 4done',
+                          reply_markup=default_markup
                           )
 
 
@@ -204,7 +221,8 @@ def execute_job_2(context):
     context.bot.sendPhoto(job.context,
                           photo=open('archetype-test/' + str(question) + '.png', 'rb'),
                           caption='job 2 done',
-                          reply_markup=inline_reply_markup)
+                          reply_markup=inline_reply_markup
+                          )
 
 
 def execute_job_3(context):
