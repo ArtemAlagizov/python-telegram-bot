@@ -87,48 +87,48 @@ default_markup = ReplyKeyboardMarkup(default_facilitator_keyboard, one_time_keyb
 # job_due_20 = datetime.combine(date(2019, 11, 17), time(13, 00))
 # job_due_21 = datetime.combine(date(2019, 11, 17), time(19, 00))
 
-job_due_base_1 = 18
-job_due_base_2 = 10
+job_due_base_1 = 23
+job_due_base_2 = 15
 ob_due_base_3 = 11
 job_due_base_4 = 3
 job_due_base_5 = 2019
 
 job_due_1 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2))
 job_due_2 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2))
-job_due_3 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2))
-job_due_4 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2))
+job_due_3 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2 + 1))
+job_due_4 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2 + 2))
 job_due_5 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4),
-                             time(job_due_base_1, job_due_base_2 + 2))
+                             time(job_due_base_1, job_due_base_2))
 job_due_6 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4),
-                             time(job_due_base_1, job_due_base_2 + 3))
+                             time(job_due_base_1, job_due_base_2))
 job_due_7 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4),
-                             time(job_due_base_1, job_due_base_2 + 4))
+                             time(job_due_base_1, job_due_base_2))
 job_due_8 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4),
-                             time(job_due_base_1, job_due_base_2 + 5))
+                             time(job_due_base_1, job_due_base_2))
 job_due_9 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4),
-                             time(job_due_base_1, job_due_base_2 + 6))
+                             time(job_due_base_1, job_due_base_2))
 job_due_10 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4),
-                              time(job_due_base_1, job_due_base_2 + 7))
+                              time(job_due_base_1, job_due_base_2))
 job_due_11 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4),
-                              time(job_due_base_1, job_due_base_2 + 8))
+                              time(job_due_base_1, job_due_base_2))
 job_due_12 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4),
-                              time(job_due_base_1, job_due_base_2 + 9))
+                              time(job_due_base_1, job_due_base_2))
 job_due_13 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4),
-                              time(job_due_base_1, job_due_base_2 + 10))
+                              time(job_due_base_1, job_due_base_2))
 job_due_14 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4),
-                              time(job_due_base_1, job_due_base_2 + 11))
+                              time(job_due_base_1, job_due_base_2))
 job_due_15 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4),
-                              time(job_due_base_1, job_due_base_2 + 12))
+                              time(job_due_base_1, job_due_base_2))
 job_due_16 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4),
-                              time(job_due_base_1, job_due_base_2 + 13))
+                              time(job_due_base_1, job_due_base_2))
 job_due_17 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4),
-                              time(job_due_base_1, job_due_base_2 + 14))
+                              time(job_due_base_1, job_due_base_2))
 job_due_18 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4),
-                              time(job_due_base_1, job_due_base_2 + 15))
+                              time(job_due_base_1, job_due_base_2))
 job_due_19 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4),
-                              time(job_due_base_1, job_due_base_2 + 16))
+                              time(job_due_base_1, job_due_base_2))
 job_due_20 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4),
-                              time(job_due_base_1, job_due_base_2 + 17))
+                              time(job_due_base_1, job_due_base_2))
 
 
 def intro_choice_1_callback(update, context):
@@ -288,14 +288,12 @@ def execute_job_4(context):
 
 def execute_job_5(context):
     init_question = "*Job 5 done*"
-
     job = context.job
     keyboard_first_stage = [
         [InlineKeyboardButton(u'Да', callback_data=str(HW_YES)),
          InlineKeyboardButton(u'Нет', callback_data=str(HW_NO))],
     ]
     reply_markup_1 = InlineKeyboardMarkup(keyboard_first_stage)
-
 
     context.bot.sendMessage(job.context,
                             text=init_question,
@@ -385,16 +383,16 @@ def add_user_jobs(update, context):
     try:
         # args[0] should contain the time for the timer in seconds
 
-        new_job_1 = context.job_queue.run_once(empty, job_due_1, context=chat_id)
+        new_job_1 = context.job_queue.run_once(execute_job_1, job_due_1, context=chat_id)
         context.chat_data['job'] = new_job_1
 
-        new_job_2 = context.job_queue.run_once(empty, job_due_2, context=chat_id)
+        new_job_2 = context.job_queue.run_once(execute_job_2, job_due_2, context=chat_id)
         context.chat_data['job'] = new_job_2
 
-        new_job_3 = context.job_queue.run_once(empty, job_due_3, context=chat_id)
+        new_job_3 = context.job_queue.run_once(execute_job_3, job_due_3, context=chat_id)
         context.chat_data['job'] = new_job_3
 
-        new_job_4 = context.job_queue.run_once(empty, job_due_4, context=chat_id)
+        new_job_4 = context.job_queue.run_once(execute_job_4, job_due_4, context=chat_id)
         context.chat_data['job'] = new_job_4
 
         new_job_5 = context.job_queue.run_once(empty, job_due_5, context=chat_id)
@@ -503,17 +501,20 @@ def homework_dialog(update, context):
     chat_id = update.message.chat_id
     try:
         # args[0] should contain the time for the timer in seconds
-        new_job_1 = context.job_queue.run_once(empty, job_due_1, context=chat_id)
+        new_job_1 = context.job_queue.run_once(homework_dialog_1, job_due_1, context=chat_id)
         context.chat_data['job'] = new_job_1
-        update.message.reply_text('attempt successful')
+        update.message.reply_text('               attempt successful                   ')
 
     except (IndexError, ValueError):
         update.message.reply_text('   error   ')
 
 
 def homework_dialog_1(update, context):
-    query = update.callback_query
-    bot = context.bot
+    user = update.message.from_user
+    logger.info("User %s started the conversation.", user.first_name)
+    #query = update.callback_query
+    #bot = context.bot
+    print("          home DIALOG 1         ")
     init_question = u'Привет! Ты уже прослушал новый урок? *[ссылка](https://t.me/)* \n'
     keyboard_first_stage = [
         [InlineKeyboardButton(u'Да', callback_data=str(HW_YES)),
@@ -531,13 +532,13 @@ def homework_dialog_1(update, context):
     #    text=init_question,
     #    reply_markup=reply_markup_1
     #)
-
+    print("           REMINDER_LOOP_LEVEL_1         ")
     return REMINDER_LOOP_LEVEL_1
 
 
 def homework_dialog_2_yes(update, context):
     query = update.callback_query
-    bot = context.bot
+    #bot = context.bot
     text_reply_a = u'Помни о будущем, соблюдай правила'
     text_reply_b = u'Главное, чтобы нам было хорошо вместе'
     text_reply_c = u'Истина в познании'
@@ -554,10 +555,9 @@ def homework_dialog_2_yes(update, context):
          InlineKeyboardButton(text_reply_d, callback_data=str(HW_D))]
     ]
     reply_markup_2 = InlineKeyboardMarkup(keyboard_second_stage)
-    update.message.edit_text(
-        chat_id=query.message.chat_id,
-        message_id=query.message.message_id,
-        text=text_reply,
+    update.message.reply_text(
+        text_reply,
+        parse_mode='Markdown',
         reply_markup=reply_markup_2
     )
     #bot.edit_message_text(
@@ -571,15 +571,16 @@ def homework_dialog_2_yes(update, context):
 
 def homework_dialog_2_no(update, context):
     query = update.callback_query
-    bot = context.bot
+    #bot = context.bot
     text_reply_no = u'А зря! Там я рассказываю про первый архетип, культуре которого соответствуют такие компании' \
                     u'как McKinsey, PwC, Северсталь и другие. Ссылка'
-    update.message.edit_text(
-        chat_id=query.message.chat_id,
-        message_id=query.message.message_id,
-        text=text_reply_no,
+    print("@@@@@@@@@@@@@@@@@          2222222 222        2222222222222222@@@ @@@@@@@@@@@")
+    update.message.reply_text(
+        text_reply_no,
+        parse_mode='Markdown',
         reply_markup=default_markup
     )
+    print("@@@@@@@@@@@@@@@@@          3333333333333        3333333333333333333 @@@@@@@@@@@")
     #bot.edit_message_text(
     #    chat_id=query.message.chat_id,
     #    message_id=query.message.message_id,
@@ -619,7 +620,7 @@ def homework_dialog_3_incorrect(update, context):
 
 def start_user_profile(update, context):
     homework_dialog_1(update, context)
-    add_user_jobs(update, context)
+    #add_user_jobs(update, context)
 
 
 def custom_choice(update, context):
