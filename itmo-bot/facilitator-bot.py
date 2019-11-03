@@ -288,31 +288,14 @@ def execute_job_4(context):
 
 def execute_job_5(context):
     init_question = "*Job 5 done*"
-    text_reply_yes = u'Отлично! Если хочешь посмотреть еще раз материалы, они тут [ссыль]' \
-                     u'Напоминаю, что есть домашнее задание по архетипу Воина'
-    text_reply_no = u'А зря! Там я рассказываю про первый архетип, культуре которого соответствуют такие компании' \
-                    u'как McKinsey, PwC, Северсталь и другие. Ссылка'
-    text_reply_a = u'Помни о будущем, соблюдай правила'
-    text_reply_b = u'Главное, чтобы нам было хорошо вместе'
-    text_reply_c = u'Истина в познании'
-    text_reply_d = u'Побеждает сильнейший'
-    text_response_reply_yes = u'Супер! Все правильно :)'
-    text_response_reply_no = u'Не совсем верно... другая фраза лучше описывает человека с архетипом Воина'
 
     job = context.job
-
     keyboard_first_stage = [
         [InlineKeyboardButton(u'Да', callback_data=str(HW_YES)),
          InlineKeyboardButton(u'Нет', callback_data=str(HW_NO))],
     ]
-    keyboard_second_stage = [
-        [InlineKeyboardButton(text_reply_a, callback_data=str(HW_A)),
-         InlineKeyboardButton(text_reply_b, callback_data=str(HW_B))],
-        [InlineKeyboardButton(text_reply_c, callback_data=str(HW_C)),
-         InlineKeyboardButton(text_reply_d, callback_data=str(HW_D))]
-    ]
     reply_markup_1 = InlineKeyboardMarkup(keyboard_first_stage)
-    reply_markup_2 = InlineKeyboardMarkup(keyboard_second_stage)
+
 
     context.bot.sendMessage(job.context,
                             text=init_question,
@@ -414,7 +397,7 @@ def add_user_jobs(update, context):
         new_job_4 = context.job_queue.run_once(empty, job_due_4, context=chat_id)
         context.chat_data['job'] = new_job_4
 
-        new_job_5 = context.job_queue.run_once(execute_job_5, job_due_5, context=chat_id)
+        new_job_5 = context.job_queue.run_once(empty, job_due_5, context=chat_id)
         context.chat_data['job'] = new_job_5
 
         new_job_6 = context.job_queue.run_once(execute_job_6, job_due_6, context=chat_id)
@@ -516,6 +499,18 @@ def default_choice(update, context):
     return TYPING_REPLY
 
 
+def homework_dialog(update, context):
+    chat_id = update.message.chat_id
+    try:
+        # args[0] should contain the time for the timer in seconds
+        new_job_1 = context.job_queue.run_once(empty, job_due_1, context=chat_id)
+        context.chat_data['job'] = new_job_1
+        update.message.reply_text('attempt successful')
+
+    except (IndexError, ValueError):
+        update.message.reply_text('   error   ')
+
+
 def homework_dialog_1(update, context):
     query = update.callback_query
     bot = context.bot
@@ -525,13 +520,17 @@ def homework_dialog_1(update, context):
          InlineKeyboardButton(u'Нет', callback_data=str(HW_NO))],
     ]
     reply_markup_1 = InlineKeyboardMarkup(keyboard_first_stage)
-    #update.message.reply_text(init_question, parse_mode='Markdown', reply_markup=reply_markup_1)
-    bot.edit_message_text(
-        chat_id=query.message.chat_id,
-        message_id=query.message.message_id,
-        text=init_question,
+    update.message.reply_text(
+        init_question,
+        parse_mode='Markdown',
         reply_markup=reply_markup_1
     )
+    #bot.edit_message_text(
+    #    chat_id=query.message.chat_id,
+    #    message_id=query.message.message_id,
+    #    text=init_question,
+    #    reply_markup=reply_markup_1
+    #)
 
     return REMINDER_LOOP_LEVEL_1
 
@@ -555,12 +554,18 @@ def homework_dialog_2_yes(update, context):
          InlineKeyboardButton(text_reply_d, callback_data=str(HW_D))]
     ]
     reply_markup_2 = InlineKeyboardMarkup(keyboard_second_stage)
-    bot.edit_message_text(
+    update.message.edit_text(
         chat_id=query.message.chat_id,
         message_id=query.message.message_id,
         text=text_reply,
         reply_markup=reply_markup_2
     )
+    #bot.edit_message_text(
+    #    chat_id=query.message.chat_id,
+    #    message_id=query.message.message_id,
+    #    text=text_reply,
+    #    reply_markup=reply_markup_2
+    #)
     return REMINDER_LOOP_LEVEL_2
 
 
@@ -569,12 +574,18 @@ def homework_dialog_2_no(update, context):
     bot = context.bot
     text_reply_no = u'А зря! Там я рассказываю про первый архетип, культуре которого соответствуют такие компании' \
                     u'как McKinsey, PwC, Северсталь и другие. Ссылка'
-    bot.edit_message_text(
+    update.message.edit_text(
         chat_id=query.message.chat_id,
         message_id=query.message.message_id,
         text=text_reply_no,
         reply_markup=default_markup
     )
+    #bot.edit_message_text(
+    #    chat_id=query.message.chat_id,
+    #    message_id=query.message.message_id,
+    #    text=text_reply_no,
+    #    reply_markup=default_markup
+    #)
     return DEFAULT_CHOOSING
 
 
@@ -607,8 +618,8 @@ def homework_dialog_3_incorrect(update, context):
 
 
 def start_user_profile(update, context):
-    add_user_jobs(update, context)
     homework_dialog_1(update, context)
+    add_user_jobs(update, context)
 
 
 def custom_choice(update, context):
