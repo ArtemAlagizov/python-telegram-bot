@@ -30,7 +30,7 @@ logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s
 logger = logging.getLogger(__name__)
 
 START_CHOOSING, DEFAULT_CHOOSING, TYPING_REPLY, TYPING_CHOICE, ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, HW_YES, HW_NO, \
-HW_A, HW_B, HW_C, HW_D, REMINDER_LOOP_LEVEL_1, REMINDER_LOOP_LEVEL_2, REMINDER_LOOP_LEVEL_3 = range(20)
+HW_A, HW_B, HW_C, HW_D, REMINDER_LOOP_LEVEL_1, REMINDER_LOOP_LEVEL_2, REMINDER_LOOP_LEVEL_3, EMPTY = range(21)
 
 intro_choice_1 = u'Изучить новую теорию'
 intro_choice_2 = u'Сформулировать конкретные шаги в развитии карьеры'
@@ -575,30 +575,19 @@ def homework_dialog_2_no(update, context):
         text=text_reply_no,
         reply_markup=default_markup
     )
-    return REMINDER_LOOP_LEVEL_2
+    return DEFAULT_CHOOSING
 
 
 def homework_dialog_3_correct(update, context):
     query = update.callback_query
     bot = context.bot
-    text_reply_a = u'Помни о будущем, соблюдай правила'
-    text_reply_b = u'Главное, чтобы нам было хорошо вместе'
-    text_reply_c = u'Истина в познании'
-    text_reply_d = u'Побеждает сильнейший'
     text_response_reply_yes = u'Супер! Все правильно :)'
-    keyboard_second_stage = [
-        [InlineKeyboardButton(text_reply_a, callback_data=str(HW_A)),
-         InlineKeyboardButton(text_reply_b, callback_data=str(HW_B))],
-        [InlineKeyboardButton(text_reply_c, callback_data=str(HW_C)),
-         InlineKeyboardButton(text_reply_d, callback_data=str(HW_D))]
-    ]
-    reply_markup_2 = InlineKeyboardMarkup(keyboard_second_stage)
 
     bot.edit_message_text(
         chat_id=query.message.chat_id,
         message_id=query.message.message_id,
         text=text_response_reply_yes,
-        reply_markup=reply_markup_2
+        reply_markup=default_markup
     )
     return DEFAULT_CHOOSING
 
@@ -606,30 +595,20 @@ def homework_dialog_3_correct(update, context):
 def homework_dialog_3_incorrect(update, context):
     query = update.callback_query
     bot = context.bot
-    text_reply_a = u'Помни о будущем, соблюдай правила'
-    text_reply_b = u'Главное, чтобы нам было хорошо вместе'
-    text_reply_c = u'Истина в познании'
-    text_reply_d = u'Побеждает сильнейший'
     text_response_reply_no = u'Не совсем верно... другая фраза лучше описывает человека с архетипом Воина'
-    keyboard_second_stage = [
-        [InlineKeyboardButton(text_reply_a, callback_data=str(HW_A)),
-         InlineKeyboardButton(text_reply_b, callback_data=str(HW_B))],
-        [InlineKeyboardButton(text_reply_c, callback_data=str(HW_C)),
-         InlineKeyboardButton(text_reply_d, callback_data=str(HW_D))]
-    ]
-    reply_markup_2 = InlineKeyboardMarkup(keyboard_second_stage)
 
     bot.edit_message_text(
         chat_id=query.message.chat_id,
         message_id=query.message.message_id,
         text=text_response_reply_no,
-        reply_markup=reply_markup_2
+        reply_markup=default_markup
     )
     return DEFAULT_CHOOSING
 
 
 def start_user_profile(update, context):
     add_user_jobs(update, context)
+    homework_dialog_1(update, context)
 
 
 def custom_choice(update, context):
@@ -680,10 +659,6 @@ def gettoken(source):
     return token
 
 
-default_facilitator_keyboard = [[u'Пройти тест', u''],
-                                [u'Help FAQ', u'Вопрос автору']]
-
-
 def main():
     # Create the Updater and pass it your bot's token.
     pp = PicklePersistence(filename='conversationbot_persistence_log')
@@ -719,19 +694,10 @@ def main():
                              ],
             REMINDER_LOOP_LEVEL_1: [CallbackQueryHandler(homework_dialog_2_yes, pattern='^' + str(HW_YES) + '$'),
                                     CallbackQueryHandler(homework_dialog_2_no, pattern='^' + str(HW_NO) + '$')],
-            REMINDER_LOOP_LEVEL_2: [CallbackQueryHandler(homework_dialog_1, pattern='^' + str(HW_A) + '$'),
-                                    CallbackQueryHandler(homework_dialog_1, pattern='^' + str(HW_B) + '$'),
-                                    CallbackQueryHandler(homework_dialog_1, pattern='^' + str(HW_C) + '$'),
-                                    CallbackQueryHandler(homework_dialog_1, pattern='^' + str(HW_D) + '$')],
-            REMINDER_LOOP_LEVEL_3: [MessageHandler(Filters.regex(intro_choice_1),
-                                                   intro_choice_1_callback),
-                                    MessageHandler(Filters.regex(intro_choice_2),
-                                                   intro_choice_2_callback),
-                                    MessageHandler(Filters.regex(intro_choice_3),
-                                                   intro_choice_3_callback),
-                                    MessageHandler(Filters.regex(intro_choice_4),
-                                                   intro_choice_4_callback),
-                                    ],
+            REMINDER_LOOP_LEVEL_2: [CallbackQueryHandler(homework_dialog_3_correct, pattern='^' + str(HW_A) + '$'),
+                                    CallbackQueryHandler(homework_dialog_3_correct, pattern='^' + str(HW_B) + '$'),
+                                    CallbackQueryHandler(homework_dialog_3_correct, pattern='^' + str(HW_C) + '$'),
+                                    CallbackQueryHandler(homework_dialog_3_incorrect, pattern='^' + str(HW_D) + '$')],
             TYPING_CHOICE: [MessageHandler(Filters.text,
                                            default_choice),
                             ],
