@@ -54,7 +54,7 @@ HW_A, HW_B, HW_C, HW_D, REMINDER_LOOP_LEVEL_1, REMINDER_LOOP_LEVEL_2, REMINDER_L
 # job_due_21 = datetime.combine(date(2019, 11, 17), time(19, 00))
 
 job_due_base_1 = 20
-job_due_base_2 = 21
+job_due_base_2 = 33
 
 ob_due_base_3 = 11
 job_due_base_4 = 5
@@ -151,6 +151,7 @@ def intro_choice_1_callback(update, context):
     if 'choice' in context.user_data:
         del context.user_data['choice']
     update.message.reply_text(intro_reply_button_1, reply_markup=default_markup)
+    start_user_queue(update, context)
 
     return DEFAULT_CHOOSING
 
@@ -159,6 +160,7 @@ def intro_choice_2_callback(update, context):
     if 'choice' in context.user_data:
         del context.user_data['choice']
     update.message.reply_text(intro_reply_button_2, reply_markup=default_markup)
+    start_user_queue(update, context)
 
     return DEFAULT_CHOOSING
 
@@ -167,6 +169,7 @@ def intro_choice_3_callback(update, context):
     if 'choice' in context.user_data:
         del context.user_data['choice']
     update.message.reply_text(intro_reply_button_3, reply_markup=default_markup)
+    start_user_queue(update, context)
 
     return DEFAULT_CHOOSING
 
@@ -175,6 +178,7 @@ def intro_choice_4_callback(update, context):
     if 'choice' in context.user_data:
         del context.user_data['choice']
     update.message.reply_text(intro_reply_button_4, reply_markup=default_markup)
+    start_user_queue(update, context)
 
     return DEFAULT_CHOOSING
 
@@ -190,7 +194,6 @@ def start(update, context):
     else:
         reply_text += u' Расскажи, что тебя интересует в первую очередь'
     update.message.reply_text(reply_text, reply_markup=intro_markup)
-    start_user_queue(update, context)
     return START_CHOOSING
 
 
@@ -207,7 +210,7 @@ def job_1(context):
     bot = context.bot
     job = context.job
     print("    ")
-    print(context.user_data)
+    print(job.context)
     print("     ")
     init_question = u'Привет! Ты уже прослушал *новый урок*? [ссылка](https://t.me/) \n'
     keyboard_first_stage = [
@@ -413,9 +416,6 @@ def main():
 
     # Get the dispatcher to register handlers
     dp = updater.dispatcher
-    #jq = updater.job_queue
-    #jq.run_once(job_1, job_due_1)
-    #jq.run_once(job_2, job_due_2)
 
     conv_handler = ConversationHandler(
         entry_points=[CommandHandler('start', start,
