@@ -51,8 +51,9 @@ HW_A, HW_B, HW_C, HW_D, REMINDER_LOOP_LEVEL_1, REMINDER_LOOP_LEVEL_2, REMINDER_L
 # job_due_20 = datetime.combine(date(2019, 11, 17), time(13, 00))
 # job_due_21 = datetime.combine(date(2019, 11, 17), time(19, 00))
 
-job_due_base_1 = 13
-job_due_base_2 = 16
+job_due_base_1 = 18
+job_due_base_2 = 9
+
 ob_due_base_3 = 11
 job_due_base_4 = 5
 job_due_base_5 = 2019
@@ -210,6 +211,8 @@ def start_user_queue(update, context):
 def job_1(context):
     chat_id = '1927606'
     bot = context.bot
+    job = context.job
+    chat_id = job.contex
     init_question = u'Привет! Ты уже прослушал *новый урок*? [ссылка](https://t.me/) \n'
     keyboard_first_stage = [
         [InlineKeyboardButton(u'Да', callback_data=str(HW_YES)),
@@ -226,6 +229,8 @@ def job_1(context):
 def job_2(context):
     chat_id = '1927606'
     bot = context.bot
+    job = context.job
+    chat_id = job.context
     init_question = u'Job 2 done'
     keyboard_first_stage = [
         [InlineKeyboardButton(u'Да', callback_data=str(HW_YES)),
@@ -415,15 +420,7 @@ def main():
 
     # Get the dispatcher to register handlers
     dp = updater.dispatcher
-    jq = updater.job_queue
-    jq.run_once(job_1, job_due_1)
-    jq.run_once(job_2, job_due_2)
-    # Setup conversation handler with the states FIRST and SECOND
-    # Use the pattern parameter to pass CallbackQueryies with specific
-    # data pattern to the corresponding handlers.
-    # ^ means "start of line/string"
-    # $ means "end of line/string"
-    # So ^ABC$ will only allow 'ABC'
+
     conv_handler = ConversationHandler(
         entry_points=[CommandHandler('start', start)],
         states={
@@ -478,7 +475,9 @@ def main():
 
     # Start the Bot
     updater.start_polling()
-
+    jq = updater.job_queue
+    jq.run_once(job_1, job_due_1)
+    jq.run_once(job_2, job_due_2)
     # Run the bot until you press Ctrl-C or the process receives SIGINT,
     # SIGTERM or SIGABRT. This should be used most of the time, since
     # start_polling() is non-blocking and will stop the bot gracefully.
