@@ -51,14 +51,15 @@ HW_A, HW_B, HW_C, HW_D, REMINDER_LOOP_LEVEL_1, REMINDER_LOOP_LEVEL_2, REMINDER_L
 # job_due_20 = datetime.combine(date(2019, 11, 17), time(13, 00))
 # job_due_21 = datetime.combine(date(2019, 11, 17), time(19, 00))
 
-job_due_base_1 = 21
-job_due_base_2 = 50
+job_due_base_1 = 13
+job_due_base_2 = 16
 ob_due_base_3 = 11
-job_due_base_4 = 4
+job_due_base_4 = 5
 job_due_base_5 = 2019
 
 job_due_1 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2))
-job_due_2 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2 + 1))
+job_due_2 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4),
+                             time(job_due_base_1, job_due_base_2 + 1))
 job_due_3 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4),
                              time(job_due_base_1, job_due_base_2))
 job_due_4 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4),
@@ -186,12 +187,11 @@ def start(update, context):
     else:
         reply_text += u' Расскажи, что тебя интересует в первую очередь'
     update.message.reply_text(reply_text, reply_markup=intro_markup)
-    start_user_sequence(update, context)
 
     return START_CHOOSING
 
 
-def start_user_sequence(update, context):
+def start_user_queue(update, context):
     chat_id = update.message.chat_id
     try:
         new_job_1 = context.job_queue.run_once(
@@ -205,6 +205,38 @@ def start_user_sequence(update, context):
 
     except (IndexError, ValueError):
         update.message.reply_text('attempt: something gone wrong while setting jobs queue on...')
+
+
+def job_1(context):
+    chat_id = '1927606'
+    bot = context.bot
+    init_question = u'Привет! Ты уже прослушал *новый урок*? [ссылка](https://t.me/) \n'
+    keyboard_first_stage = [
+        [InlineKeyboardButton(u'Да', callback_data=str(HW_YES)),
+         InlineKeyboardButton(u'Нет', callback_data=str(HW_NO))],
+    ]
+    reply_markup_1 = InlineKeyboardMarkup(keyboard_first_stage)
+    bot.send_message(
+        chat_id=chat_id,
+        text=init_question,
+        reply_markup=reply_markup_1
+    )
+
+
+def job_2(context):
+    chat_id = '1927606'
+    bot = context.bot
+    init_question = u'Job 2 done'
+    keyboard_first_stage = [
+        [InlineKeyboardButton(u'Да', callback_data=str(HW_YES)),
+         InlineKeyboardButton(u'Нет', callback_data=str(HW_NO))],
+    ]
+    reply_markup_1 = InlineKeyboardMarkup(keyboard_first_stage)
+    bot.send_message(
+        chat_id=chat_id,
+        text=init_question,
+        reply_markup=reply_markup_1
+    )
 
 
 def homework_dialog_1(update, context):
@@ -383,7 +415,9 @@ def main():
 
     # Get the dispatcher to register handlers
     dp = updater.dispatcher
-
+    jq = updater.job_queue
+    jq.run_once(job_1, job_due_1)
+    jq.run_once(job_2, job_due_2)
     # Setup conversation handler with the states FIRST and SECOND
     # Use the pattern parameter to pass CallbackQueryies with specific
     # data pattern to the corresponding handlers.
@@ -402,7 +436,9 @@ def main():
                                MessageHandler(Filters.regex(default_reply_button_4),
                                               default_choice),
                                MessageHandler(Filters.regex('^Something else...$'),
-                                              custom_choice)],
+                                              custom_choice),
+                               CallbackQueryHandler(homework_dialog_2_yes, pattern='^' + str(HW_YES) + '$'),
+                               CallbackQueryHandler(homework_dialog_2_no, pattern='^' + str(HW_NO) + '$')],
             START_CHOOSING: [MessageHandler(Filters.regex(intro_choice_1),
                                             intro_choice_1_callback),
                              MessageHandler(Filters.regex(intro_choice_2),
