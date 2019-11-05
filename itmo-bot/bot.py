@@ -14,10 +14,12 @@ Press Ctrl-C on the command line to stop the bot.
 """
 from datetime import datetime, date, time
 from telegram import ReplyKeyboardMarkup
+from uuid import uuid4
+import pickle
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import (Updater, CommandHandler, MessageHandler, Filters,
                           ConversationHandler, PicklePersistence, CallbackQueryHandler)
-import logging
+import logging, telegram
 
 # Enable logging
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
@@ -51,8 +53,8 @@ HW_A, HW_B, HW_C, HW_D, REMINDER_LOOP_LEVEL_1, REMINDER_LOOP_LEVEL_2, REMINDER_L
 # job_due_20 = datetime.combine(date(2019, 11, 17), time(13, 00))
 # job_due_21 = datetime.combine(date(2019, 11, 17), time(19, 00))
 
-job_due_base_1 = 18
-job_due_base_2 = 9
+job_due_base_1 = 20
+job_due_base_2 = 21
 
 ob_due_base_3 = 11
 job_due_base_4 = 5
@@ -188,31 +190,25 @@ def start(update, context):
     else:
         reply_text += u' Расскажи, что тебя интересует в первую очередь'
     update.message.reply_text(reply_text, reply_markup=intro_markup)
-
+    start_user_queue(update, context)
     return START_CHOOSING
 
 
 def start_user_queue(update, context):
-    chat_id = update.message.chat_id
-    try:
-        new_job_1 = context.job_queue.run_once(
-            callback=homework_dialog_1,
-            when=job_due_1,
-            context=chat_id,
-            name="homework_dialog_1"
-        )
-        context.chat_data['job'] = new_job_1
-        update.message.reply_text('attempt: jobs to be sent in the queue!')
-
-    except (IndexError, ValueError):
-        update.message.reply_text('attempt: something gone wrong while setting jobs queue on...')
+    print("  Trying first job   ")
+    context.job_queue.run_once(job_1, job_due_1)
+    print("  Trying second job   ")
+    context.job_queue.run_once(job_2, job_due_2)
+    print(" jobs in the queue  ")
 
 
 def job_1(context):
     chat_id = '1927606'
     bot = context.bot
     job = context.job
-    chat_id = job.contex
+    print("    ")
+    print(context.user_data)
+    print("     ")
     init_question = u'Привет! Ты уже прослушал *новый урок*? [ссылка](https://t.me/) \n'
     keyboard_first_stage = [
         [InlineKeyboardButton(u'Да', callback_data=str(HW_YES)),
@@ -230,17 +226,14 @@ def job_2(context):
     chat_id = '1927606'
     bot = context.bot
     job = context.job
-    chat_id = job.context
+    print("    ")
+    print(context.user_data)
+    print("     ")
     init_question = u'Job 2 done'
-    keyboard_first_stage = [
-        [InlineKeyboardButton(u'Да', callback_data=str(HW_YES)),
-         InlineKeyboardButton(u'Нет', callback_data=str(HW_NO))],
-    ]
-    reply_markup_1 = InlineKeyboardMarkup(keyboard_first_stage)
     bot.send_message(
         chat_id=chat_id,
         text=init_question,
-        reply_markup=reply_markup_1
+        reply_markup=default_markup
     )
 
 
@@ -420,30 +413,57 @@ def main():
 
     # Get the dispatcher to register handlers
     dp = updater.dispatcher
+    #jq = updater.job_queue
+    #jq.run_once(job_1, job_due_1)
+    #jq.run_once(job_2, job_due_2)
 
     conv_handler = ConversationHandler(
-        entry_points=[CommandHandler('start', start)],
+        entry_points=[CommandHandler('start', start,
+                                     pass_job_queue=True,
+                                     pass_chat_data=True)],
         states={
             DEFAULT_CHOOSING: [MessageHandler(Filters.regex(default_reply_button_1),
-                                              default_choice),
+                                              default_choice,
+                                     pass_job_queue=True,
+                                     pass_chat_data=True),
                                MessageHandler(Filters.regex(default_reply_button_2),
-                                              default_choice),
+                                              default_choice,
+                                     pass_job_queue=True,
+                                     pass_chat_data=True),
                                MessageHandler(Filters.regex(default_reply_button_3),
-                                              default_choice),
+                                              default_choice,
+                                     pass_job_queue=True,
+                                     pass_chat_data=True),
                                MessageHandler(Filters.regex(default_reply_button_4),
-                                              default_choice),
+                                              default_choice,
+                                     pass_job_queue=True,
+                                     pass_chat_data=True),
                                MessageHandler(Filters.regex('^Something else...$'),
-                                              custom_choice),
-                               CallbackQueryHandler(homework_dialog_2_yes, pattern='^' + str(HW_YES) + '$'),
-                               CallbackQueryHandler(homework_dialog_2_no, pattern='^' + str(HW_NO) + '$')],
+                                              custom_choice,
+                                     pass_job_queue=True,
+                                     pass_chat_data=True),
+                               CallbackQueryHandler(homework_dialog_2_yes, pattern='^' + str(HW_YES) + '$',
+                                     pass_job_queue=True,
+                                     pass_chat_data=True),
+                               CallbackQueryHandler(homework_dialog_2_no, pattern='^' + str(HW_NO) + '$',
+                                     pass_job_queue=True,
+                                     pass_chat_data=True)],
             START_CHOOSING: [MessageHandler(Filters.regex(intro_choice_1),
-                                            intro_choice_1_callback),
+                                            intro_choice_1_callback,
+                                     pass_job_queue=True,
+                                     pass_chat_data=True),
                              MessageHandler(Filters.regex(intro_choice_2),
-                                            intro_choice_2_callback),
+                                            intro_choice_2_callback,
+                                     pass_job_queue=True,
+                                     pass_chat_data=True),
                              MessageHandler(Filters.regex(intro_choice_3),
-                                            intro_choice_3_callback),
+                                            intro_choice_3_callback,
+                                     pass_job_queue=True,
+                                     pass_chat_data=True),
                              MessageHandler(Filters.regex(intro_choice_4),
-                                            intro_choice_4_callback),
+                                            intro_choice_4_callback,
+                                     pass_job_queue=True,
+                                     pass_chat_data=True),
                              ],
             TYPING_REPLY: [MessageHandler(Filters.text,
                                           received_information),
@@ -460,7 +480,7 @@ def main():
                                     CallbackQueryHandler(homework_dialog_3_incorrect, pattern='^' + str(HW_C) + '$'),
                                     CallbackQueryHandler(homework_dialog_3_correct, pattern='^' + str(HW_D) + '$')]
         },
-        fallbacks=[CommandHandler('start', start)]
+        fallbacks=[CommandHandler('start', start)],
     )
 
     # Add conversationhandler to dispatcher it will be used for handling
@@ -475,9 +495,7 @@ def main():
 
     # Start the Bot
     updater.start_polling()
-    jq = updater.job_queue
-    jq.run_once(job_1, job_due_1)
-    jq.run_once(job_2, job_due_2)
+
     # Run the bot until you press Ctrl-C or the process receives SIGINT,
     # SIGTERM or SIGABRT. This should be used most of the time, since
     # start_polling() is non-blocking and will stop the bot gracefully.
