@@ -29,7 +29,7 @@ logger = logging.getLogger(__name__)
 
 # Callback data
 START_CHOOSING, DEFAULT_CHOOSING, TYPING_REPLY, TYPING_CHOICE, PATH_ONE, PATH_TWO, ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, HW_YES, HW_NO, \
-HW_A, HW_B, HW_C, HW_D, REMINDER_LOOP_LEVEL_1, REMINDER_LOOP_LEVEL_2, REMINDER_LOOP_LEVEL_3, EMPTY = range(23)
+HW_A, HW_B, HW_C, HW_D, QUESTIONARY, REMINDER_LOOP_LEVEL, REMINDER_LOOP_LEVEL_, EMPTY = range(23)
 
 # job_due_1 = datetime.combine(date(2019, 11, 7), time(11, 00))
 # job_due_2 = datetime.combine(date(2019, 11, 7), time(19, 00))
@@ -53,52 +53,33 @@ HW_A, HW_B, HW_C, HW_D, REMINDER_LOOP_LEVEL_1, REMINDER_LOOP_LEVEL_2, REMINDER_L
 # job_due_20 = datetime.combine(date(2019, 11, 17), time(13, 00))
 # job_due_21 = datetime.combine(date(2019, 11, 17), time(19, 00))
 
-job_due_base_1 = 20
-job_due_base_2 = 33
+job_due_base_1 = 22
+job_due_base_2 = 11
 
 ob_due_base_3 = 11
 job_due_base_4 = 5
 job_due_base_5 = 2019
 
 job_due_1 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2))
-job_due_2 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4),
-                             time(job_due_base_1, job_due_base_2 + 1))
-job_due_3 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4),
-                             time(job_due_base_1, job_due_base_2))
-job_due_4 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4),
-                             time(job_due_base_1, job_due_base_2))
-job_due_5 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4),
-                             time(job_due_base_1, job_due_base_2))
-job_due_6 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4),
-                             time(job_due_base_1, job_due_base_2))
-job_due_7 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4),
-                             time(job_due_base_1, job_due_base_2))
-job_due_8 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4),
-                             time(job_due_base_1, job_due_base_2))
-job_due_9 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4),
-                             time(job_due_base_1, job_due_base_2))
-job_due_10 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4),
-                              time(job_due_base_1, job_due_base_2))
-job_due_11 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4),
-                              time(job_due_base_1, job_due_base_2))
-job_due_12 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4),
-                              time(job_due_base_1, job_due_base_2))
-job_due_13 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4),
-                              time(job_due_base_1, job_due_base_2))
-job_due_14 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4),
-                              time(job_due_base_1, job_due_base_2))
-job_due_15 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4),
-                              time(job_due_base_1, job_due_base_2))
-job_due_16 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4),
-                              time(job_due_base_1, job_due_base_2))
-job_due_17 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4),
-                              time(job_due_base_1, job_due_base_2))
-job_due_18 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4),
-                              time(job_due_base_1, job_due_base_2))
-job_due_19 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4),
-                              time(job_due_base_1, job_due_base_2))
-job_due_20 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4),
-                              time(job_due_base_1, job_due_base_2))
+job_due_2 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2))
+job_due_3 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2))
+job_due_4 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2))
+job_due_5 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2))
+job_due_6 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2))
+job_due_7 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2))
+job_due_8 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2))
+job_due_9 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2))
+job_due_10 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2))
+job_due_11 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2))
+job_due_12 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2))
+job_due_13 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2))
+job_due_14 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2))
+job_due_15 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2))
+job_due_16 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2))
+job_due_17 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2))
+job_due_18 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2))
+job_due_19 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2))
+job_due_20 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2))
 
 intro_choice_1 = u'Изучить новую теорию'
 intro_choice_2 = u'Сформулировать конкретные шаги в развитии карьеры'
@@ -183,86 +164,11 @@ def intro_choice_4_callback(update, context):
     return DEFAULT_CHOOSING
 
 
-def start(update, context):
-    """Send message on `/start`."""
-    # Get user that sent /start and log his name
-    user = update.message.from_user
-    logger.info("User %s started the conversation.", user.first_name)
-    reply_text = u'Привет, рада тебя приветствовать на нашем марафоне! '
-    if context.user_data:
-        reply_text += u'Мы уже знакомы {}. Продолжим?'.format(', '.join(context.user_data.keys()))
-    else:
-        reply_text += u' Расскажи, что тебя интересует в первую очередь'
-    update.message.reply_text(reply_text, reply_markup=intro_markup)
-    return START_CHOOSING
-
-
-def start_user_queue(update, context):
-    print("  Trying first job   ")
-    context.job_queue.run_once(job_1, job_due_1)
-    print("  Trying second job   ")
-    context.job_queue.run_once(job_2, job_due_2)
-    print(" jobs in the queue  ")
-
-
-def job_1(context):
-    chat_id = '1927606'
-    bot = context.bot
-    job = context.job
-    print("    ")
-    print(job.context)
-    print("     ")
-    init_question = u'Привет! Ты уже прослушал *новый урок*? [ссылка](https://t.me/) \n'
-    keyboard_first_stage = [
-        [InlineKeyboardButton(u'Да', callback_data=str(HW_YES)),
-         InlineKeyboardButton(u'Нет', callback_data=str(HW_NO))],
-    ]
-    reply_markup_1 = InlineKeyboardMarkup(keyboard_first_stage)
-    bot.send_message(
-        chat_id=chat_id,
-        text=init_question,
-        reply_markup=reply_markup_1
-    )
-
-
-def job_2(context):
-    chat_id = '1927606'
-    bot = context.bot
-    job = context.job
-    print("    ")
-    print(context.user_data)
-    print("     ")
-    init_question = u'Job 2 done'
-    bot.send_message(
-        chat_id=chat_id,
-        text=init_question,
-        reply_markup=default_markup
-    )
-
-
-def homework_dialog_1(update, context):
-    query = update.callback_query
-    bot = context.bot
-    init_question = u'Привет! Ты уже прослушал *новый урок*? [ссылка](https://t.me/) \n'
-    keyboard_first_stage = [
-        [InlineKeyboardButton(u'Да', callback_data=str(HW_YES)),
-         InlineKeyboardButton(u'Нет', callback_data=str(HW_NO))],
-    ]
-    reply_markup_1 = InlineKeyboardMarkup(keyboard_first_stage)
-    bot.send_message(
-        chat_id=query.message.chat_id,
-        text=init_question,
-        reply_markup=reply_markup_1
-    )
-
-    return REMINDER_LOOP_LEVEL_1
-
-
 def homework_dialog_2_yes(update, context):
     query = update.callback_query
     bot = context.bot
-    text_reply_a = u'Помни о будущем, соблюдай правила'
-    text_reply_b = u'Главное, чтобы нам было хорошо вместе'
+    text_reply_a = u'Помни о будущем,\n соблюдай правила'
+    text_reply_b = u'Главное, чтобы нам\n было хорошо вместе'
     text_reply_c = u'Истина в познании'
     text_reply_d = u'Побеждает сильнейший'
     text_reply_yes = u'Отлично! Если хочешь посмотреть еще раз материалы, они тут [ссыль]\n' \
@@ -289,7 +195,7 @@ def homework_dialog_2_yes(update, context):
         reply_markup=reply_markup_2
     )
 
-    return REMINDER_LOOP_LEVEL_2
+    return REMINDER_LOOP_LEVEL
 
 
 def homework_dialog_2_no(update, context):
@@ -347,6 +253,146 @@ def homework_dialog_3_incorrect(update, context):
         reply_markup=default_markup
     )
     return DEFAULT_CHOOSING
+
+
+def start_questionary(update, context):
+    chat_id = '1927606'
+    bot = context.bot
+    job = context.job
+    keyboard = [
+        [InlineKeyboardButton(" 3 ", callback_data=str(ONE)),
+         InlineKeyboardButton(" 2 ", callback_data=str(TWO)),
+         InlineKeyboardButton(" 1 ", callback_data=str(THREE)),
+         InlineKeyboardButton(" 0 ", callback_data=str(FOUR)),
+         InlineKeyboardButton(" 1 ", callback_data=str(FIVE)),
+         InlineKeyboardButton(" 2 ", callback_data=str(SIX)),
+         InlineKeyboardButton(" 3 ", callback_data=str(SEVEN))]
+    ]
+    inline_reply_markup = InlineKeyboardMarkup(keyboard)
+    question = 2
+    bot.sendPhoto(chat_id,
+                  photo=open('archetype-test/' + str(question) + '.png', 'rb'),
+                  caption='job 3 done',
+                  reply_markup=inline_reply_markup
+                  )
+    return QUESTIONARY
+
+
+def next_question(update, context):
+    chat_id = '1927606'
+    bot = context.bot
+    job = context.job
+    question = 20
+    keyboard = [
+        [InlineKeyboardButton(" 3 ", callback_data=str(ONE)),
+         InlineKeyboardButton(" 2 ", callback_data=str(TWO)),
+         InlineKeyboardButton(" 1 ", callback_data=str(THREE)),
+         InlineKeyboardButton(" 0 ", callback_data=str(FOUR)),
+         InlineKeyboardButton(" 1 ", callback_data=str(FIVE)),
+         InlineKeyboardButton(" 2 ", callback_data=str(SIX)),
+         InlineKeyboardButton(" 3 ", callback_data=str(SEVEN))]
+    ]
+    inline_reply_markup = InlineKeyboardMarkup(keyboard)
+    bot.sendPhoto(chat_id,
+                  photo=open('archetype-test/' + str(question) + '.png', 'rb'),
+                  caption='job 3 done',
+                  reply_markup=inline_reply_markup
+                  )
+    if question == 30:
+        return DEFAULT_CHOOSING
+    else:
+        return QUESTIONARY
+
+
+def start(update, context):
+    """Send message on `/start`."""
+    # Get user that sent /start and log his name
+    user = update.message.from_user
+    chat_id = user.id
+    logger.info("User %s started the conversation.", user.first_name)
+
+    reply_text = u'Привет, ' + str(chat_id) + u', рада тебя приветствовать на нашем марафоне! '
+    if context.user_data:
+        reply_text += u'Мы уже знакомы {}. Продолжим?'.format(', '.join(context.user_data.keys()))
+    else:
+        reply_text += u' Расскажи, что тебя интересует в первую очередь'
+    update.message.reply_text(reply_text, reply_markup=intro_markup)
+    return START_CHOOSING
+
+
+def start_user_queue(update, context):
+    print("  Job: " + str(1))
+    context.job_queue.run_once(job_1, job_due_1)
+    print("  Job: " + str(2))
+    context.job_queue.run_once(job_2, job_due_2)
+    print("  Job: " + str(3))
+    #context.job_queue.run_once(job_3, job_due_3)
+    print(" All jobs in the queue  ")
+
+
+def job_1(context):
+    chat_id = '1927606'
+    bot = context.bot
+    job = context.job
+    print("    ")
+    print(job.context)
+    print("     ")
+    init_question = u'Привет! Ты уже прослушал *новый урок*? [ссылка](https://t.me/) \n'
+    keyboard_first_stage = [
+        [InlineKeyboardButton(u'Да', callback_data=str(HW_YES)),
+         InlineKeyboardButton(u'Нет', callback_data=str(HW_NO))],
+    ]
+    reply_markup_1 = InlineKeyboardMarkup(keyboard_first_stage)
+    bot.send_message(
+        chat_id=chat_id,
+        text=init_question,
+        reply_markup=reply_markup_1
+    )
+
+
+def job_2(context):
+    chat_id = '1927606'
+    bot = context.bot
+    job = context.job
+    print("    ")
+    print(context.user_data)
+    print("     ")
+    init_question = u'Job 2 done'
+    bot.send_message(
+        chat_id=chat_id,
+        text=init_question,
+        reply_markup=default_markup
+    )
+
+
+def job_3(context):
+    chat_id = '1927606'
+    job = context.job
+    bot = context.bot
+    keyboard = [
+        [InlineKeyboardButton(" 3 ", callback_data=str(ONE)),
+         InlineKeyboardButton(" 2 ", callback_data=str(TWO)),
+         InlineKeyboardButton(" 1 ", callback_data=str(THREE)),
+         InlineKeyboardButton(" 0 ", callback_data=str(FOUR)),
+         InlineKeyboardButton(" 1 ", callback_data=str(FIVE)),
+         InlineKeyboardButton(" 2 ", callback_data=str(SIX)),
+         InlineKeyboardButton(" 3 ", callback_data=str(SEVEN))]
+    ]
+    inline_reply_markup = InlineKeyboardMarkup(keyboard)
+    question = 1
+    message_text = u'Анкета! Пожалуйста ответьте на 30 вопросов. В каждом вопросе есть два аспекта, ' \
+                   u'между которыми предстоит сделать выбор. При этом важно отметить, в какой степени.'
+
+    bot.send_message(
+        chat_id=chat_id,
+        text=message_text,
+        reply_markup=default_markup
+    )
+    bot.sendPhoto(chat_id,
+                  photo=open('archetype-test/' + str(question) + '.png', 'rb'),
+                  caption='job 3 done',
+                  reply_markup=inline_reply_markup
+                  )
 
 
 def default_choice(update, context):
@@ -424,46 +470,67 @@ def main():
         states={
             DEFAULT_CHOOSING: [MessageHandler(Filters.regex(default_reply_button_1),
                                               default_choice,
-                                     pass_job_queue=True,
-                                     pass_chat_data=True),
+                                              pass_job_queue=True,
+                                              pass_chat_data=True),
                                MessageHandler(Filters.regex(default_reply_button_2),
                                               default_choice,
-                                     pass_job_queue=True,
-                                     pass_chat_data=True),
+                                              pass_job_queue=True,
+                                              pass_chat_data=True),
                                MessageHandler(Filters.regex(default_reply_button_3),
                                               default_choice,
-                                     pass_job_queue=True,
-                                     pass_chat_data=True),
+                                              pass_job_queue=True,
+                                              pass_chat_data=True),
                                MessageHandler(Filters.regex(default_reply_button_4),
                                               default_choice,
-                                     pass_job_queue=True,
-                                     pass_chat_data=True),
+                                              pass_job_queue=True,
+                                              pass_chat_data=True),
                                MessageHandler(Filters.regex('^Something else...$'),
                                               custom_choice,
-                                     pass_job_queue=True,
-                                     pass_chat_data=True),
+                                              pass_job_queue=True,
+                                              pass_chat_data=True),
                                CallbackQueryHandler(homework_dialog_2_yes, pattern='^' + str(HW_YES) + '$',
-                                     pass_job_queue=True,
-                                     pass_chat_data=True),
+                                                    pass_job_queue=True,
+                                                    pass_chat_data=True),
                                CallbackQueryHandler(homework_dialog_2_no, pattern='^' + str(HW_NO) + '$',
-                                     pass_job_queue=True,
-                                     pass_chat_data=True)],
+                                                    pass_job_queue=True,
+                                                    pass_chat_data=True),
+                               CallbackQueryHandler(start_questionary, pattern='^' + str(ONE) + '$',
+                                                    pass_job_queue=True,
+                                                    pass_chat_data=True),
+                               CallbackQueryHandler(start_questionary, pattern='^' + str(TWO) + '$',
+                                                    pass_job_queue=True,
+                                                    pass_chat_data=True),
+                               CallbackQueryHandler(start_questionary, pattern='^' + str(THREE) + '$',
+                                                    pass_job_queue=True,
+                                                    pass_chat_data=True),
+                               CallbackQueryHandler(start_questionary, pattern='^' + str(FOUR) + '$',
+                                                    pass_job_queue=True,
+                                                    pass_chat_data=True),
+                               CallbackQueryHandler(start_questionary, pattern='^' + str(FIVE) + '$',
+                                                    pass_job_queue=True,
+                                                    pass_chat_data=True),
+                               CallbackQueryHandler(start_questionary, pattern='^' + str(SIX) + '$',
+                                                    pass_job_queue=True,
+                                                    pass_chat_data=True),
+                               CallbackQueryHandler(start_questionary, pattern='^' + str(SEVEN) + '$',
+                                                    pass_job_queue=True,
+                                                    pass_chat_data=True)],
             START_CHOOSING: [MessageHandler(Filters.regex(intro_choice_1),
                                             intro_choice_1_callback,
-                                     pass_job_queue=True,
-                                     pass_chat_data=True),
+                                            pass_job_queue=True,
+                                            pass_chat_data=True),
                              MessageHandler(Filters.regex(intro_choice_2),
                                             intro_choice_2_callback,
-                                     pass_job_queue=True,
-                                     pass_chat_data=True),
+                                            pass_job_queue=True,
+                                            pass_chat_data=True),
                              MessageHandler(Filters.regex(intro_choice_3),
                                             intro_choice_3_callback,
-                                     pass_job_queue=True,
-                                     pass_chat_data=True),
+                                            pass_job_queue=True,
+                                            pass_chat_data=True),
                              MessageHandler(Filters.regex(intro_choice_4),
                                             intro_choice_4_callback,
-                                     pass_job_queue=True,
-                                     pass_chat_data=True),
+                                            pass_job_queue=True,
+                                            pass_chat_data=True),
                              ],
             TYPING_REPLY: [MessageHandler(Filters.text,
                                           received_information),
@@ -471,14 +538,31 @@ def main():
             TYPING_CHOICE: [MessageHandler(Filters.text,
                                            default_choice),
                             ],
-            REMINDER_LOOP_LEVEL_1: [CallbackQueryHandler(homework_dialog_2_yes, pattern='^' + str(HW_YES) + '$'),
-                                    CallbackQueryHandler(homework_dialog_2_no, pattern='^' + str(HW_NO) + '$'),
-                                    CallbackQueryHandler(homework_dialog_1, pattern='^' + str(PATH_ONE) + '$'),
-                                    CallbackQueryHandler(end, pattern='^' + str(PATH_TWO) + '$')],
-            REMINDER_LOOP_LEVEL_2: [CallbackQueryHandler(homework_dialog_3_incorrect, pattern='^' + str(HW_A) + '$'),
-                                    CallbackQueryHandler(homework_dialog_3_incorrect, pattern='^' + str(HW_B) + '$'),
-                                    CallbackQueryHandler(homework_dialog_3_incorrect, pattern='^' + str(HW_C) + '$'),
-                                    CallbackQueryHandler(homework_dialog_3_correct, pattern='^' + str(HW_D) + '$')]
+            QUESTIONARY: [CallbackQueryHandler(next_question, pattern='^' + str(ONE) + '$',
+                                               pass_job_queue=True,
+                                               pass_chat_data=True),
+                          CallbackQueryHandler(next_question, pattern='^' + str(TWO) + '$',
+                                               pass_job_queue=True,
+                                               pass_chat_data=True),
+                          CallbackQueryHandler(next_question, pattern='^' + str(THREE) + '$',
+                                               pass_job_queue=True,
+                                               pass_chat_data=True),
+                          CallbackQueryHandler(next_question, pattern='^' + str(FOUR) + '$',
+                                               pass_job_queue=True,
+                                               pass_chat_data=True),
+                          CallbackQueryHandler(next_question, pattern='^' + str(FIVE) + '$',
+                                               pass_job_queue=True,
+                                               pass_chat_data=True),
+                          CallbackQueryHandler(next_question, pattern='^' + str(SIX) + '$',
+                                               pass_job_queue=True,
+                                               pass_chat_data=True),
+                          CallbackQueryHandler(next_question, pattern='^' + str(SEVEN) + '$',
+                                               pass_job_queue=True,
+                                               pass_chat_data=True)],
+            REMINDER_LOOP_LEVEL: [CallbackQueryHandler(homework_dialog_3_incorrect, pattern='^' + str(HW_A) + '$'),
+                                  CallbackQueryHandler(homework_dialog_3_incorrect, pattern='^' + str(HW_B) + '$'),
+                                  CallbackQueryHandler(homework_dialog_3_incorrect, pattern='^' + str(HW_C) + '$'),
+                                  CallbackQueryHandler(homework_dialog_3_correct, pattern='^' + str(HW_D) + '$')]
         },
         fallbacks=[CommandHandler('start', start)],
     )
