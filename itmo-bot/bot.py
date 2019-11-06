@@ -16,6 +16,7 @@ from datetime import datetime, date, time
 from telegram import ReplyKeyboardMarkup
 from uuid import uuid4
 import pickle
+import os.path
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import (Updater, CommandHandler, MessageHandler, Filters,
                           ConversationHandler, PicklePersistence, CallbackQueryHandler)
@@ -86,25 +87,19 @@ intro_choice_2 = u'Сформулировать конкретные шаги в
 intro_choice_3 = u'Понять как работает система'
 intro_choice_4 = u'Лучше узнать себя'
 
-intro_reply_button_1 = u'Отлично! За эти 10 дней ты познакомишься с 4х-частной моделью описания корпоративных культур и ' \
-                       u'профессий. С ее помощью ты сможешь сформулировать стратегию следующих шагов в своей карьере '
-intro_reply_button_2 = u'Супер! За эти 10 дней ты получишь понятный и работающий инструмент для развития в карьере. Ты ' \
-                       u'поймешь, в чем твои сильные стороны и где сможешь добиться максимальных результатов! '
+intro_reply_button_1 = u'Отлично! За эти 10 дней ты познакомишься с 4х-частной моделью описания корпоративных культур' \
+                       u' и профессий. С ее помощью ты сможешь сформулировать стратегию следующих шагов в своей карьере'
+intro_reply_button_2 = u'Супер! За эти 10 дней ты получишь понятный и работающий инструмент для развития в карьере. ' \
+                       u'Ты поймешь, в чем твои сильные стороны и где сможешь добиться максимальных результатов! '
 intro_reply_button_3 = u'Прекрасно! За эти 10 дней ты узнаешь на примере 4частной модели, какие бывают корпоративные ' \
                        u'культуры и виды профессий, и как это сочетание влияет на развитие твоей карьеры '
 intro_reply_button_4 = u'Замечательно! За эти 10 дней ты лучше узнаешь, какие компании и корпоративные культуры тебе ' \
-                       u'подходят, а какие противопоказаны; в чем область твоих талантов, и как ты можешь их применить! '
+                       u'подходят, а какие противопоказаны; в чем область твоих талантов, и как ты можешь их применить!'
 
 default_reply_button_1 = 'Пройти тест'
-default_reply_button_2 = u'xxx'
-default_reply_button_3 = u'Help FAQ'
+default_reply_button_2 = u'База знаний'
+default_reply_button_3 = u'FAQ'
 default_reply_button_4 = u'Задать вопрос автору'
-
-broadcast_1_reply = u'Начинается подкаст 1 ({}), не пропусти!'
-broadcast_2_reply = u'Начинается подкаст 2 ({}), не пропусти!'
-broadcast_3_reply = u'Начинается подкаст 3 ({}), не пропусти!'
-broadcast_4_reply = u'Начинается подкаст 4 ({}), не пропусти!'
-broadcast_5_reply = u'Начинается подкаст 5 ({}), не пропусти!'
 
 intro_questionary_reply_keyboard = [[intro_choice_1, intro_choice_2],
                                     [intro_choice_3, intro_choice_4]]
@@ -175,7 +170,6 @@ def homework_dialog_2_yes(update, context):
                      u'Напоминаю, что есть домашнее задание по архетипу Воина [ссыль]\n'
     text_reply_quest = u'Как думаешь, какая фраза характеризует человека с архетипом Воина? (один из вариантов ' \
                        u'правильный) '
-    text_reply = text_reply_yes + text_reply_quest
     keyboard_second_stage = [
         [InlineKeyboardButton(text_reply_a, callback_data=str(HW_A))],
         [InlineKeyboardButton(text_reply_b, callback_data=str(HW_B))],
@@ -304,6 +298,23 @@ def next_question(update, context):
         return QUESTIONARY
 
 
+def create_answers_database(chat_id, question, choice):
+    f = open('database/questionary_' + str(chat_id), "a")
+    f.write("Question: " + question + " choice: " + choice)
+    f.close()
+
+
+def check_previous_answers(chat_id):
+    f = open('database/questionary_' + str(chat_id), "r")
+    i = 0
+    lines = f.readlines()
+    for x in lines:
+        i = i + 1
+        print(x)
+    print(i)
+    return i
+
+
 def start(update, context):
     """Send message on `/start`."""
     # Get user that sent /start and log his name
@@ -311,7 +322,12 @@ def start(update, context):
     chat_id = user.id
     logger.info("User %s started the conversation.", user.first_name)
 
-    reply_text = u'Привет, ' + str(chat_id) + u', рада тебя приветствовать на нашем марафоне! '
+    if os.path.exists('database/questionary_' + str(chat_id)):
+        check_previous_answers(chat_id)
+    else:
+        create_answers_database(chat_id, "question", "choice")
+
+    reply_text = u'Привет, ID' + str(chat_id) + u', рада тебя приветствовать на нашем марафоне! '
     if context.user_data:
         reply_text += u'Мы уже знакомы {}. Продолжим?'.format(', '.join(context.user_data.keys()))
     else:
@@ -322,11 +338,11 @@ def start(update, context):
 
 def start_user_queue(update, context):
     print("  Job: " + str(1))
-    context.job_queue.run_once(job_1, job_due_1)
+    # context.job_queue.run_once(job_1, job_due_1)
     print("  Job: " + str(2))
-    context.job_queue.run_once(job_2, job_due_2)
+    # context.job_queue.run_once(job_2, job_due_2)
     print("  Job: " + str(3))
-    #context.job_queue.run_once(job_3, job_due_3)
+    context.job_queue.run_once(job_3, job_due_3)
     print(" All jobs in the queue  ")
 
 
