@@ -167,8 +167,8 @@ def intro_choice_4_callback(update, context):
 def homework_dialog_2_yes(update, context):
     query = update.callback_query
     bot = context.bot
-    text_reply_a = u'Помни о будущем,\n соблюдай правила'
-    text_reply_b = u'Главное, чтобы нам\n было хорошо вместе'
+    text_reply_a = u'Помни о будущем, соблюдай правила'
+    text_reply_b = u'Главное, чтобы нам было хорошо вместе'
     text_reply_c = u'Истина в познании'
     text_reply_d = u'Побеждает сильнейший'
     text_reply_yes = u'Отлично! Если хочешь посмотреть еще раз материалы, они тут [ссыль]\n' \
@@ -177,10 +177,10 @@ def homework_dialog_2_yes(update, context):
                        u'правильный) '
     text_reply = text_reply_yes + text_reply_quest
     keyboard_second_stage = [
-        [InlineKeyboardButton(text_reply_a, callback_data=str(HW_A)),
-         InlineKeyboardButton(text_reply_b, callback_data=str(HW_B))],
-        [InlineKeyboardButton(text_reply_c, callback_data=str(HW_C)),
-         InlineKeyboardButton(text_reply_d, callback_data=str(HW_D))]
+        [InlineKeyboardButton(text_reply_a, callback_data=str(HW_A))],
+        [InlineKeyboardButton(text_reply_b, callback_data=str(HW_B))],
+        [InlineKeyboardButton(text_reply_c, callback_data=str(HW_C))],
+        [InlineKeyboardButton(text_reply_d, callback_data=str(HW_D))]
     ]
     reply_markup_2 = InlineKeyboardMarkup(keyboard_second_stage)
     bot.send_message(
