@@ -96,10 +96,10 @@ intro_reply_button_3 = u'Прекрасно! За эти 10 дней ты узн
 intro_reply_button_4 = u'Замечательно! За эти 10 дней ты лучше узнаешь, какие компании и корпоративные культуры тебе ' \
                        u'подходят, а какие противопоказаны; в чем область твоих талантов, и как ты можешь их применить!'
 
-default_reply_button_1 = 'Пройти тест'
-default_reply_button_2 = u'База знаний'
-default_reply_button_3 = u'FAQ'
-default_reply_button_4 = u'Задать вопрос автору'
+default_reply_button_1 = 'Go to questionary'
+default_reply_button_2 = 'База знаний'
+default_reply_button_3 = 'FAQ'
+default_reply_button_4 = 'Ask question'
 
 intro_questionary_reply_keyboard = [[intro_choice_1, intro_choice_2],
                                     [intro_choice_3, intro_choice_4]]
@@ -250,9 +250,9 @@ def homework_dialog_3_incorrect(update, context):
 
 
 def start_questionary(update, context):
-    chat_id = '1927606'
+    query = update.callback_query
+    chat_id = query.message.chat_id
     bot = context.bot
-    job = context.job
     keyboard = [
         [InlineKeyboardButton(" 3 ", callback_data=str(ONE)),
          InlineKeyboardButton(" 2 ", callback_data=str(TWO)),
@@ -273,9 +273,9 @@ def start_questionary(update, context):
 
 
 def next_question(update, context):
-    chat_id = '1927606'
+    query = update.callback_query
+    chat_id = query.message.chat_id
     bot = context.bot
-    job = context.job
     question = 20
     keyboard = [
         [InlineKeyboardButton(" 3 ", callback_data=str(ONE)),
@@ -337,9 +337,9 @@ def start(update, context):
 def start_user_queue(update, context):
     chat_id = update.message.chat_id
     print("  Job: " + str(1))
-    context.job_queue.run_once(job_1, job_due_1, context=chat_id)
+    # context.job_queue.run_once(job_1, job_due_1, context=chat_id)
     print("  Job: " + str(2))
-    context.job_queue.run_once(job_2, job_due_2, context=chat_id)
+    # context.job_queue.run_once(job_2, job_due_2, context=chat_id)
     print("  Job: " + str(3))
     context.job_queue.run_once(job_3, job_due_3, context=chat_id)
     print(" All jobs in the queue  ")
@@ -349,9 +349,6 @@ def job_1(context):
     job = context.job
     chat_id = job.context
     bot = context.bot
-    print("    ")
-    print(chat_id)
-    print("     ")
     init_question = u'Привет! Ты уже прослушал *новый урок*? [ссылка](https://t.me/) \n'
     keyboard_first_stage = [
         [InlineKeyboardButton(u'Да', callback_data=str(HW_YES)),
@@ -369,9 +366,6 @@ def job_2(context):
     job = context.job
     chat_id = job.context
     bot = context.bot
-    print("    ")
-    print(chat_id)
-    print("     ")
     init_question = u'Job 2 done'
     bot.send_message(
         chat_id=chat_id,
@@ -383,7 +377,6 @@ def job_2(context):
 def job_3(context):
     job = context.job
     chat_id = job.context
-    job = context.job
     bot = context.bot
     keyboard = [
         [InlineKeyboardButton(" 3 ", callback_data=str(ONE)),
@@ -554,7 +547,23 @@ def main():
             TYPING_CHOICE: [MessageHandler(Filters.text,
                                            default_choice),
                             ],
-            QUESTIONARY: [CallbackQueryHandler(next_question, pattern='^' + str(ONE) + '$',
+            QUESTIONARY: [MessageHandler(Filters.regex(default_reply_button_1),
+                                         default_choice,
+                                         pass_job_queue=True,
+                                         pass_chat_data=True),
+                          MessageHandler(Filters.regex(default_reply_button_2),
+                                         default_choice,
+                                         pass_job_queue=True,
+                                         pass_chat_data=True),
+                          MessageHandler(Filters.regex(default_reply_button_3),
+                                         default_choice,
+                                         pass_job_queue=True,
+                                         pass_chat_data=True),
+                          MessageHandler(Filters.regex(default_reply_button_4),
+                                         default_choice,
+                                         pass_job_queue=True,
+                                         pass_chat_data=True),
+                          CallbackQueryHandler(next_question, pattern='^' + str(ONE) + '$',
                                                pass_job_queue=True,
                                                pass_chat_data=True),
                           CallbackQueryHandler(next_question, pattern='^' + str(TWO) + '$',
