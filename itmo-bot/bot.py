@@ -310,8 +310,6 @@ def check_previous_answers(chat_id):
     lines = f.readlines()
     for x in lines:
         i = i + 1
-        print(x)
-    print(i)
     return i
 
 
@@ -337,21 +335,22 @@ def start(update, context):
 
 
 def start_user_queue(update, context):
+    chat_id = update.message.chat_id
     print("  Job: " + str(1))
-    # context.job_queue.run_once(job_1, job_due_1)
+    context.job_queue.run_once(job_1, job_due_1, context=chat_id)
     print("  Job: " + str(2))
-    # context.job_queue.run_once(job_2, job_due_2)
+    context.job_queue.run_once(job_2, job_due_2, context=chat_id)
     print("  Job: " + str(3))
-    context.job_queue.run_once(job_3, job_due_3)
+    context.job_queue.run_once(job_3, job_due_3, context=chat_id)
     print(" All jobs in the queue  ")
 
 
 def job_1(context):
-    chat_id = '1927606'
-    bot = context.bot
     job = context.job
+    chat_id = job.context
+    bot = context.bot
     print("    ")
-    print(job.context)
+    print(chat_id)
     print("     ")
     init_question = u'Привет! Ты уже прослушал *новый урок*? [ссылка](https://t.me/) \n'
     keyboard_first_stage = [
@@ -367,11 +366,11 @@ def job_1(context):
 
 
 def job_2(context):
-    chat_id = '1927606'
-    bot = context.bot
     job = context.job
+    chat_id = job.context
+    bot = context.bot
     print("    ")
-    print(context.user_data)
+    print(chat_id)
     print("     ")
     init_question = u'Job 2 done'
     bot.send_message(
@@ -382,7 +381,8 @@ def job_2(context):
 
 
 def job_3(context):
-    chat_id = '1927606'
+    job = context.job
+    chat_id = job.context
     job = context.job
     bot = context.bot
     keyboard = [
