@@ -252,21 +252,21 @@ def homework_dialog_3_incorrect(update, context):
 def start_questionary(update, context):
     query = update.callback_query
     chat_id = query.message.chat_id
-    question = 2
     selected = query.data
-    append_answers_database(chat_id, question, selected)
+    stage_data = selected.split(",")
+    append_answers_database(chat_id, stage_data[1], stage_data[0])
+    question = int(stage_data[1]) + 1
     bot = context.bot
     keyboard = [
-        [InlineKeyboardButton(" 3 ", callback_data=str(ONE)),
-         InlineKeyboardButton(" 2 ", callback_data=str(TWO)),
-         InlineKeyboardButton(" 1 ", callback_data=str(THREE)),
-         InlineKeyboardButton(" 0 ", callback_data=str(FOUR)),
-         InlineKeyboardButton(" 1 ", callback_data=str(FIVE)),
-         InlineKeyboardButton(" 2 ", callback_data=str(SIX)),
-         InlineKeyboardButton(" 3 ", callback_data=str(SEVEN))]
+        [InlineKeyboardButton(" 3 ", callback_data=str(ONE)+","+str(question)),
+         InlineKeyboardButton(" 2 ", callback_data=str(TWO)+","+str(question)),
+         InlineKeyboardButton(" 1 ", callback_data=str(THREE)+","+str(question)),
+         InlineKeyboardButton(" 0 ", callback_data=str(FOUR)+","+str(question)),
+         InlineKeyboardButton(" 1 ", callback_data=str(FIVE)+","+str(question)),
+         InlineKeyboardButton(" 2 ", callback_data=str(SIX)+","+str(question)),
+         InlineKeyboardButton(" 3 ", callback_data=str(SEVEN)+","+str(question))]
     ]
     inline_reply_markup = InlineKeyboardMarkup(keyboard)
-
     bot.sendPhoto(chat_id,
                   photo=open('archetype-test/' + str(question) + '.png', 'rb'),
                   caption='Выберите, в какой степени это свойственно вам...',
@@ -278,28 +278,34 @@ def start_questionary(update, context):
 def next_question(update, context):
     query = update.callback_query
     chat_id = query.message.chat_id
-    question = 20
     selected = query.data
-    append_answers_database(chat_id, question, selected)
+    stage_data = selected.split(",")
+    append_answers_database(chat_id, stage_data[1], stage_data[0])
+    question = int(stage_data[1]) + 1
     bot = context.bot
     keyboard = [
-        [InlineKeyboardButton(" 3 ", callback_data=str(ONE)),
-         InlineKeyboardButton(" 2 ", callback_data=str(TWO)),
-         InlineKeyboardButton(" 1 ", callback_data=str(THREE)),
-         InlineKeyboardButton(" 0 ", callback_data=str(FOUR)),
-         InlineKeyboardButton(" 1 ", callback_data=str(FIVE)),
-         InlineKeyboardButton(" 2 ", callback_data=str(SIX)),
-         InlineKeyboardButton(" 3 ", callback_data=str(SEVEN))]
+        [InlineKeyboardButton(" 3 ", callback_data=str(ONE)+","+str(question)),
+         InlineKeyboardButton(" 2 ", callback_data=str(TWO)+","+str(question)),
+         InlineKeyboardButton(" 1 ", callback_data=str(THREE)+","+str(question)),
+         InlineKeyboardButton(" 0 ", callback_data=str(FOUR)+","+str(question)),
+         InlineKeyboardButton(" 1 ", callback_data=str(FIVE)+","+str(question)),
+         InlineKeyboardButton(" 2 ", callback_data=str(SIX)+","+str(question)),
+         InlineKeyboardButton(" 3 ", callback_data=str(SEVEN)+","+str(question))]
     ]
     inline_reply_markup = InlineKeyboardMarkup(keyboard)
-    bot.sendPhoto(chat_id,
-                  photo=open('archetype-test/' + str(question) + '.png', 'rb'),
-                  caption='Выберите, в какой степени это свойственно вам...',
-                  reply_markup=inline_reply_markup
-                  )
-    if question == 30:
+    if question == 31:
+        bot.send_message(
+            chat_id=chat_id,
+            text="Тест завершен. Результаты будут получены после окончания марафона.",
+            reply_markup=None
+        )
         return DEFAULT_CHOOSING
     else:
+        bot.sendPhoto(chat_id,
+                      photo=open('archetype-test/' + str(question) + '.png', 'rb'),
+                      caption='Выберите, в какой степени это свойственно вам...',
+                      reply_markup=inline_reply_markup
+                      )
         return QUESTIONARY
 
 
@@ -378,14 +384,15 @@ def job_3(context):
     job = context.job
     chat_id = job.context
     bot = context.bot
+    question = 1
     keyboard = [
-        [InlineKeyboardButton(" 3 ", callback_data=str(ONE)),
-         InlineKeyboardButton(" 2 ", callback_data=str(TWO)),
-         InlineKeyboardButton(" 1 ", callback_data=str(THREE)),
-         InlineKeyboardButton(" 0 ", callback_data=str(FOUR)),
-         InlineKeyboardButton(" 1 ", callback_data=str(FIVE)),
-         InlineKeyboardButton(" 2 ", callback_data=str(SIX)),
-         InlineKeyboardButton(" 3 ", callback_data=str(SEVEN))]
+        [InlineKeyboardButton(" 3 ", callback_data=str(ONE)+","+str(question)),
+         InlineKeyboardButton(" 2 ", callback_data=str(TWO)+","+str(question)),
+         InlineKeyboardButton(" 1 ", callback_data=str(THREE)+","+str(question)),
+         InlineKeyboardButton(" 0 ", callback_data=str(FOUR)+","+str(question)),
+         InlineKeyboardButton(" 1 ", callback_data=str(FIVE)+","+str(question)),
+         InlineKeyboardButton(" 2 ", callback_data=str(SIX)+","+str(question)),
+         InlineKeyboardButton(" 3 ", callback_data=str(SEVEN)+","+str(question))]
     ]
     inline_reply_markup = InlineKeyboardMarkup(keyboard)
     question = 1
@@ -400,7 +407,7 @@ def job_3(context):
     if os.path.exists('database/questionary_' + str(chat_id)):
         check_previous_answers(chat_id)
     else:
-        append_answers_database(chat_id, "question", "choice")
+        append_answers_database(chat_id, " ", " ")
     bot.sendPhoto(chat_id,
                   photo=open('archetype-test/' + str(question) + '.png', 'rb'),
                   caption='job 3 done',
@@ -507,25 +514,25 @@ def main():
                                CallbackQueryHandler(homework_dialog_2_no, pattern='^' + str(HW_NO) + '$',
                                                     pass_job_queue=True,
                                                     pass_chat_data=True),
-                               CallbackQueryHandler(start_questionary, pattern='^' + str(ONE) + '$',
+                               CallbackQueryHandler(start_questionary, pattern='^' + str(ONE) + '[,]',
                                                     pass_job_queue=True,
                                                     pass_chat_data=True),
-                               CallbackQueryHandler(start_questionary, pattern='^' + str(TWO) + '$',
+                               CallbackQueryHandler(start_questionary, pattern='^' + str(TWO) + '[,]',
                                                     pass_job_queue=True,
                                                     pass_chat_data=True),
-                               CallbackQueryHandler(start_questionary, pattern='^' + str(THREE) + '$',
+                               CallbackQueryHandler(start_questionary, pattern='^' + str(THREE) + '[,]',
                                                     pass_job_queue=True,
                                                     pass_chat_data=True),
-                               CallbackQueryHandler(start_questionary, pattern='^' + str(FOUR) + '$',
+                               CallbackQueryHandler(start_questionary, pattern='^' + str(FOUR) + '[,]',
                                                     pass_job_queue=True,
                                                     pass_chat_data=True),
-                               CallbackQueryHandler(start_questionary, pattern='^' + str(FIVE) + '$',
+                               CallbackQueryHandler(start_questionary, pattern='^' + str(FIVE) + '[,]',
                                                     pass_job_queue=True,
                                                     pass_chat_data=True),
-                               CallbackQueryHandler(start_questionary, pattern='^' + str(SIX) + '$',
+                               CallbackQueryHandler(start_questionary, pattern='^' + str(SIX) + '[,]',
                                                     pass_job_queue=True,
                                                     pass_chat_data=True),
-                               CallbackQueryHandler(start_questionary, pattern='^' + str(SEVEN) + '$',
+                               CallbackQueryHandler(start_questionary, pattern='^' + str(SEVEN) + '[,]',
                                                     pass_job_queue=True,
                                                     pass_chat_data=True)],
             START_CHOOSING: [MessageHandler(Filters.regex(intro_choice_1),
@@ -567,25 +574,25 @@ def main():
                                          default_choice,
                                          pass_job_queue=True,
                                          pass_chat_data=True),
-                          CallbackQueryHandler(next_question, pattern='^' + str(ONE) + '$',
+                          CallbackQueryHandler(next_question, pattern='^' + str(ONE) + '[,]',
                                                pass_job_queue=True,
                                                pass_chat_data=True),
-                          CallbackQueryHandler(next_question, pattern='^' + str(TWO) + '$',
+                          CallbackQueryHandler(next_question, pattern='^' + str(TWO) + '[,]',
                                                pass_job_queue=True,
                                                pass_chat_data=True),
-                          CallbackQueryHandler(next_question, pattern='^' + str(THREE) + '$',
+                          CallbackQueryHandler(next_question, pattern='^' + str(THREE) + '[,]',
                                                pass_job_queue=True,
                                                pass_chat_data=True),
-                          CallbackQueryHandler(next_question, pattern='^' + str(FOUR) + '$',
+                          CallbackQueryHandler(next_question, pattern='^' + str(FOUR) + '[,]',
                                                pass_job_queue=True,
                                                pass_chat_data=True),
-                          CallbackQueryHandler(next_question, pattern='^' + str(FIVE) + '$',
+                          CallbackQueryHandler(next_question, pattern='^' + str(FIVE) + '[,]',
                                                pass_job_queue=True,
                                                pass_chat_data=True),
-                          CallbackQueryHandler(next_question, pattern='^' + str(SIX) + '$',
+                          CallbackQueryHandler(next_question, pattern='^' + str(SIX) + '[,]',
                                                pass_job_queue=True,
                                                pass_chat_data=True),
-                          CallbackQueryHandler(next_question, pattern='^' + str(SEVEN) + '$',
+                          CallbackQueryHandler(next_question, pattern='^' + str(SEVEN) + '[,]',
                                                pass_job_queue=True,
                                                pass_chat_data=True)],
             REMINDER_LOOP_LEVEL: [CallbackQueryHandler(homework_dialog_3_incorrect, pattern='^' + str(HW_A) + '$'),
