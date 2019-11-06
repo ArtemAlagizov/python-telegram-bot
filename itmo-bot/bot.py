@@ -29,8 +29,8 @@ logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s
 logger = logging.getLogger(__name__)
 
 # Callback data
-START_CHOOSING, DEFAULT_CHOOSING, TYPING_REPLY, TYPING_CHOICE, PATH_ONE, PATH_TWO, ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, HW_YES, HW_NO, \
-HW_A, HW_B, HW_C, HW_D, QUESTIONARY, REMINDER_LOOP_LEVEL, REMINDER_LOOP_LEVEL_, EMPTY = range(23)
+START_CHOOSING, DEFAULT_CHOOSING, TYPING_REPLY, TYPING_CHOICE, PATH_ONE, PATH_TWO, ONE, TWO, THREE, FOUR, FIVE, SIX,\
+SEVEN, HW_YES, HW_NO, HW_A, HW_B, HW_C, HW_D, QUESTIONARY, REMINDER_LOOP_LEVEL, REMINDER_LOOP_LEVEL_, EMPTY = range(23)
 
 # job_due_1 = datetime.combine(date(2019, 11, 7), time(11, 00))
 # job_due_2 = datetime.combine(date(2019, 11, 7), time(19, 00))
@@ -252,6 +252,9 @@ def homework_dialog_3_incorrect(update, context):
 def start_questionary(update, context):
     query = update.callback_query
     chat_id = query.message.chat_id
+    question = 2
+    selected = query.data
+    append_answers_database(chat_id, question, selected)
     bot = context.bot
     keyboard = [
         [InlineKeyboardButton(" 3 ", callback_data=str(ONE)),
@@ -263,10 +266,10 @@ def start_questionary(update, context):
          InlineKeyboardButton(" 3 ", callback_data=str(SEVEN))]
     ]
     inline_reply_markup = InlineKeyboardMarkup(keyboard)
-    question = 2
+
     bot.sendPhoto(chat_id,
                   photo=open('archetype-test/' + str(question) + '.png', 'rb'),
-                  caption='job 3 done',
+                  caption='Выберите, в какой степени это свойственно вам...',
                   reply_markup=inline_reply_markup
                   )
     return QUESTIONARY
@@ -275,8 +278,10 @@ def start_questionary(update, context):
 def next_question(update, context):
     query = update.callback_query
     chat_id = query.message.chat_id
-    bot = context.bot
     question = 20
+    selected = query.data
+    append_answers_database(chat_id, question, selected)
+    bot = context.bot
     keyboard = [
         [InlineKeyboardButton(" 3 ", callback_data=str(ONE)),
          InlineKeyboardButton(" 2 ", callback_data=str(TWO)),
@@ -289,7 +294,7 @@ def next_question(update, context):
     inline_reply_markup = InlineKeyboardMarkup(keyboard)
     bot.sendPhoto(chat_id,
                   photo=open('archetype-test/' + str(question) + '.png', 'rb'),
-                  caption='job 3 done',
+                  caption='Выберите, в какой степени это свойственно вам...',
                   reply_markup=inline_reply_markup
                   )
     if question == 30:
@@ -298,9 +303,9 @@ def next_question(update, context):
         return QUESTIONARY
 
 
-def create_answers_database(chat_id, question, choice):
+def append_answers_database(chat_id, question, choice):
     f = open('database/questionary_' + str(chat_id), "a")
-    f.write("Question: " + question + " choice: " + choice)
+    f.write("Question: " + str(question) + " choice: " + str(choice) +"\n")
     f.close()
 
 
@@ -319,11 +324,6 @@ def start(update, context):
     user = update.message.from_user
     chat_id = user.id
     logger.info("User %s started the conversation.", user.first_name)
-
-    if os.path.exists('database/questionary_' + str(chat_id)):
-        check_previous_answers(chat_id)
-    else:
-        create_answers_database(chat_id, "question", "choice")
 
     reply_text = u'Привет, ID' + str(chat_id) + u', рада тебя приветствовать на нашем марафоне! '
     if context.user_data:
@@ -397,6 +397,10 @@ def job_3(context):
         text=message_text,
         reply_markup=default_markup
     )
+    if os.path.exists('database/questionary_' + str(chat_id)):
+        check_previous_answers(chat_id)
+    else:
+        append_answers_database(chat_id, "question", "choice")
     bot.sendPhoto(chat_id,
                   photo=open('archetype-test/' + str(question) + '.png', 'rb'),
                   caption='job 3 done',
