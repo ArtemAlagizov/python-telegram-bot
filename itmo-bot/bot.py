@@ -29,8 +29,8 @@ logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s
 logger = logging.getLogger(__name__)
 
 # Callback data
-START_CHOOSING, DEFAULT_CHOOSING, TYPING_REPLY, TYPING_CHOICE, PATH_ONE, PATH_TWO, ONE, TWO, THREE, FOUR, FIVE, SIX,\
-SEVEN, HW_YES, HW_NO, HW_A, HW_B, HW_C, HW_D, QUESTIONARY, REMINDER_LOOP_LEVEL, REMINDER_LOOP_LEVEL_, EMPTY = range(23)
+START_CHOOSING, DEFAULT_CHOOSING, TYPING_REPLY, TYPING_CHOICE, PATH_ONE, PATH_TWO, ONE, TWO, THREE, FOUR, FIVE, SIX, \
+SEVEN, HW_YES, HW_NO, HW_A, HW_B, HW_C, HW_D, QUESTIONARY, REMINDER_LOOP_LEVEL, AUTHOR, EMPTY = range(23)
 
 # job_due_1 = datetime.combine(date(2019, 11, 7), time(11, 00))
 # job_due_2 = datetime.combine(date(2019, 11, 7), time(19, 00))
@@ -96,10 +96,10 @@ intro_reply_button_3 = u'Прекрасно! За эти 10 дней ты узн
 intro_reply_button_4 = u'Замечательно! За эти 10 дней ты лучше узнаешь, какие компании и корпоративные культуры тебе ' \
                        u'подходят, а какие противопоказаны; в чем область твоих талантов, и как ты можешь их применить!'
 
-default_reply_button_1 = 'Go to questionary'
-default_reply_button_2 = 'База знаний'
+default_reply_button_1 = 'Диагностика'
+default_reply_button_2 = 'Материалы'
 default_reply_button_3 = 'FAQ'
-default_reply_button_4 = 'Ask question'
+default_reply_button_4 = 'Ask author'  # вопрос автору
 
 intro_questionary_reply_keyboard = [[intro_choice_1, intro_choice_2],
                                     [intro_choice_3, intro_choice_4]]
@@ -258,13 +258,13 @@ def start_questionary(update, context):
     question = int(stage_data[1]) + 1
     bot = context.bot
     keyboard = [
-        [InlineKeyboardButton(" 3 ", callback_data=str(ONE)+","+str(question)),
-         InlineKeyboardButton(" 2 ", callback_data=str(TWO)+","+str(question)),
-         InlineKeyboardButton(" 1 ", callback_data=str(THREE)+","+str(question)),
-         InlineKeyboardButton(" 0 ", callback_data=str(FOUR)+","+str(question)),
-         InlineKeyboardButton(" 1 ", callback_data=str(FIVE)+","+str(question)),
-         InlineKeyboardButton(" 2 ", callback_data=str(SIX)+","+str(question)),
-         InlineKeyboardButton(" 3 ", callback_data=str(SEVEN)+","+str(question))]
+        [InlineKeyboardButton(" 3 ", callback_data=str(ONE) + "," + str(question)),
+         InlineKeyboardButton(" 2 ", callback_data=str(TWO) + "," + str(question)),
+         InlineKeyboardButton(" 1 ", callback_data=str(THREE) + "," + str(question)),
+         InlineKeyboardButton(" 0 ", callback_data=str(FOUR) + "," + str(question)),
+         InlineKeyboardButton(" 1 ", callback_data=str(FIVE) + "," + str(question)),
+         InlineKeyboardButton(" 2 ", callback_data=str(SIX) + "," + str(question)),
+         InlineKeyboardButton(" 3 ", callback_data=str(SEVEN) + "," + str(question))]
     ]
     inline_reply_markup = InlineKeyboardMarkup(keyboard)
     bot.sendPhoto(chat_id,
@@ -275,7 +275,7 @@ def start_questionary(update, context):
     return QUESTIONARY
 
 
-def next_question(update, context):
+def next_questionare(update, context):
     query = update.callback_query
     chat_id = query.message.chat_id
     selected = query.data
@@ -284,13 +284,13 @@ def next_question(update, context):
     question = int(stage_data[1]) + 1
     bot = context.bot
     keyboard = [
-        [InlineKeyboardButton(" 3 ", callback_data=str(ONE)+","+str(question)),
-         InlineKeyboardButton(" 2 ", callback_data=str(TWO)+","+str(question)),
-         InlineKeyboardButton(" 1 ", callback_data=str(THREE)+","+str(question)),
-         InlineKeyboardButton(" 0 ", callback_data=str(FOUR)+","+str(question)),
-         InlineKeyboardButton(" 1 ", callback_data=str(FIVE)+","+str(question)),
-         InlineKeyboardButton(" 2 ", callback_data=str(SIX)+","+str(question)),
-         InlineKeyboardButton(" 3 ", callback_data=str(SEVEN)+","+str(question))]
+        [InlineKeyboardButton(" 3 ", callback_data=str(ONE) + "," + str(question)),
+         InlineKeyboardButton(" 2 ", callback_data=str(TWO) + "," + str(question)),
+         InlineKeyboardButton(" 1 ", callback_data=str(THREE) + "," + str(question)),
+         InlineKeyboardButton(" 0 ", callback_data=str(FOUR) + "," + str(question)),
+         InlineKeyboardButton(" 1 ", callback_data=str(FIVE) + "," + str(question)),
+         InlineKeyboardButton(" 2 ", callback_data=str(SIX) + "," + str(question)),
+         InlineKeyboardButton(" 3 ", callback_data=str(SEVEN) + "," + str(question))]
     ]
     inline_reply_markup = InlineKeyboardMarkup(keyboard)
     if question == 31:
@@ -309,14 +309,29 @@ def next_question(update, context):
         return QUESTIONARY
 
 
+def default_choice_questionary(update, context):
+    text = update.message.text.lower()
+    context.user_data['choice'] = text
+    reply_text = 'Сначала завершите заполнение анкеты'
+    update.message.reply_text(reply_text)
+
+    return QUESTIONARY
+
+
+def intro_answers_database(chat_id, choice):  # to fill
+    f = open('database/intro/intro_' + str(chat_id), "a")
+    f.write("Intro choice: " + str(choice) + "\n")
+    f.close()
+
+
 def append_answers_database(chat_id, question, choice):
-    f = open('database/questionary_' + str(chat_id), "a")
-    f.write("Question: " + str(question) + " choice: " + str(choice) +"\n")
+    f = open('database/questionary/questionary_' + str(chat_id), "a")
+    f.write("Question: " + str(question) + " choice: " + str(choice) + "\n")
     f.close()
 
 
 def check_previous_answers(chat_id):
-    f = open('database/questionary_' + str(chat_id), "r")
+    f = open('database/questionary/questionary_' + str(chat_id), "r")
     i = 0
     lines = f.readlines()
     for x in lines:
@@ -386,13 +401,13 @@ def job_3(context):
     bot = context.bot
     question = 1
     keyboard = [
-        [InlineKeyboardButton(" 3 ", callback_data=str(ONE)+","+str(question)),
-         InlineKeyboardButton(" 2 ", callback_data=str(TWO)+","+str(question)),
-         InlineKeyboardButton(" 1 ", callback_data=str(THREE)+","+str(question)),
-         InlineKeyboardButton(" 0 ", callback_data=str(FOUR)+","+str(question)),
-         InlineKeyboardButton(" 1 ", callback_data=str(FIVE)+","+str(question)),
-         InlineKeyboardButton(" 2 ", callback_data=str(SIX)+","+str(question)),
-         InlineKeyboardButton(" 3 ", callback_data=str(SEVEN)+","+str(question))]
+        [InlineKeyboardButton(" 3 ", callback_data=str(ONE) + "," + str(question)),
+         InlineKeyboardButton(" 2 ", callback_data=str(TWO) + "," + str(question)),
+         InlineKeyboardButton(" 1 ", callback_data=str(THREE) + "," + str(question)),
+         InlineKeyboardButton(" 0 ", callback_data=str(FOUR) + "," + str(question)),
+         InlineKeyboardButton(" 1 ", callback_data=str(FIVE) + "," + str(question)),
+         InlineKeyboardButton(" 2 ", callback_data=str(SIX) + "," + str(question)),
+         InlineKeyboardButton(" 3 ", callback_data=str(SEVEN) + "," + str(question))]
     ]
     inline_reply_markup = InlineKeyboardMarkup(keyboard)
     question = 1
@@ -405,14 +420,34 @@ def job_3(context):
         reply_markup=default_markup
     )
     if os.path.exists('database/questionary_' + str(chat_id)):
-        check_previous_answers(chat_id)
+        print(check_previous_answers(chat_id))
     else:
         append_answers_database(chat_id, " ", " ")
     bot.sendPhoto(chat_id,
                   photo=open('archetype-test/' + str(question) + '.png', 'rb'),
-                  caption='job 3 done',
+                  caption='Выберите, в какой степени это свойственно вам...',
                   reply_markup=inline_reply_markup
                   )
+
+
+def ask_author(update, context):
+    reply_text = 'Your {}? Yes, I would love to hear about that!'
+    update.message.reply_text(reply_text)
+
+    return AUTHOR
+
+
+def send_question_to_author(update, context):
+    text = update.message.text.lower()
+    bot = context.bot
+
+    bot.send_message(
+        chat_id='',
+        text=text,
+        reply_markup=default_markup
+    )
+
+    return DEFAULT_CHOOSING
 
 
 def default_choice(update, context):
@@ -501,7 +536,7 @@ def main():
                                               pass_job_queue=True,
                                               pass_chat_data=True),
                                MessageHandler(Filters.regex(default_reply_button_4),
-                                              default_choice,
+                                              ask_author,
                                               pass_job_queue=True,
                                               pass_chat_data=True),
                                MessageHandler(Filters.regex('^Something else...$'),
@@ -552,47 +587,47 @@ def main():
                                             pass_job_queue=True,
                                             pass_chat_data=True),
                              ],
-            TYPING_REPLY: [MessageHandler(Filters.text,
-                                          received_information),
+            TYPING_REPLY: [MessageHandler(Filters.text, received_information),
                            ],
-            TYPING_CHOICE: [MessageHandler(Filters.text,
-                                           default_choice),
+            TYPING_CHOICE: [MessageHandler(Filters.text, default_choice),
                             ],
+            AUTHOR: [MessageHandler(Filters.text, send_question_to_author)
+                     ],
             QUESTIONARY: [MessageHandler(Filters.regex(default_reply_button_1),
-                                         default_choice,
+                                         default_choice_questionary,
                                          pass_job_queue=True,
                                          pass_chat_data=True),
                           MessageHandler(Filters.regex(default_reply_button_2),
-                                         default_choice,
+                                         default_choice_questionary,
                                          pass_job_queue=True,
                                          pass_chat_data=True),
                           MessageHandler(Filters.regex(default_reply_button_3),
-                                         default_choice,
+                                         default_choice_questionary,
                                          pass_job_queue=True,
                                          pass_chat_data=True),
                           MessageHandler(Filters.regex(default_reply_button_4),
-                                         default_choice,
+                                         default_choice_questionary,
                                          pass_job_queue=True,
                                          pass_chat_data=True),
-                          CallbackQueryHandler(next_question, pattern='^' + str(ONE) + '[,]',
+                          CallbackQueryHandler(next_questionare, pattern='^' + str(ONE) + '[,]',
                                                pass_job_queue=True,
                                                pass_chat_data=True),
-                          CallbackQueryHandler(next_question, pattern='^' + str(TWO) + '[,]',
+                          CallbackQueryHandler(next_questionare, pattern='^' + str(TWO) + '[,]',
                                                pass_job_queue=True,
                                                pass_chat_data=True),
-                          CallbackQueryHandler(next_question, pattern='^' + str(THREE) + '[,]',
+                          CallbackQueryHandler(next_questionare, pattern='^' + str(THREE) + '[,]',
                                                pass_job_queue=True,
                                                pass_chat_data=True),
-                          CallbackQueryHandler(next_question, pattern='^' + str(FOUR) + '[,]',
+                          CallbackQueryHandler(next_questionare, pattern='^' + str(FOUR) + '[,]',
                                                pass_job_queue=True,
                                                pass_chat_data=True),
-                          CallbackQueryHandler(next_question, pattern='^' + str(FIVE) + '[,]',
+                          CallbackQueryHandler(next_questionare, pattern='^' + str(FIVE) + '[,]',
                                                pass_job_queue=True,
                                                pass_chat_data=True),
-                          CallbackQueryHandler(next_question, pattern='^' + str(SIX) + '[,]',
+                          CallbackQueryHandler(next_questionare, pattern='^' + str(SIX) + '[,]',
                                                pass_job_queue=True,
                                                pass_chat_data=True),
-                          CallbackQueryHandler(next_question, pattern='^' + str(SEVEN) + '[,]',
+                          CallbackQueryHandler(next_questionare, pattern='^' + str(SEVEN) + '[,]',
                                                pass_job_queue=True,
                                                pass_chat_data=True)],
             REMINDER_LOOP_LEVEL: [CallbackQueryHandler(homework_dialog_3_incorrect, pattern='^' + str(HW_A) + '$'),
