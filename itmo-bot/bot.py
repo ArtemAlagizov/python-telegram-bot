@@ -439,16 +439,23 @@ def ask_author(update, context):
 
 def send_question_to_author(update, context):
     user = update.message.from_user
+    from_chat_id = update.message.chat_id
+    message_id = update.message.message_id
     user_id = user.id
-    text = update.message.text.lower()
-    resend_text = 'Вопрос от участника\n' + str(user.first_name) + ' ' + str(user.last_name) + '\n' + 'ID' + str(user_id)\
-                  + ':\n ' + str(text)
+    resend_text = '*Вопрос от участника*\n' + str(user.first_name) + ' ' + str(user.last_name) + '\n' +\
+                  'ID' + str(user_id)
     bot = context.bot
     bot.send_message(
         chat_id='-272961482',
-        text=resend_text,
         parse_mode='Markdown',
+        text=resend_text,
         reply_markup=None
+    )
+    bot.forward_message(
+        chat_id='-272961482',
+        from_chat_id=from_chat_id,
+        disable_notification=False,
+        message_id=message_id
 
     )
     reply_text = 'Спасибо за вопрос! Мы постараемся оперативно ответить.'
