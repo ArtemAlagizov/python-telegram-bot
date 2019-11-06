@@ -441,12 +441,15 @@ def send_question_to_author(update, context):
     user = update.message.from_user
     user_id = user.id
     text = update.message.text.lower()
-    resend_text = 'Вопрос от участника ID' + str(user_id) + ': ' + str(text)
+    resend_text = 'Вопрос от участника\n' + str(user.first_name) + ' ' + str(user.last_name) + '\n' + 'ID' + str(user_id)\
+                  + ':\n ' + str(text)
     bot = context.bot
     bot.send_message(
         chat_id='-272961482',
         text=resend_text,
-        reply_markup=default_markup
+        parse_mode='Markdown',
+        reply_markup=None
+
     )
     reply_text = 'Спасибо за вопрос! Мы постараемся оперативно ответить.'
     update.message.reply_text(reply_text)
