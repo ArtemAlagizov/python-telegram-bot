@@ -358,11 +358,11 @@ def start(update, context):
 def start_user_queue(update, context):
     chat_id = update.message.chat_id
     print("  Job: " + str(1))
-    # context.job_queue.run_once(job_1, job_due_1, context=chat_id)
+    context.job_queue.run_once(job_1, job_due_1, context=chat_id)
     print("  Job: " + str(2))
     # context.job_queue.run_once(job_2, job_due_2, context=chat_id)
     print("  Job: " + str(3))
-    context.job_queue.run_once(job_3, job_due_3, context=chat_id)
+    #context.job_queue.run_once(job_3, job_due_3, context=chat_id)
     print(" All jobs in the queue  ")
 
 
@@ -431,21 +431,25 @@ def job_3(context):
 
 
 def ask_author(update, context):
-    reply_text = 'Your {}? Yes, I would love to hear about that!'
+    reply_text = 'Вы можете задать любой вопрос авторам марафона. Что вас интересует?'
     update.message.reply_text(reply_text)
 
     return AUTHOR
 
 
 def send_question_to_author(update, context):
+    user = update.message.from_user
+    user_id = user.id
     text = update.message.text.lower()
+    resend_text = 'Вопрос от участника ID' + str(user_id) + ': ' + str(text)
     bot = context.bot
-
     bot.send_message(
-        chat_id='',
-        text=text,
+        chat_id='-272961482',
+        text=resend_text,
         reply_markup=default_markup
     )
+    reply_text = 'Спасибо за вопрос! Мы постараемся оперативно ответить.'
+    update.message.reply_text(reply_text)
 
     return DEFAULT_CHOOSING
 
