@@ -34,7 +34,7 @@ SEVEN, HW_YES_1, HW_NO_1, HW_YES_2, HW_NO_2, HW_YES_3, HW_NO_3, HW_YES_4, HW_NO_
 HW_A_2, HW_B_2, HW_C_2, HW_D_2, HW_A_3, HW_B_3, HW_C_3, HW_D_3, HW_A_4, HW_B_4, HW_C_4, HW_D_4, \
 QUESTIONARY, REMINDER_LOOP_LEVEL, AUTHOR, EMPTY, GOTO_GROUP, GOTO_VISUAL_1, GOTO_VISUAL_2, GETTING_VOICE = range(45)
 
-# job_due_1 = datetime.combine(date(2019, 11, 7), time(20, 00))
+# job_due_1 = datetime.combine(date(2019, 11, 7), time(21, 00))
 # job_due_2 = datetime.combine(date(2019, 11, 8), time(13, 00))
 # job_due_3 = datetime.combine(date(2019, 11, 8), time(19, 30))
 # job_due_4 = datetime.combine(date(2019, 11, 9), time(11, 00))
@@ -64,17 +64,14 @@ job_due_2 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4)
 job_due_3 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2))
 job_due_4 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2))
 job_due_5 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2))
-job_due_6 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2
-                                                                                       + 1))
+job_due_6 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2))
 job_due_7 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2))
 job_due_8 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2))
 job_due_9 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2))
-job_due_10 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2
-                                                                                        + 2))
+job_due_10 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2))
 job_due_11 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2))
 job_due_12 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2))
-job_due_13 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2
-                                                                                        + 3))
+job_due_13 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2))
 job_due_14 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2))
 job_due_15 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2))
 job_due_16 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2))
@@ -667,7 +664,7 @@ def job_1(context):
     job = context.job
     chat_id = job.context
     bot = context.bot
-    init_question = u'Когда будет возможность выделить 5 минут, пройдите оценку \n(кнопка Диагностика)'
+    init_question = u'Когда будет возможность выделить 5 минут, пройдите оценку \n(кнопка Diagnostics)'
     bot.send_message(
         chat_id=chat_id,
         text=init_question,
@@ -680,11 +677,14 @@ def job_2(context):
     chat_id = job.context
     bot = context.bot
     init_question = u'Привет! Будет круто, если ты пройдешь опрос до следующего занятия.'
-    bot.send_message(
-        chat_id=chat_id,
-        text=init_question,
-        reply_markup=default_markup
-    )
+    if os.path.exists('database/questionary/questionary_' + str(chat_id) + '_finished'):
+        empty(context)
+    else:
+        bot.send_message(
+            chat_id=chat_id,
+            text=init_question,
+            reply_markup=default_markup
+        )
 
 
 def job_3(context):
