@@ -30,7 +30,7 @@ logger = logging.getLogger(__name__)
 
 # Callback data
 START_CHOOSING, DEFAULT_CHOOSING, TYPING_REPLY, TYPING_CHOICE, PATH_ONE, PATH_TWO, ONE, TWO, THREE, FOUR, FIVE, SIX, \
-SEVEN, HW_YES, HW_NO, HW_A, HW_B, HW_C, HW_D, QUESTIONARY, REMINDER_LOOP_LEVEL, AUTHOR, EMPTY = range(23)
+SEVEN, HW_YES, HW_NO, HW_A, HW_B, HW_C, HW_D, QUESTIONARY, REMINDER_LOOP_LEVEL, AUTHOR, EMPTY, GOTO_GROUP = range(24)
 
 # job_due_1 = datetime.combine(date(2019, 11, 7), time(11, 00))
 # job_due_2 = datetime.combine(date(2019, 11, 7), time(19, 00))
@@ -96,8 +96,8 @@ intro_reply_button_3 = u'Прекрасно! За эти 10 дней ты узн
 intro_reply_button_4 = u'Замечательно! За эти 10 дней ты лучше узнаешь, какие компании и корпоративные культуры тебе ' \
                        u'подходят, а какие противопоказаны; в чем область твоих талантов, и как ты можешь их применить!'
 
-default_reply_button_1 = 'Диагностика'
-default_reply_button_2 = 'Материалы'
+default_reply_button_1 = 'Diagnostics'
+default_reply_button_2 = 'Materials'
 default_reply_button_3 = 'FAQ'
 default_reply_button_4 = 'Ask author'  # вопрос автору
 
@@ -410,7 +410,6 @@ def job_3(context):
          InlineKeyboardButton(" 3 ", callback_data=str(SEVEN) + "," + str(question))]
     ]
     inline_reply_markup = InlineKeyboardMarkup(keyboard)
-    question = 1
     message_text = u'Анкета! Пожалуйста ответьте на 30 вопросов. В каждом вопросе есть два аспекта, ' \
                    u'между которыми предстоит сделать выбор. При этом важно отметить, в какой степени.'
 
@@ -462,6 +461,52 @@ def send_question_to_author(update, context):
     update.message.reply_text(reply_text)
 
     return DEFAULT_CHOOSING
+
+
+def faq_button_pressed(update, context):
+    reply_text = 'Функционал бота:'
+    update.message.reply_text(reply_text, reply_markup=default_markup)
+    return DEFAULT_CHOOSING
+
+
+def materials_button_pressed(update, context):
+    reply_text = 'Все материалы данного курса находятся в группе Карьерный гайд.Архетипы.'
+    keyboard = [
+        [InlineKeyboardButton("Посмотреть материалы", url='https://t.me/joinchat/AB1pthBFD8pPFvYE6NgN3A',
+                              callback_data=str(GOTO_GROUP))]
+    ]
+    inline_reply_markup = InlineKeyboardMarkup(keyboard)
+    update.message.reply_text(reply_text, reply_markup=inline_reply_markup)
+    return DEFAULT_CHOOSING
+
+
+def go_through_questionary(update, context):
+    user = update.message.from_user
+    chat_id = user.id
+    question = 1
+    keyboard = [
+        [InlineKeyboardButton(" 3 ", callback_data=str(ONE) + "," + str(question)),
+         InlineKeyboardButton(" 2 ", callback_data=str(TWO) + "," + str(question)),
+         InlineKeyboardButton(" 1 ", callback_data=str(THREE) + "," + str(question)),
+         InlineKeyboardButton(" 0 ", callback_data=str(FOUR) + "," + str(question)),
+         InlineKeyboardButton(" 1 ", callback_data=str(FIVE) + "," + str(question)),
+         InlineKeyboardButton(" 2 ", callback_data=str(SIX) + "," + str(question)),
+         InlineKeyboardButton(" 3 ", callback_data=str(SEVEN) + "," + str(question))]
+    ]
+    inline_reply_markup = InlineKeyboardMarkup(keyboard)
+    message_text = u'Анкета! Пожалуйста ответьте на 30 вопросов. В каждом вопросе есть два аспекта, ' \
+                   u'между которыми предстоит сделать выбор. При этом важно отметить, в какой степени.'
+    update.message.reply_text(message_text, reply_markup=default_markup)
+    update.message.reply_photo(photo=open('archetype-test/' + str(question) + '.png', 'rb'),
+                               caption='Выберите, в какой степени это свойственно вам...',
+                               reply_markup=inline_reply_markup)
+
+    if os.path.exists('database/questionary_' + str(chat_id)):
+        print(check_previous_answers(chat_id))
+    else:
+        append_answers_database(chat_id, " ", " ")
+
+    return QUESTIONARY
 
 
 def default_choice(update, context):
@@ -538,15 +583,15 @@ def main():
                                      pass_chat_data=True)],
         states={
             DEFAULT_CHOOSING: [MessageHandler(Filters.regex(default_reply_button_1),
-                                              default_choice,
+                                              go_through_questionary,
                                               pass_job_queue=True,
                                               pass_chat_data=True),
                                MessageHandler(Filters.regex(default_reply_button_2),
-                                              default_choice,
+                                              materials_button_pressed,
                                               pass_job_queue=True,
                                               pass_chat_data=True),
                                MessageHandler(Filters.regex(default_reply_button_3),
-                                              default_choice,
+                                              faq_button_pressed,
                                               pass_job_queue=True,
                                               pass_chat_data=True),
                                MessageHandler(Filters.regex(default_reply_button_4),
