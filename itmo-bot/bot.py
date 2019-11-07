@@ -135,6 +135,9 @@ def intro_choice_1_callback(update, context):
     if 'choice' in context.user_data:
         del context.user_data['choice']
     update.message.reply_text(intro_reply_button_1, reply_markup=default_markup)
+    chat_id = update.message.chat_id
+    context.user_data['id'] = str(chat_id)
+    write_hw_text(chat_id, 0, "done 1")
     start_user_queue(update, context)
 
     return DEFAULT_CHOOSING
@@ -144,6 +147,9 @@ def intro_choice_2_callback(update, context):
     if 'choice' in context.user_data:
         del context.user_data['choice']
     update.message.reply_text(intro_reply_button_2, reply_markup=default_markup)
+    chat_id = update.message.chat_id
+    context.user_data['id'] = str(chat_id)
+    write_hw_text(chat_id, 0, "done 2")
     start_user_queue(update, context)
 
     return DEFAULT_CHOOSING
@@ -153,6 +159,9 @@ def intro_choice_3_callback(update, context):
     if 'choice' in context.user_data:
         del context.user_data['choice']
     update.message.reply_text(intro_reply_button_3, reply_markup=default_markup)
+    chat_id = update.message.chat_id
+    context.user_data['id'] = str(chat_id)
+    write_hw_text(chat_id, 0, "done 3")
     start_user_queue(update, context)
 
     return DEFAULT_CHOOSING
@@ -162,6 +171,9 @@ def intro_choice_4_callback(update, context):
     if 'choice' in context.user_data:
         del context.user_data['choice']
     update.message.reply_text(intro_reply_button_4, reply_markup=default_markup)
+    chat_id = update.message.chat_id
+    context.user_data['id'] = str(chat_id)
+    write_hw_text(chat_id, 0, "done 4")
     start_user_queue(update, context)
 
     return DEFAULT_CHOOSING
@@ -296,6 +308,8 @@ def dialog_1_no(update, context):
         text="Обязательно послушай позже!",
         reply_markup=default_markup
     )
+
+    write_hw_text(query.message.chat_id, 2, "no")
     set_reminder_1(update, context)
 
     return DEFAULT_CHOOSING
@@ -311,6 +325,7 @@ def dialog_1_correct(update, context):
         text=text_response_reply_yes,
         reply_markup=None
     )
+    write_hw_text(query.message.chat_id, 2, "correct")
 
     return DEFAULT_CHOOSING
 
@@ -325,6 +340,7 @@ def dialog_1_incorrect(update, context):
         text=text_response_reply_no,
         reply_markup=None
     )
+    write_hw_text(query.message.chat_id, 2, "incorrect")
     return DEFAULT_CHOOSING
 
 
@@ -377,6 +393,7 @@ def dialog_2_no(update, context):
         text="Обязательно послушай позже!",
         reply_markup=default_markup
     )
+    write_hw_text(query.message.chat_id, 4, "no")
     set_reminder_2(update, context)
 
     return DEFAULT_CHOOSING
@@ -392,7 +409,7 @@ def dialog_2_correct(update, context):
         text=text_response_reply_yes,
         reply_markup=None
     )
-
+    write_hw_text(query.message.chat_id, 4, "correct")
     return DEFAULT_CHOOSING
 
 
@@ -406,6 +423,7 @@ def dialog_2_incorrect(update, context):
         text=text_response_reply_no,
         reply_markup=None
     )
+    write_hw_text(query.message.chat_id, 4, "incorrect")
     return DEFAULT_CHOOSING
 
 
@@ -456,6 +474,7 @@ def dialog_3_no(update, context):
         text="Обязательно послушай позже!",
         reply_markup=default_markup
     )
+    write_hw_text(query.message.chat_id, 6, "no")
     set_reminder_3(update, context)
 
     return DEFAULT_CHOOSING
@@ -471,7 +490,7 @@ def dialog_3_correct(update, context):
         text=text_response_reply_yes,
         reply_markup=None
     )
-
+    write_hw_text(query.message.chat_id, 6, "correct")
     return DEFAULT_CHOOSING
 
 
@@ -485,6 +504,7 @@ def dialog_3_incorrect(update, context):
         text=text_response_reply_no,
         reply_markup=None
     )
+    write_hw_text(query.message.chat_id, 6, "incorrect")
     return DEFAULT_CHOOSING
 
 
@@ -511,7 +531,6 @@ def dialog_4_yes(update, context):
         text=text_reply_yes,
         reply_markup=None
     )
-
     bot.send_message(
         chat_id=query.message.chat_id,
         text=text_reply_quest,
@@ -535,6 +554,7 @@ def dialog_4_no(update, context):
         text="Но я все же советую послушать его, когда будет время.",
         reply_markup=default_markup
     )
+    write_hw_text(query.message.chat_id, 8, "no")
     set_reminder_4(update, context)
 
     return DEFAULT_CHOOSING
@@ -550,7 +570,7 @@ def dialog_4_correct(update, context):
         text=text_response_reply_yes,
         reply_markup=None
     )
-
+    write_hw_text(query.message.chat_id, 8, "correct")
     return DEFAULT_CHOOSING
 
 
@@ -564,6 +584,7 @@ def dialog_4_incorrect(update, context):
         text=text_response_reply_no,
         reply_markup=None
     )
+    write_hw_text(query.message.chat_id, 8, "incorrect")
     return DEFAULT_CHOOSING
 
 
@@ -648,13 +669,13 @@ def start_user_queue(update, context):
     # context.job_queue.run_once(job_1, job_due_1, context=chat_id)
     # context.job_queue.run_once(job_2, job_due_2, context=chat_id)
     # context.job_queue.run_once(job_3, job_due_3, context=chat_id)
-    # context.job_queue.run_once(job_4, job_due_4, context=chat_id)
+    context.job_queue.run_once(job_4, job_due_4, context=chat_id)
     # context.job_queue.run_once(job_5, job_due_5, context=chat_id)
-    # context.job_queue.run_once(job_6, job_due_6, context=chat_id)
+    context.job_queue.run_once(job_6, job_due_6, context=chat_id)
     # context.job_queue.run_once(job_9, job_due_9, context=chat_id)
-    # context.job_queue.run_once(job_10, job_due_10, context=chat_id)
-    context.job_queue.run_once(job_11, job_due_11, context=chat_id)
-    # context.job_queue.run_once(job_13, job_due_13, context=chat_id)
+    context.job_queue.run_once(job_10, job_due_10, context=chat_id)
+    # context.job_queue.run_once(job_11, job_due_11, context=chat_id)
+    context.job_queue.run_once(job_13, job_due_13, context=chat_id)
     # context.job_queue.run_once(job_14, job_due_14, context=chat_id)
     #context.job_queue.run_once(job_15, job_due_15, context=chat_id)
     # context.job_queue.run_once(job_17, job_due_17, context=chat_id)
@@ -1051,11 +1072,8 @@ def go_through_questionary(update, context):
 
 def default_choice(update, context):
     text = update.message.text.lower()
-    chat_id = update.message.chat_id
     now = datetime.now()
-    context.user_data['id'] = str(chat_id)
 
-    context.user_data['1'] = text
     if now.day == 7:
         print("Today's date 7")
     elif now.day == 8:
@@ -1099,15 +1117,15 @@ def default_choice(update, context):
 def received_information(update, context):
     print("start receiving")
     text = update.message.text
-    write_hw_text(context.user_data['id'], 1, text)
+    write_hw_text(context.user_data['id'], 2, text)
     update.message.reply_text("Спасибо!", reply_markup=default_markup)
 
     return DEFAULT_CHOOSING
 
 
 def write_hw_text(chat_id, hw, text):
-    f = open('database/text/hw_' + str(hw) + '_id_' + str(chat_id) + '_finished', "a")
-    f.write(str(text) + "\n")
+    f = open('database/text/hw_id_' + str(chat_id) + '_finished', "a")
+    f.write(str(hw) + ' Задание: ' + str(text) + "\n")
     f.close()
 
 
@@ -1244,8 +1262,6 @@ def main():
             TYPING_REPLY: [MessageHandler(Filters.text, received_information),
                            ],
             TYPING_CHOICE: [MessageHandler(Filters.text, default_choice),
-                            ],
-            GETTING_VOICE: [MessageHandler(Filters.voice, voice_received_1),
                             ],
             AUTHOR: [MessageHandler(Filters.text, send_question_to_author)
                      ],
