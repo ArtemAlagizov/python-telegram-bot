@@ -648,12 +648,12 @@ def start_user_queue(update, context):
     # context.job_queue.run_once(job_1, job_due_1, context=chat_id)
     # context.job_queue.run_once(job_2, job_due_2, context=chat_id)
     # context.job_queue.run_once(job_3, job_due_3, context=chat_id)
-    context.job_queue.run_once(job_4, job_due_4, context=chat_id)
+    # context.job_queue.run_once(job_4, job_due_4, context=chat_id)
     # context.job_queue.run_once(job_5, job_due_5, context=chat_id)
     # context.job_queue.run_once(job_6, job_due_6, context=chat_id)
     # context.job_queue.run_once(job_9, job_due_9, context=chat_id)
     # context.job_queue.run_once(job_10, job_due_10, context=chat_id)
-    # context.job_queue.run_once(job_11, job_due_11, context=chat_id)
+    context.job_queue.run_once(job_11, job_due_11, context=chat_id)
     # context.job_queue.run_once(job_13, job_due_13, context=chat_id)
     # context.job_queue.run_once(job_14, job_due_14, context=chat_id)
     #context.job_queue.run_once(job_15, job_due_15, context=chat_id)
@@ -1048,16 +1048,44 @@ def go_through_questionary(update, context):
         return QUESTIONARY
 
 
-def start_hw(update, context):
-    hw = 1
-    message_text = u'Задание ' + str(hw) + '. Напишите ответ...'
-    update.message.reply_text(message_text, reply_markup=default_markup)
-    return TYPING_REPLY
-
 
 def default_choice(update, context):
     text = update.message.text.lower()
-    context.user_data['choice'] = text
+    chat_id = update.message.chat_id
+    now = datetime.now()
+    context.user_data['id'] = str(chat_id)
+
+    context.user_data['1'] = text
+    if now.day == 7:
+        print("Today's date 7")
+    elif now.day == 8:
+        print("Today's date 8")
+    elif now.day == 9:
+        print("Today's date 9")
+    elif now.day == 10:
+        print("Today's date 10")
+    elif now.day == 11:
+        print("Today's date 11")
+    elif now.day == 12:
+        print("Today's date 12")
+    elif now.day == 13:
+        print("Today's date 13")
+    elif now.day == 14:
+        print("Today's date 14")
+    elif now.day == 15:
+        print("Today's date 15")
+    elif now.day == 16:
+        print("Today's date 16")
+    elif now.day == 17:
+        print("Today's date 17")
+    elif now.day == 18:
+        print("Today's date 18")
+    elif now.day == 19:
+        print("Today's date 19")
+    elif now.day == 20:
+        print("Today's date 20")
+    else:
+        print("else")
     if context.user_data.get(text):
         reply_text = 'Your {}, I already know the following ' \
                      'about that: {}'.format(text, context.user_data[text])
@@ -1070,10 +1098,8 @@ def default_choice(update, context):
 
 def received_information(update, context):
     print("start receiving")
-    # query = update.callback_query
-    # chat_id = query.message.chat_id
     text = update.message.text
-    write_hw_text(235115, 1, text)
+    write_hw_text(context.user_data['id'], 1, text)
     update.message.reply_text("Спасибо!", reply_markup=default_markup)
 
     return DEFAULT_CHOOSING
