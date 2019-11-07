@@ -80,6 +80,7 @@ job_due_15 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4
 job_due_16 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2))
 job_due_17 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2))
 
+question_group_id = '-272961482'#-382184251
 intro_choice_1 = u'Изучить новую теорию'
 intro_choice_2 = u'Сформулировать конкретные шаги в развитии карьеры'
 intro_choice_3 = u'Понять как работает система'
@@ -644,7 +645,7 @@ def start_user_queue(update, context):
     # context.job_queue.run_once(job_11, job_due_11, context=chat_id)
     # context.job_queue.run_once(job_13, job_due_13, context=chat_id)
     # context.job_queue.run_once(job_14, job_due_14, context=chat_id)
-    context.job_queue.run_once(job_15, job_due_15, context=chat_id)
+    # context.job_queue.run_once(job_15, job_due_15, context=chat_id)
     # context.job_queue.run_once(job_17, job_due_17, context=chat_id)
 
     print(" All jobs in the queue  ")
@@ -912,13 +913,13 @@ def send_question_to_author(update, context):
                   'ID' + str(user_id)
     bot = context.bot
     bot.send_message(
-        chat_id='-272961482',
+        chat_id=question_group_id,
         parse_mode='Markdown',
         text=resend_text,
         reply_markup=None
     )
     bot.forward_message(
-        chat_id='-272961482',
+        chat_id=question_group_id,
         from_chat_id=from_chat_id,
         disable_notification=False,
         message_id=message_id
@@ -939,7 +940,7 @@ def faq_button_pressed(update, context):
 def materials_button_pressed(update, context):
     reply_text = 'Все материалы данного курса находятся в группе Карьерный гайд.Архетипы.'
     keyboard = [
-        [InlineKeyboardButton("Посмотреть материалы", url='https://t.me/joinchat/AB1pthBFD8pPFvYE6NgN3A',
+        [InlineKeyboardButton("Посмотреть материалы", url='https://t.me/joinchat/AB1ptlhsh4xOm4bcNbzlOg',
                               callback_data=str(GOTO_GROUP))]
     ]
     inline_reply_markup = InlineKeyboardMarkup(keyboard)
@@ -1139,7 +1140,7 @@ def main():
                            ],
             TYPING_CHOICE: [MessageHandler(Filters.text, default_choice),
                             ],
-            GETTING_VOICE: [MessageHandler(Filters.text, received_information),
+            GETTING_VOICE: [MessageHandler(Filters.voice, voice_received_1),
                             ],
             AUTHOR: [MessageHandler(Filters.text, send_question_to_author)
                      ],
