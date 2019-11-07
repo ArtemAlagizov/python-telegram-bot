@@ -294,6 +294,7 @@ def next_questionare(update, context):
     ]
     inline_reply_markup = InlineKeyboardMarkup(keyboard)
     if question == 31:
+        questionary_finish_flag_database(chat_id)
         bot.send_message(
             chat_id=chat_id,
             text="Тест завершен. Результаты будут получены после окончания марафона.",
@@ -337,6 +338,11 @@ def check_previous_answers(chat_id):
     for x in lines:
         i = i + 1
     return i
+
+
+def questionary_finish_flag_database(chat_id):
+    os.rename(r'database/questionary/questionary_' + str(chat_id), r'database/questionary/questionary_' + str(chat_id)
+              + '_finished')
 
 
 def start(update, context):
@@ -418,10 +424,7 @@ def job_3(context):
         text=message_text,
         reply_markup=default_markup
     )
-    if os.path.exists('database/questionary_' + str(chat_id)):
-        print(check_previous_answers(chat_id))
-    else:
-        append_answers_database(chat_id, " ", " ")
+    append_answers_database(chat_id, " ", " ")
     bot.sendPhoto(chat_id,
                   photo=open('archetype-test/' + str(question) + '.png', 'rb'),
                   caption='Выберите, в какой степени это свойственно вам...',
@@ -494,19 +497,21 @@ def go_through_questionary(update, context):
          InlineKeyboardButton(" 3 ", callback_data=str(SEVEN) + "," + str(question))]
     ]
     inline_reply_markup = InlineKeyboardMarkup(keyboard)
-    message_text = u'Анкета! Пожалуйста ответьте на 30 вопросов. В каждом вопросе есть два аспекта, ' \
-                   u'между которыми предстоит сделать выбор. При этом важно отметить, в какой степени.'
-    update.message.reply_text(message_text, reply_markup=default_markup)
-    update.message.reply_photo(photo=open('archetype-test/' + str(question) + '.png', 'rb'),
-                               caption='Выберите, в какой степени это свойственно вам...',
-                               reply_markup=inline_reply_markup)
 
-    if os.path.exists('database/questionary_' + str(chat_id)):
-        print(check_previous_answers(chat_id))
+    if os.path.exists('database/questionary/questionary_' + str(chat_id) + '_finished'):
+        message_text = u'Вы уже заполнили анкету'
+        update.message.reply_text(message_text, reply_markup=default_markup)
+        return DEFAULT_CHOOSING
     else:
-        append_answers_database(chat_id, " ", " ")
+        message_text = u'Анкета! Пожалуйста ответьте на 30 вопросов. В каждом вопросе есть два аспекта, ' \
+                       u'между которыми предстоит сделать выбор. При этом важно отметить, в какой степени.'
+        update.message.reply_text(message_text, reply_markup=default_markup)
+        update.message.reply_photo(photo=open('archetype-test/' + str(question) + '.png', 'rb'),
+                                   caption='Выберите, в какой степени это свойственно вам...',
+                                   reply_markup=inline_reply_markup)
+        append_answers_database(chat_id, "started", "started")
+        return QUESTIONARY
 
-    return QUESTIONARY
 
 
 def default_choice(update, context):
