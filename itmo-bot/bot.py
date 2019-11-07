@@ -247,6 +247,7 @@ def append_answers_database(chat_id, question, choice):
     f.write("Question: " + str(question) + " choice: " + str(choice) + "\n")
     f.close()
 
+###############################################################################################
 
 def dialog_1_yes(update, context):
     query = update.callback_query
@@ -265,6 +266,7 @@ def dialog_1_yes(update, context):
         [InlineKeyboardButton(text_reply_d, callback_data=str(HW_D_1))]
     ]
     reply_markup_2 = InlineKeyboardMarkup(keyboard_second_stage)
+
     bot.send_message(
         chat_id=query.message.chat_id,
         text=text_reply_yes,
@@ -599,7 +601,7 @@ def start_visual_1(update, context):
     context.bot.sendVoice(chat_id,
                           voice=open('voice-messages/visualization/v1.ogg', 'rb'),
                           caption='ВИЗУАЛИЗАЦИЯ - успешный день',
-                          reply_markup=None
+                          reply_markup=default_hw_markup
                           )
     return DEFAULT_CHOOSING
 
@@ -610,7 +612,7 @@ def start_visual_2(update, context):
     context.bot.sendVoice(chat_id,
                           voice=open('voice-messages/visualization/v2.ogg', 'rb'),
                           caption='ВИЗУАЛИЗАЦИЯ - хобби',
-                          reply_markup=None
+                          reply_markup=default_hw_markup
                           )
     return DEFAULT_CHOOSING
 
@@ -646,7 +648,7 @@ def start_user_queue(update, context):
     # context.job_queue.run_once(job_1, job_due_1, context=chat_id)
     # context.job_queue.run_once(job_2, job_due_2, context=chat_id)
     # context.job_queue.run_once(job_3, job_due_3, context=chat_id)
-    # context.job_queue.run_once(job_4, job_due_4, context=chat_id)
+    context.job_queue.run_once(job_4, job_due_4, context=chat_id)
     # context.job_queue.run_once(job_5, job_due_5, context=chat_id)
     # context.job_queue.run_once(job_6, job_due_6, context=chat_id)
     # context.job_queue.run_once(job_9, job_due_9, context=chat_id)
@@ -654,7 +656,7 @@ def start_user_queue(update, context):
     # context.job_queue.run_once(job_11, job_due_11, context=chat_id)
     # context.job_queue.run_once(job_13, job_due_13, context=chat_id)
     # context.job_queue.run_once(job_14, job_due_14, context=chat_id)
-    # context.job_queue.run_once(job_15, job_due_15, context=chat_id)
+    #context.job_queue.run_once(job_15, job_due_15, context=chat_id)
     # context.job_queue.run_once(job_17, job_due_17, context=chat_id)
 
     print(" All jobs in the queue  ")
@@ -892,12 +894,10 @@ def job_14(context):
     init_question = u'Задание 9. Вспомни, пожалуйста, компании в которых ты работал, если уже был профессиональный ' \
                     u'опыт. Если не было официальной работы, возможно, у тебя был опыт в молодежной организации ' \
                     u'или группе.'
-    question_1 = u'Задание 9. Вспомни, пожалуйста, компании в которых ты работал, если уже был профессиональный ' \
-                 u'опыт. Если не было официальной работы, возможно, у тебя был опыт в молодежной организации ' \
-                 u'или группе.'
-    question_2 = u'Задание 9. Вспомни, пожалуйста, компании в которых ты работал, если уже был профессиональный ' \
-                 u'опыт. Если не было официальной работы, возможно, у тебя был опыт в молодежной организации ' \
-                 u'или группе.'
+    question_1 = u'А теперь подумай, какие из них были самые продуктивные для тебя - где ты чувствовал себя на своем' \
+                 u' месте. Что тебе нравилось в них? Выбери 3 (из предложенных вариантов)'
+    question_2 = u'Какие из них были самые деструктивные для тебя - где или когда ты был уверен, что место не ' \
+                 u'твое. Что тебя беспокоило в них? Выбери не 3 (из предложенных вариантов)'
     if if_hw_due(2, chat_id) or if_hw_due(4, chat_id) or if_hw_due(6, chat_id) or if_hw_due(8, chat_id)\
             or if_hw_due(10, chat_id):
         bot.send_message(
@@ -1066,11 +1066,6 @@ def default_choice(update, context):
     update.message.reply_text(reply_text)
 
     return TYPING_REPLY
-
-
-def custom_choice(update, context):
-    update.message.reply_text('Alright, please send me the category first, '
-                              'for example "Most impressive skill"')
 
 
 def received_information(update, context):
