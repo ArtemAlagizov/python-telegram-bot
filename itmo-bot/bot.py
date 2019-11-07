@@ -77,7 +77,7 @@ job_due_15 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4
 job_due_16 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2))
 job_due_17 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2))
 
-question_group_id = '-272961482'  # -382184251
+question_group_id = '-382184251'# -382184251 #-272961482
 intro_choice_1 = u'Изучить новую теорию'
 intro_choice_2 = u'Сформулировать конкретные шаги в развитии карьеры'
 intro_choice_3 = u'Понять как работает система'
@@ -704,7 +704,7 @@ def start_user_queue(update, context):
     chat_id = update.message.chat_id
     # context.job_queue.run_once(job_1, job_due_1, context=chat_id)
     # context.job_queue.run_once(job_2, job_due_2, context=chat_id)
-    context.job_queue.run_once(job_3, job_due_3, context=chat_id)
+    # context.job_queue.run_once(job_3, job_due_3, context=chat_id)
     # context.job_queue.run_once(job_4, job_due_4, context=chat_id)
     # context.job_queue.run_once(job_5, job_due_5, context=chat_id)
     # context.job_queue.run_once(job_6, job_due_6, context=chat_id)
@@ -712,7 +712,7 @@ def start_user_queue(update, context):
     # context.job_queue.run_once(job_10, job_due_10, context=chat_id)
     # context.job_queue.run_once(job_11, job_due_11, context=chat_id)
     # context.job_queue.run_once(job_13, job_due_13, context=chat_id)
-    # context.job_queue.run_once(job_14, job_due_14, context=chat_id)
+    context.job_queue.run_once(job_14, job_due_14, context=chat_id)
     # context.job_queue.run_once(job_15, job_due_15, context=chat_id)
     # context.job_queue.run_once(job_17, job_due_17, context=chat_id)
 
@@ -904,16 +904,68 @@ def job_14(context):
     job = context.job
     chat_id = job.context
     bot = context.bot
-    init_question = u'Задание 9. Вспомни, пожалуйста, компании в которых ты работал, если уже был профессиональный ' \
-                    u'опыт. Если не было официальной работы, возможно, у тебя был опыт в молодежной организации ' \
-                    u'или группе.'
-    question_1 = u'А теперь подумай, какие из них были самые продуктивные для тебя - где ты чувствовал себя на своем' \
-                 u' месте. Что тебе нравилось в них? Выбери 3 (из предложенных вариантов)'
-    question_2 = u'Какие из них были самые деструктивные для тебя - где или когда ты был уверен, что место не ' \
-                 u'твое. Что тебя беспокоило в них? Выбери не 3 (из предложенных вариантов)'
+    init_question = 'Задание 9. Вспомни, пожалуйста, компании в которых ты работал, если уже был профессиональный ' \
+                    'опыт. Если не было официальной работы, возможно, у тебя был опыт в молодежной организации ' \
+                    'или группе.'
+    question_1 = 'А теперь подумай, какие из них были самые продуктивные для тебя - где ты чувствовал себя на своем' \
+                 ' месте. Что тебе нравилось в них? Выбери 3 (из предложенных вариантов)'
+    question_2 = 'Какие из них были самые деструктивные для тебя - где или когда ты был уверен, что место не ' \
+                 'твое. Что тебя беспокоило в них? Выбери не 3 (из предложенных вариантов)'
+    choice_1_1 = '*1* Осведомленность о новых трендах / инновациях, аккумулирование информации.\n'
+    choice_1_2 = '*2* Повышенное внимание к деталям и нюансам, способность замечать вещи, которые не видят другие, ' \
+                 'стремление познать суть вещей, «докопаться до истины».\n'
+    choice_1_3 = '*3* Нацеленность на эффективность и победу, быстрое принятие решений даже в условиях ' \
+                 'неопределенности\n'
+    choice_1_4 = '*4* Фокус на практической стороне задачи, ярко выражена готовность отвечать за собственную работу ' \
+                 '/ собственный вклад.\n'
+    choice_1_5 = '*5* Приятная и доверительная атмосфера в команде. Ценность личности и комфортного взаимодействия.\n'
+    choice_1_6 = '*6* Спонтанное и творческое проявление себя и своих способностей дается легко и с удовольствием.\n'
+    choice_1_7 = '*7* приветствуется создание новых идей, идеалов и таких возможностей, каких раньше никогда не было.\n'
+    choice_1_8 = '*8* Оптимизм, способность представить вещи в позитивном ключе и умение «заразить», вовлечь, ' \
+                 'воодушевить окружающих.\n'
+    choice_2_1 = '*1* Избегание личного контакта для решения ситуации, стремление "отстранится", свести взаимодействие' \
+                 'к формальности.\n'
+    choice_2_2 = '*2* Акцент на негативных сценариях, поиск недостатков, подозрительность к возможностям и хорошим ' \
+                 'событиям / ситуациям.\n'
+    choice_2_3 = '*3* Построение барьеров, проведение границ между "своими" и "чужими", разделение на "лагери".\n'
+    choice_2_4 = '*4* Излишняя конкуренция, борьба, сравнение с целью доказать, кто прав / кто выиграл/ кто лучше.\n'
+    choice_2_5 = '*5* Повышенная чувствительность к происходящим ситуациям / событиям, излишняя эмоциональность.\n'
+    choice_2_6 = '*6* Неспособность проявить себя независимо/ самостоятельно, стремление зависеть, ' \
+                 '"слиться" с коллективом.\n'
+    choice_2_7 = '*7* Стремление идеализировать и приукрашать возможности, предлагать грандиозные планы ' \
+                 'в ущерб реальности.\n'
+    choice_2_8 = '*8* Желание произвести впечатление/ эффект, показать себя в лучшем свете, привлечь, ' \
+                 'продемонстрировать достоинства.\n'
+    options_1 = choice_1_1 + choice_1_2 + choice_1_3 + choice_1_4 + choice_1_5 + choice_1_6 + choice_1_7 + choice_1_8
+    options_2 = choice_2_1 + choice_2_2 + choice_2_3 + choice_2_4 + choice_2_5 + choice_2_6 + choice_2_7 + choice_2_8
     bot.send_message(
         chat_id=chat_id,
         text=init_question,
+        parse_mode='Markdown',
+        reply_markup=default_hw_markup_9
+    )
+    bot.send_message(
+        chat_id=chat_id,
+        text=question_1,
+        parse_mode='Markdown',
+        reply_markup=default_hw_markup_9
+    )
+    bot.send_message(
+        chat_id=chat_id,
+        text=options_1,
+        parse_mode='Markdown',
+        reply_markup=default_hw_markup_9
+    )
+    bot.send_message(
+        chat_id=chat_id,
+        text=question_2,
+        parse_mode='Markdown',
+        reply_markup=default_hw_markup_9
+    )
+    bot.send_message(
+        chat_id=chat_id,
+        text=options_2,
+        parse_mode='Markdown',
         reply_markup=default_hw_markup_9
     )
 
@@ -1083,6 +1135,7 @@ def received_information(update, context):
         write_hw_text(user_id, 11, text)
     elif now.day == 7:
         print("HW test today 7")
+        write_hw_text(user_id, 150, text)
     else:
         print("something with homework timetable")
 
