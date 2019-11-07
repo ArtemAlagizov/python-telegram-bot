@@ -32,29 +32,25 @@ logger = logging.getLogger(__name__)
 START_CHOOSING, DEFAULT_CHOOSING, TYPING_REPLY, TYPING_CHOICE, PATH_ONE, PATH_TWO, ONE, TWO, THREE, FOUR, FIVE, SIX, \
 SEVEN, HW_YES, HW_NO, HW_A, HW_B, HW_C, HW_D, QUESTIONARY, REMINDER_LOOP_LEVEL, AUTHOR, EMPTY, GOTO_GROUP = range(24)
 
-# job_due_1 = datetime.combine(date(2019, 11, 7), time(11, 00))
-# job_due_2 = datetime.combine(date(2019, 11, 7), time(19, 00))
-# job_due_3 = datetime.combine(date(2019, 11, 7), time(20, 00))
-# job_due_4 = datetime.combine(date(2019, 11, 8), time(13, 00))
-# job_due_5 = datetime.combine(date(2019, 11, 8), time(19, 00))
-# job_due_6 = datetime.combine(date(2019, 11, 9), time(11, 00))
-# job_due_7 = datetime.combine(date(2019, 11, 10), time(11, 00))
-# job_due_8 = datetime.combine(date(2019, 11, 10), time(18, 00))
-# job_due_9 = datetime.combine(date(2019, 11, 10), time(19, 00))
-# job_due_10 = datetime.combine(date(2019, 11, 12), time(19, 00))
-# job_due_11 = datetime.combine(date(2019, 11, 13), time(11, 00))
-# job_due_12 = datetime.combine(date(2019, 11, 13), time(19, 00))
-# job_due_13 = datetime.combine(date(2019, 11, 14), time(19, 00))
-# job_due_14 = datetime.combine(date(2019, 11, 15), time(11, 00))
-# job_due_15 = datetime.combine(date(2019, 11, 15), time(15, 00))
-# job_due_16 = datetime.combine(date(2019, 11, 15), time(19, 00))
-# job_due_17 = datetime.combine(date(2019, 11, 16), time(11, 00))
-# job_due_18 = datetime.combine(date(2019, 11, 16), time(13, 00))
-# job_due_19 = datetime.combine(date(2019, 11, 16), time(19, 00))
-# job_due_20 = datetime.combine(date(2019, 11, 17), time(13, 00))
-# job_due_21 = datetime.combine(date(2019, 11, 17), time(19, 00))
+# job_due_1 = datetime.combine(date(2019, 11, 7), time(20, 00))
+# job_due_2 = datetime.combine(date(2019, 11, 8), time(13, 00))
+# job_due_3 = datetime.combine(date(2019, 11, 8), time(19, 30))
+# job_due_4 = datetime.combine(date(2019, 11, 9), time(11, 00))
+# job_due_5 = datetime.combine(date(2019, 11, 10), time(18, 00))
+# job_due_6 = datetime.combine(date(2019, 11, 10), time(18, 01))
+# job_due_7 = datetime.combine(date(2019, 11, 10), time(20, 00))
+# job_due_8 = datetime.combine(date(2019, 11, 11), time(20, 00))
+# job_due_9 = datetime.combine(date(2019, 11, 13), time(11, 00))
+# job_due_10 = datetime.combine(date(2019, 11, 13), time(11, 01))
+# job_due_11 = datetime.combine(date(2019, 11, 14), time(19, 30))
+# job_due_12 = datetime.combine(date(2019, 11, 14), time(20, 00))
+# job_due_13 = datetime.combine(date(2019, 11, 15), time(11, 00))
+# job_due_14 = datetime.combine(date(2019, 11, 16), time(11, 30))
+# job_due_15 = datetime.combine(date(2019, 11, 16), time(15, 00))
+# job_due_16 = datetime.combine(date(2019, 11, 16), time(20, 00))
+# job_due_17 = datetime.combine(date(2019, 11, 19), time(11, 00))
 
-job_due_base_1 = 14
+job_due_base_1 = 15
 job_due_base_2 = 00
 
 ob_due_base_3 = 11
@@ -62,12 +58,9 @@ job_due_base_4 = 7
 job_due_base_5 = 2019
 
 job_due_1 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2))
-job_due_2 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2
-                                                                                       + 2))
-job_due_3 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2
-                                                                                       + 1))
-job_due_4 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2
-                                                                                       + 3))
+job_due_2 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2))
+job_due_3 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2))
+job_due_4 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2))
 job_due_5 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2))
 job_due_6 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2))
 job_due_7 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2))
@@ -81,9 +74,6 @@ job_due_14 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4
 job_due_15 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2))
 job_due_16 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2))
 job_due_17 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2))
-job_due_18 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2))
-job_due_19 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2))
-job_due_20 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2))
 
 intro_choice_1 = u'Изучить новую теорию'
 intro_choice_2 = u'Сформулировать конкретные шаги в развитии карьеры'
@@ -210,7 +200,7 @@ def next_questionare(update, context):
         questionary_finish_flag_database(chat_id)
         bot.send_message(
             chat_id=chat_id,
-            text="Тест завершен. Результаты будут получены после окончания марафона.",
+            text="Тест завершен. Отлично! К результатам оценки мы вернемся чуть позже",
             reply_markup=None
         )
         return DEFAULT_CHOOSING
