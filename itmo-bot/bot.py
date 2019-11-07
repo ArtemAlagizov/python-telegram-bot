@@ -80,7 +80,7 @@ job_due_15 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4
 job_due_16 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2))
 job_due_17 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2))
 
-question_group_id = '-272961482'#-382184251
+question_group_id = '-272961482'  # -382184251
 intro_choice_1 = u'Изучить новую теорию'
 intro_choice_2 = u'Сформулировать конкретные шаги в развитии карьеры'
 intro_choice_3 = u'Понять как работает система'
@@ -99,18 +99,30 @@ default_reply_button_1 = 'Diagnostics'
 default_reply_button_2 = 'Materials'
 default_reply_button_3 = 'FAQ'
 default_reply_button_4 = 'Ask author'  # вопрос автору
+default_hw_button = 'Home work'
 
 intro_questionary_reply_keyboard = [[intro_choice_1, intro_choice_2],
                                     [intro_choice_3, intro_choice_4]]
 default_facilitator_keyboard = [[default_reply_button_1, default_reply_button_2],
                                 [default_reply_button_3, default_reply_button_4]]
+default_hw_keyboard = [[default_reply_button_1, default_reply_button_2],
+                       [default_reply_button_3, default_reply_button_4],
+                       [default_hw_button]]
 
 intro_markup = ReplyKeyboardMarkup(intro_questionary_reply_keyboard, one_time_keyboard=True)
 default_markup = ReplyKeyboardMarkup(default_facilitator_keyboard, one_time_keyboard=True)
+default_hw_markup = ReplyKeyboardMarkup(default_hw_keyboard, one_time_keyboard=True)
 
 
 def empty(context):
     aaa = 1
+
+
+def if_hw_due(hw, chat_id):
+    if os.path.exists('database/text/hw_' + str(hw) + '_id_' + str(chat_id) + '_finished'):
+        return False
+    else:
+        return True
 
 
 def facts_to_str(user_data):
@@ -684,7 +696,7 @@ def job_3(context):
     bot.send_message(
         chat_id=chat_id,
         text=init_question,
-        reply_markup=default_markup
+        reply_markup=default_hw_button
     )
 
 
@@ -711,11 +723,18 @@ def job_5(context):
     bot = context.bot
     init_question = u'Привет! Задание 3: Приведи пример героя фильма или книги или публичную личность с' \
                     u' ведущим архетипом Любящего.'
-    bot.send_message(
-        chat_id=chat_id,
-        text=init_question,
-        reply_markup=default_markup
-    )
+    if if_hw_due(2, chat_id):
+        bot.send_message(
+            chat_id=chat_id,
+            text=init_question,
+            reply_markup=default_hw_markup
+        )
+    else:
+        bot.send_message(
+            chat_id=chat_id,
+            text=init_question,
+            reply_markup=default_markup
+        )
 
 
 def job_6(context):
@@ -740,11 +759,18 @@ def job_7(context):
     chat_id = job.context
     bot = context.bot
     init_question = u'Напоминание! Тебя ждет урок по архетипу МАГА. Обязательно послушай'
-    bot.send_message(
-        chat_id=chat_id,
-        text=init_question,
-        reply_markup=default_markup
-    )
+    if (if_hw_due(2, chat_id)) or (if_hw_due(4, chat_id)):
+        bot.send_message(
+            chat_id=chat_id,
+            text=init_question,
+            reply_markup=default_hw_markup
+        )
+    else:
+        bot.send_message(
+            chat_id=chat_id,
+            text=init_question,
+            reply_markup=default_markup
+        )
 
 
 def job_8(context):
@@ -752,11 +778,18 @@ def job_8(context):
     chat_id = job.context
     bot = context.bot
     init_question = u'Напоминание! Тебя ждет урок по архетипу ЛЮБЯЩЕГО. Обязательно послушай'
-    bot.send_message(
-        chat_id=chat_id,
-        text=init_question,
-        reply_markup=default_markup
-    )
+    if (if_hw_due(2, chat_id)) or (if_hw_due(4, chat_id)):
+        bot.send_message(
+            chat_id=chat_id,
+            text=init_question,
+            reply_markup=default_hw_markup
+        )
+    else:
+        bot.send_message(
+            chat_id=chat_id,
+            text=init_question,
+            reply_markup=default_markup
+        )
 
 
 def job_9(context):
@@ -765,11 +798,18 @@ def job_9(context):
     bot = context.bot
     init_question = u'Привет! Задание 5 марафона. Приведи пример героя фильма или книги или публичную ' \
                     u'личность с ведущим архетипом ВОИНА.'
-    bot.send_message(
-        chat_id=chat_id,
-        text=init_question,
-        reply_markup=default_markup
-    )
+    if (if_hw_due(2, chat_id)) or (if_hw_due(4, chat_id)):
+        bot.send_message(
+            chat_id=chat_id,
+            text=init_question,
+            reply_markup=default_hw_markup
+        )
+    else:
+        bot.send_message(
+            chat_id=chat_id,
+            text=init_question,
+            reply_markup=default_markup
+        )
 
 
 def job_10(context):
@@ -795,11 +835,18 @@ def job_11(context):
     bot = context.bot
     init_question = u'Привет! Задание 7 марафона. Приведи пример героя фильма или книги или публичную ' \
                     u'личность с ведущим архетипом ВОИНА.'
-    bot.send_message(
-        chat_id=chat_id,
-        text=init_question,
-        reply_markup=default_markup
-    )
+    if if_hw_due(2, chat_id) or if_hw_due(4, chat_id) or if_hw_due(6, chat_id):
+        bot.send_message(
+            chat_id=chat_id,
+            text=init_question,
+            reply_markup=default_hw_markup
+        )
+    else:
+        bot.send_message(
+            chat_id=chat_id,
+            text=init_question,
+            reply_markup=default_markup
+        )
 
 
 def job_12(context):
@@ -807,11 +854,18 @@ def job_12(context):
     chat_id = job.context
     bot = context.bot
     init_question = u'Напоминание! Тебя ждет урок по архетипу ВОИНА. Обязательно послушай'
-    bot.send_message(
-        chat_id=chat_id,
-        text=init_question,
-        reply_markup=default_markup
-    )
+    if if_hw_due(2, chat_id) or if_hw_due(4, chat_id) or if_hw_due(6, chat_id) or if_hw_due(8, chat_id):
+        bot.send_message(
+            chat_id=chat_id,
+            text=init_question,
+            reply_markup=default_hw_markup
+        )
+    else:
+        bot.send_message(
+            chat_id=chat_id,
+            text=init_question,
+            reply_markup=default_markup
+        )
 
 
 def job_13(context):
@@ -844,11 +898,19 @@ def job_14(context):
     question_2 = u'Задание 9. Вспомни, пожалуйста, компании в которых ты работал, если уже был профессиональный ' \
                  u'опыт. Если не было официальной работы, возможно, у тебя был опыт в молодежной организации ' \
                  u'или группе.'
-    bot.send_message(
-        chat_id=chat_id,
-        text=init_question,
-        reply_markup=default_markup
-    )
+    if if_hw_due(2, chat_id) or if_hw_due(4, chat_id) or if_hw_due(6, chat_id) or if_hw_due(8, chat_id)\
+            or if_hw_due(10, chat_id):
+        bot.send_message(
+            chat_id=chat_id,
+            text=init_question,
+            reply_markup=default_hw_markup
+        )
+    else:
+        bot.send_message(
+            chat_id=chat_id,
+            text=init_question,
+            reply_markup=default_markup
+        )
 
 
 def job_15(context):
@@ -873,11 +935,19 @@ def job_16(context):
     chat_id = job.context
     bot = context.bot
     init_question = u'Напоминание! Тебя ждет урок по архетипу МОНАРХА. Обязательно послушай'
-    bot.send_message(
-        chat_id=chat_id,
-        text=init_question,
-        reply_markup=default_markup
-    )
+    if if_hw_due(2, chat_id) or if_hw_due(4, chat_id) or if_hw_due(6, chat_id) or if_hw_due(8, chat_id) \
+            or if_hw_due(10, chat_id) or if_hw_due(11, chat_id):
+        bot.send_message(
+            chat_id=chat_id,
+            text=init_question,
+            reply_markup=default_hw_markup
+        )
+    else:
+        bot.send_message(
+            chat_id=chat_id,
+            text=init_question,
+            reply_markup=default_markup
+        )
 
 
 def job_17(context):
@@ -978,6 +1048,13 @@ def go_through_questionary(update, context):
         return QUESTIONARY
 
 
+def start_hw(update, context):
+    hw = 1
+    message_text = u'Задание ' + str(hw) + '. Напишите ответ...'
+    update.message.reply_text(message_text, reply_markup=default_markup)
+    return TYPING_REPLY
+
+
 def default_choice(update, context):
     text = update.message.text.lower()
     context.user_data['choice'] = text
@@ -997,17 +1074,20 @@ def custom_choice(update, context):
 
 
 def received_information(update, context):
+    print("start receiving")
+    # query = update.callback_query
+    # chat_id = query.message.chat_id
     text = update.message.text
-    category = context.user_data['choice']
-    context.user_data[category] = text.lower()
-    del context.user_data['choice']
-    update.message.reply_text("Neat! Just so you know, this is what you already told me:"
-                              "{}"
-                              "You can tell me more, or change your opinion on "
-                              "something.".format(facts_to_str(context.user_data)),
-                              reply_markup=default_markup)
+    write_hw_text(235115, 1, text)
+    update.message.reply_text("Спасибо!", reply_markup=default_markup)
 
     return DEFAULT_CHOOSING
+
+
+def write_hw_text(chat_id, hw, text):
+    f = open('database/text/hw_' + str(hw) + '_id_' + str(chat_id) + '_finished', "a")
+    f.write(str(text) + "\n")
+    f.close()
 
 
 def end(update, context):
@@ -1065,6 +1145,10 @@ def main():
                                               pass_chat_data=True),
                                MessageHandler(Filters.regex(default_reply_button_4),
                                               ask_author,
+                                              pass_job_queue=True,
+                                              pass_chat_data=True),
+                               MessageHandler(Filters.regex(default_hw_button),
+                                              default_choice,
                                               pass_job_queue=True,
                                               pass_chat_data=True),
                                CallbackQueryHandler(dialog_1_yes, pattern='^' + str(HW_YES_1) + '$',
