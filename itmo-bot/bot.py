@@ -97,6 +97,13 @@ default_reply_button_2 = 'Materials'
 default_reply_button_3 = 'FAQ'
 default_reply_button_4 = 'Ask author'  # вопрос автору
 default_hw_button = 'Home work'
+default_hw_button_1 = 'Home work 1'
+default_hw_button_3 = 'Home work 3'
+default_hw_button_5 = 'Home work 5'
+default_hw_button_7 = 'Home work 7'
+default_hw_button_9 = 'Home work 9'
+default_hw_button_10 = 'Home work 10'
+default_hw_button_11 = 'Home work 11'
 
 intro_questionary_reply_keyboard = [[intro_choice_1, intro_choice_2],
                                     [intro_choice_3, intro_choice_4]]
@@ -105,10 +112,38 @@ default_facilitator_keyboard = [[default_reply_button_1, default_reply_button_2]
 default_hw_keyboard = [[default_reply_button_1, default_reply_button_2],
                        [default_reply_button_3, default_reply_button_4],
                        [default_hw_button]]
+default_hw_keyboard_1 = [[default_reply_button_1, default_reply_button_2],
+                         [default_reply_button_3, default_reply_button_4],
+                         [default_hw_button_1]]
+default_hw_keyboard_3 = [[default_reply_button_1, default_reply_button_2],
+                         [default_reply_button_3, default_reply_button_4],
+                         [default_hw_button_3]]
+default_hw_keyboard_5 = [[default_reply_button_1, default_reply_button_2],
+                         [default_reply_button_3, default_reply_button_4],
+                         [default_hw_button_5]]
+default_hw_keyboard_7 = [[default_reply_button_1, default_reply_button_2],
+                         [default_reply_button_3, default_reply_button_4],
+                         [default_hw_button_7]]
+default_hw_keyboard_9 = [[default_reply_button_1, default_reply_button_2],
+                         [default_reply_button_3, default_reply_button_4],
+                         [default_hw_button_9]]
+default_hw_keyboard_10 = [[default_reply_button_1, default_reply_button_2],
+                         [default_reply_button_3, default_reply_button_4],
+                         [default_hw_button_10]]
+default_hw_keyboard_11 = [[default_reply_button_1, default_reply_button_2],
+                         [default_reply_button_3, default_reply_button_4],
+                         [default_hw_button_11]]
 
 intro_markup = ReplyKeyboardMarkup(intro_questionary_reply_keyboard, one_time_keyboard=True)
 default_markup = ReplyKeyboardMarkup(default_facilitator_keyboard, one_time_keyboard=True)
 default_hw_markup = ReplyKeyboardMarkup(default_hw_keyboard, one_time_keyboard=True)
+default_hw_markup_1 = ReplyKeyboardMarkup(default_hw_keyboard_1, one_time_keyboard=True)
+default_hw_markup_3 = ReplyKeyboardMarkup(default_hw_keyboard_3, one_time_keyboard=True)
+default_hw_markup_5 = ReplyKeyboardMarkup(default_hw_keyboard_5, one_time_keyboard=True)
+default_hw_markup_7 = ReplyKeyboardMarkup(default_hw_keyboard_7, one_time_keyboard=True)
+default_hw_markup_9 = ReplyKeyboardMarkup(default_hw_keyboard_9, one_time_keyboard=True)
+default_hw_markup_10 = ReplyKeyboardMarkup(default_hw_keyboard_10, one_time_keyboard=True)
+default_hw_markup_11 = ReplyKeyboardMarkup(default_hw_keyboard_11, one_time_keyboard=True)
 
 
 def empty(context):
@@ -258,6 +293,7 @@ def append_answers_database(chat_id, question, choice):
     f = open('database/questionary/questionary_' + str(chat_id), "a")
     f.write("Question: " + str(question) + " choice: " + str(choice) + "\n")
     f.close()
+
 
 ###############################################################################################
 
@@ -677,7 +713,7 @@ def start_user_queue(update, context):
     # context.job_queue.run_once(job_11, job_due_11, context=chat_id)
     context.job_queue.run_once(job_13, job_due_13, context=chat_id)
     # context.job_queue.run_once(job_14, job_due_14, context=chat_id)
-    #context.job_queue.run_once(job_15, job_due_15, context=chat_id)
+    # context.job_queue.run_once(job_15, job_due_15, context=chat_id)
     # context.job_queue.run_once(job_17, job_due_17, context=chat_id)
 
     print(" All jobs in the queue  ")
@@ -719,7 +755,7 @@ def job_3(context):
     bot.send_message(
         chat_id=chat_id,
         text=init_question,
-        reply_markup=default_hw_button
+        reply_markup=default_hw_markup
     )
 
 
@@ -919,7 +955,7 @@ def job_14(context):
                  u' месте. Что тебе нравилось в них? Выбери 3 (из предложенных вариантов)'
     question_2 = u'Какие из них были самые деструктивные для тебя - где или когда ты был уверен, что место не ' \
                  u'твое. Что тебя беспокоило в них? Выбери не 3 (из предложенных вариантов)'
-    if if_hw_due(2, chat_id) or if_hw_due(4, chat_id) or if_hw_due(6, chat_id) or if_hw_due(8, chat_id)\
+    if if_hw_due(2, chat_id) or if_hw_due(4, chat_id) or if_hw_due(6, chat_id) or if_hw_due(8, chat_id) \
             or if_hw_due(10, chat_id):
         bot.send_message(
             chat_id=chat_id,
@@ -1067,7 +1103,6 @@ def go_through_questionary(update, context):
                                    reply_markup=inline_reply_markup)
         append_answers_database(chat_id, "started", "started")
         return QUESTIONARY
-
 
 
 def default_choice(update, context):
