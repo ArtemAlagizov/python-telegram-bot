@@ -54,17 +54,20 @@ SEVEN, HW_YES, HW_NO, HW_A, HW_B, HW_C, HW_D, QUESTIONARY, REMINDER_LOOP_LEVEL, 
 # job_due_20 = datetime.combine(date(2019, 11, 17), time(13, 00))
 # job_due_21 = datetime.combine(date(2019, 11, 17), time(19, 00))
 
-job_due_base_1 = 22
-job_due_base_2 = 11
+job_due_base_1 = 14
+job_due_base_2 = 00
 
 ob_due_base_3 = 11
-job_due_base_4 = 5
+job_due_base_4 = 7
 job_due_base_5 = 2019
 
 job_due_1 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2))
-job_due_2 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2))
-job_due_3 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2))
-job_due_4 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2))
+job_due_2 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2
+                                                                                       + 2))
+job_due_3 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2
+                                                                                       + 1))
+job_due_4 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2
+                                                                                       + 3))
 job_due_5 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2))
 job_due_6 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2))
 job_due_7 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2))
@@ -159,96 +162,6 @@ def intro_choice_4_callback(update, context):
     return DEFAULT_CHOOSING
 
 
-def homework_dialog_2_yes(update, context):
-    query = update.callback_query
-    bot = context.bot
-    text_reply_a = u'Помни о будущем, соблюдай правила'
-    text_reply_b = u'Главное, чтобы нам было хорошо вместе'
-    text_reply_c = u'Истина в познании'
-    text_reply_d = u'Побеждает сильнейший'
-    text_reply_yes = u'Отлично! Если хочешь посмотреть еще раз материалы, они тут [ссыль]\n' \
-                     u'Напоминаю, что есть домашнее задание по архетипу Воина [ссыль]\n'
-    text_reply_quest = u'Как думаешь, какая фраза характеризует человека с архетипом Воина? (один из вариантов ' \
-                       u'правильный) '
-    keyboard_second_stage = [
-        [InlineKeyboardButton(text_reply_a, callback_data=str(HW_A))],
-        [InlineKeyboardButton(text_reply_b, callback_data=str(HW_B))],
-        [InlineKeyboardButton(text_reply_c, callback_data=str(HW_C))],
-        [InlineKeyboardButton(text_reply_d, callback_data=str(HW_D))]
-    ]
-    reply_markup_2 = InlineKeyboardMarkup(keyboard_second_stage)
-    bot.send_message(
-        chat_id=query.message.chat_id,
-        text=text_reply_yes,
-        reply_markup=None
-    )
-
-    bot.send_message(
-        chat_id=query.message.chat_id,
-        text=text_reply_quest,
-        reply_markup=reply_markup_2
-    )
-
-    return REMINDER_LOOP_LEVEL
-
-
-def homework_dialog_2_no(update, context):
-    query = update.callback_query
-    bot = context.bot
-    text_reply_no = u'А зря! Там я рассказываю про первый архетип, культуре которого соответствуют такие компании' \
-                    u'как McKinsey, PwC, Северсталь и другие. Ссылка'
-    bot.edit_message_text(
-        chat_id=query.message.chat_id,
-        message_id=query.message.message_id,
-        text=text_reply_no,
-        reply_markup=None
-    )
-    bot.send_message(
-        chat_id=query.message.chat_id,
-        text="Обязательно посмотри позже!",
-        reply_markup=default_markup
-    )
-
-    return DEFAULT_CHOOSING
-
-
-def homework_dialog_3_correct(update, context):
-    query = update.callback_query
-    bot = context.bot
-    text_response_reply_yes = u'Супер! Все правильно :)'
-    bot.edit_message_text(
-        chat_id=query.message.chat_id,
-        message_id=query.message.message_id,
-        text=text_response_reply_yes,
-        reply_markup=None
-    )
-    bot.send_message(
-        chat_id=query.message.chat_id,
-        text="До следующего урока.. :)",
-        reply_markup=default_markup
-    )
-
-    return DEFAULT_CHOOSING
-
-
-def homework_dialog_3_incorrect(update, context):
-    query = update.callback_query
-    bot = context.bot
-    text_response_reply_no = u'Не совсем верно... другая фраза лучше описывает человека с архетипом Воина'
-    bot.edit_message_text(
-        chat_id=query.message.chat_id,
-        message_id=query.message.message_id,
-        text=text_response_reply_no,
-        reply_markup=None
-    )
-    bot.send_message(
-        chat_id=query.message.chat_id,
-        text="Если будет время, послушай этот отрывок [ссыль] До следующего урока.. :)",
-        reply_markup=default_markup
-    )
-    return DEFAULT_CHOOSING
-
-
 def start_questionary(update, context):
     query = update.callback_query
     chat_id = query.message.chat_id
@@ -319,10 +232,9 @@ def default_choice_questionary(update, context):
     return QUESTIONARY
 
 
-def intro_answers_database(chat_id, choice):  # to fill
-    f = open('database/intro/intro_' + str(chat_id), "a")
-    f.write("Intro choice: " + str(choice) + "\n")
-    f.close()
+def questionary_finish_flag_database(chat_id):
+    os.rename(r'database/questionary/questionary_' + str(chat_id), r'database/questionary/questionary_' + str(chat_id)
+              + '_finished')
 
 
 def append_answers_database(chat_id, question, choice):
@@ -331,18 +243,101 @@ def append_answers_database(chat_id, question, choice):
     f.close()
 
 
-def check_previous_answers(chat_id):
-    f = open('database/questionary/questionary_' + str(chat_id), "r")
-    i = 0
-    lines = f.readlines()
-    for x in lines:
-        i = i + 1
-    return i
+def homework_dialog_2_yes(update, context):
+    query = update.callback_query
+    bot = context.bot
+    text_reply_a = u'Помни о будущем, соблюдай правила'
+    text_reply_b = u'Главное, чтобы нам было хорошо вместе'
+    text_reply_c = u'Истина в познании'
+    text_reply_d = u'Побеждает сильнейший'
+    text_reply_yes = u'Отлично! Если хочешь посмотреть еще раз материалы, они тут [ссыль]\n' \
+                     u'Напоминаю, что есть домашнее задание по архетипу Воина [ссыль]\n'
+    text_reply_quest = u'Как думаешь, какая фраза характеризует человека с архетипом Воина? (один из вариантов ' \
+                       u'правильный) '
+    keyboard_second_stage = [
+        [InlineKeyboardButton(text_reply_a, callback_data=str(HW_A))],
+        [InlineKeyboardButton(text_reply_b, callback_data=str(HW_B))],
+        [InlineKeyboardButton(text_reply_c, callback_data=str(HW_C))],
+        [InlineKeyboardButton(text_reply_d, callback_data=str(HW_D))]
+    ]
+    reply_markup_2 = InlineKeyboardMarkup(keyboard_second_stage)
+    bot.send_message(
+        chat_id=query.message.chat_id,
+        text=text_reply_yes,
+        reply_markup=None
+    )
+
+    bot.send_message(
+        chat_id=query.message.chat_id,
+        text=text_reply_quest,
+        reply_markup=reply_markup_2
+    )
+
+    return REMINDER_LOOP_LEVEL
 
 
-def questionary_finish_flag_database(chat_id):
-    os.rename(r'database/questionary/questionary_' + str(chat_id), r'database/questionary/questionary_' + str(chat_id)
-              + '_finished')
+def homework_dialog_2_no(update, context):
+    query = update.callback_query
+    bot = context.bot
+    text_reply_no = u'А зря! Там я рассказываю про первый архетип, культуре которого соответствуют такие компании' \
+                    u'как McKinsey, PwC, Северсталь и другие. Ссылка'
+    bot.edit_message_text(
+        chat_id=query.message.chat_id,
+        message_id=query.message.message_id,
+        text=text_reply_no,
+        reply_markup=None
+    )
+    bot.send_message(
+        chat_id=query.message.chat_id,
+        text="Обязательно посмотри позже!",
+        reply_markup=default_markup
+    )
+    set_reminder(update, context)
+
+    return DEFAULT_CHOOSING
+
+
+def homework_dialog_3_correct(update, context):
+    query = update.callback_query
+    bot = context.bot
+    text_response_reply_yes = u'Супер! Все правильно :)'
+    bot.edit_message_text(
+        chat_id=query.message.chat_id,
+        message_id=query.message.message_id,
+        text=text_response_reply_yes,
+        reply_markup=None
+    )
+    bot.send_message(
+        chat_id=query.message.chat_id,
+        text="До следующего урока.. :)",
+        reply_markup=default_markup
+    )
+
+    return DEFAULT_CHOOSING
+
+
+def homework_dialog_3_incorrect(update, context):
+    query = update.callback_query
+    bot = context.bot
+    text_response_reply_no = u'Не совсем верно... другая фраза лучше описывает человека с архетипом Воина'
+    bot.edit_message_text(
+        chat_id=query.message.chat_id,
+        message_id=query.message.message_id,
+        text=text_response_reply_no,
+        reply_markup=None
+    )
+    bot.send_message(
+        chat_id=query.message.chat_id,
+        text="Если будет время, послушай этот отрывок [ссыль] До следующего урока.. :)",
+        reply_markup=default_markup
+    )
+    return DEFAULT_CHOOSING
+
+
+def set_reminder(update, context):
+    query = update.callback_query
+    print("Reminder set")
+    context.job_queue.run_once(job_2_reminder, job_due_2, context=query.message.chat_id)
 
 
 def start(update, context):
@@ -365,10 +360,10 @@ def start_user_queue(update, context):
     chat_id = update.message.chat_id
     print("  Job: " + str(1))
     context.job_queue.run_once(job_1, job_due_1, context=chat_id)
-    print("  Job: " + str(2))
-    # context.job_queue.run_once(job_2, job_due_2, context=chat_id)
     print("  Job: " + str(3))
-    #context.job_queue.run_once(job_3, job_due_3, context=chat_id)
+    context.job_queue.run_once(job_3, job_due_3, context=chat_id)
+    print("  Job: " + str(4))
+    context.job_queue.run_once(job_4, job_due_4, context=chat_id)
     print(" All jobs in the queue  ")
 
 
@@ -389,11 +384,13 @@ def job_1(context):
     )
 
 
-def job_2(context):
+def job_2_reminder(context):
     job = context.job
     chat_id = job.context
     bot = context.bot
-    init_question = u'Job 2 done'
+    init_question = u'Привет! Напоминаю о прошедшем уроке. Когда мы общались вчера, ты еще не прослушал его.' \
+                    u'Найди все же несколько минут и послушай. Он полезный :)\n'
+
     bot.send_message(
         chat_id=chat_id,
         text=init_question,
@@ -405,31 +402,24 @@ def job_3(context):
     job = context.job
     chat_id = job.context
     bot = context.bot
-    question = 1
-    keyboard = [
-        [InlineKeyboardButton(" 3 ", callback_data=str(ONE) + "," + str(question)),
-         InlineKeyboardButton(" 2 ", callback_data=str(TWO) + "," + str(question)),
-         InlineKeyboardButton(" 1 ", callback_data=str(THREE) + "," + str(question)),
-         InlineKeyboardButton(" 0 ", callback_data=str(FOUR) + "," + str(question)),
-         InlineKeyboardButton(" 1 ", callback_data=str(FIVE) + "," + str(question)),
-         InlineKeyboardButton(" 2 ", callback_data=str(SIX) + "," + str(question)),
-         InlineKeyboardButton(" 3 ", callback_data=str(SEVEN) + "," + str(question))]
-    ]
-    inline_reply_markup = InlineKeyboardMarkup(keyboard)
-    message_text = u'Анкета! Пожалуйста ответьте на 30 вопросов. В каждом вопросе есть два аспекта, ' \
-                   u'между которыми предстоит сделать выбор. При этом важно отметить, в какой степени.'
-
+    init_question = u'Job 3 done'
     bot.send_message(
         chat_id=chat_id,
-        text=message_text,
+        text=init_question,
         reply_markup=default_markup
     )
-    append_answers_database(chat_id, " ", " ")
-    bot.sendPhoto(chat_id,
-                  photo=open('archetype-test/' + str(question) + '.png', 'rb'),
-                  caption='Выберите, в какой степени это свойственно вам...',
-                  reply_markup=inline_reply_markup
-                  )
+
+
+def job_4(context):
+    job = context.job
+    chat_id = job.context
+    bot = context.bot
+    init_question = u'Job 4 done'
+    bot.send_message(
+        chat_id=chat_id,
+        text=init_question,
+        reply_markup=default_markup
+    )
 
 
 def ask_author(update, context):
