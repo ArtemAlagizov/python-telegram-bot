@@ -32,7 +32,7 @@ logger = logging.getLogger(__name__)
 START_CHOOSING, DEFAULT_CHOOSING, TYPING_REPLY, TYPING_CHOICE, PATH_ONE, PATH_TWO, ONE, TWO, THREE, FOUR, FIVE, SIX, \
 SEVEN, HW_YES_1, HW_NO_1, HW_YES_2, HW_NO_2, HW_YES_3, HW_NO_3, HW_YES_4, HW_NO_4, HW_A_1, HW_B_1, HW_C_1, HW_D_1, \
 HW_A_2, HW_B_2, HW_C_2, HW_D_2, HW_A_3, HW_B_3, HW_C_3, HW_D_3, HW_A_4, HW_B_4, HW_C_4, HW_D_4,\
-QUESTIONARY, REMINDER_LOOP_LEVEL, AUTHOR, EMPTY, GOTO_GROUP = range(42)
+QUESTIONARY, REMINDER_LOOP_LEVEL, AUTHOR, EMPTY, GOTO_GROUP, GOTO_VISUAL_1, GOTO_VISUAL_2 = range(44)
 
 # job_due_1 = datetime.combine(date(2019, 11, 7), time(20, 00))
 # job_due_2 = datetime.combine(date(2019, 11, 8), time(13, 00))
@@ -583,6 +583,37 @@ def set_reminder_4(update, context):
 
 #####################################################################################
 
+def start_visual_1(update, context):
+    query = update.callback_query
+    chat_id = query.message.chat_id
+    keyboard = [
+        [InlineKeyboardButton("Получить визуализацию", callback_data=str(GOTO_VISUAL_1))]
+    ]
+    inline_reply_markup = InlineKeyboardMarkup(keyboard)
+    context.bot.sendVoice(chat_id,
+                          voice=open('voice-messages/visualization/v1.ogg', 'rb'),
+                          caption='ВИЗУАЛИЗАЦИЯ - успешный день',
+                          reply_markup=default_markup
+                          )
+    return DEFAULT_CHOOSING
+
+
+def start_visual_2(update, context):
+    query = update.callback_query
+    chat_id = query.message.chat_id
+    keyboard = [
+        [InlineKeyboardButton("Получить визуализацию", callback_data=str(GOTO_VISUAL_1))]
+    ]
+    inline_reply_markup = InlineKeyboardMarkup(keyboard)
+    context.bot.sendVoice(chat_id,
+                          voice=open('voice-messages/visualization/v2.ogg', 'rb'),
+                          caption='ВИЗУАЛИЗАЦИЯ - хобби',
+                          reply_markup=default_markup
+                          )
+    return DEFAULT_CHOOSING
+
+################################################################################################
+
 def start(update, context):
     """Send message on `/start`."""
     # Get user that sent /start and log his name
@@ -604,16 +635,16 @@ def start_user_queue(update, context):
     # context.job_queue.run_once(job_1, job_due_1, context=chat_id)
     # context.job_queue.run_once(job_2, job_due_2, context=chat_id)
     # context.job_queue.run_once(job_3, job_due_3, context=chat_id)
-    context.job_queue.run_once(job_4, job_due_4, context=chat_id)
+    # context.job_queue.run_once(job_4, job_due_4, context=chat_id)
     # context.job_queue.run_once(job_5, job_due_5, context=chat_id)
-    context.job_queue.run_once(job_6, job_due_6, context=chat_id)
+    # context.job_queue.run_once(job_6, job_due_6, context=chat_id)
     # context.job_queue.run_once(job_9, job_due_9, context=chat_id)
-    context.job_queue.run_once(job_10, job_due_10, context=chat_id)
+    # context.job_queue.run_once(job_10, job_due_10, context=chat_id)
     # context.job_queue.run_once(job_11, job_due_11, context=chat_id)
-    context.job_queue.run_once(job_13, job_due_13, context=chat_id)
+    # context.job_queue.run_once(job_13, job_due_13, context=chat_id)
     # context.job_queue.run_once(job_14, job_due_14, context=chat_id)
-    # context.job_queue.run_once(job_15, job_due_15, context=chat_id)
-    # context.job_queue.run_once(job_17, job_due_17, context=chat_id)
+    context.job_queue.run_once(job_15, job_due_15, context=chat_id)
+    context.job_queue.run_once(job_17, job_due_17, context=chat_id)
 
     print(" All jobs in the queue  ")
 
@@ -805,6 +836,12 @@ def job_14(context):
     init_question = u'Задание 9. Вспомни, пожалуйста, компании в которых ты работал, если уже был профессиональный ' \
                     u'опыт. Если не было официальной работы, возможно, у тебя был опыт в молодежной организации ' \
                     u'или группе.'
+    question_1 = u'Задание 9. Вспомни, пожалуйста, компании в которых ты работал, если уже был профессиональный ' \
+                    u'опыт. Если не было официальной работы, возможно, у тебя был опыт в молодежной организации ' \
+                    u'или группе.'
+    question_2 = u'Задание 9. Вспомни, пожалуйста, компании в которых ты работал, если уже был профессиональный ' \
+                 u'опыт. Если не было официальной работы, возможно, у тебя был опыт в молодежной организации ' \
+                 u'или группе.'
     bot.send_message(
         chat_id=chat_id,
         text=init_question,
@@ -818,10 +855,14 @@ def job_15(context):
     bot = context.bot
     init_question = u'И задание 10. Это будет визуализация. Давай попробуем :) Выдели себе 10 минут, когда тебя ' \
                     u'никто не будет беспокоить. Сядь удобно и нажми на кнопку ВИЗУАЛИЗАЦИЯ'
+    keyboard = [
+        [InlineKeyboardButton("Получить визуализацию", callback_data=str(GOTO_VISUAL_1))]
+    ]
+    inline_reply_markup = InlineKeyboardMarkup(keyboard)
     bot.send_message(
         chat_id=chat_id,
         text=init_question,
-        reply_markup=default_markup
+        reply_markup=inline_reply_markup
     )
 
 
@@ -843,10 +884,14 @@ def job_17(context):
     bot = context.bot
     init_question = u'И задание 11. Это снова визуализация. Надеемся, тебе понравилась прошлая :) Выдели себе 10' \
                     u' минут, когда тебя никто не будет беспокоить. Сядь удобно и нажми на кнопку ВИЗУАЛИЗАЦИЯ'
+    keyboard = [
+        [InlineKeyboardButton("Получить визуализацию", callback_data=str(GOTO_VISUAL_2))]
+    ]
+    inline_reply_markup = InlineKeyboardMarkup(keyboard)
     bot.send_message(
         chat_id=chat_id,
         text=init_question,
-        reply_markup=default_markup
+        reply_markup=inline_reply_markup
     )
 
 
@@ -1068,7 +1113,14 @@ def main():
                                                     pass_chat_data=True),
                                CallbackQueryHandler(start_questionary, pattern='^' + str(SEVEN) + '[,]',
                                                     pass_job_queue=True,
-                                                    pass_chat_data=True)],
+                                                    pass_chat_data=True),
+                               CallbackQueryHandler(start_visual_1, pattern='^' + str(GOTO_VISUAL_1) + '$',
+                                                    pass_job_queue=True,
+                                                    pass_chat_data=True),
+                               CallbackQueryHandler(start_visual_2, pattern='^' + str(GOTO_VISUAL_2) + '$',
+                                                    pass_job_queue=True,
+                                                    pass_chat_data=True)
+                               ],
             START_CHOOSING: [MessageHandler(Filters.regex(intro_choice_1),
                                             intro_choice_1_callback,
                                             pass_job_queue=True,
