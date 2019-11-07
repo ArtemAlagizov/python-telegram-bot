@@ -31,8 +31,8 @@ logger = logging.getLogger(__name__)
 # Callback data
 START_CHOOSING, DEFAULT_CHOOSING, TYPING_REPLY, TYPING_CHOICE, PATH_ONE, PATH_TWO, ONE, TWO, THREE, FOUR, FIVE, SIX, \
 SEVEN, HW_YES_1, HW_NO_1, HW_YES_2, HW_NO_2, HW_YES_3, HW_NO_3, HW_YES_4, HW_NO_4, HW_A_1, HW_B_1, HW_C_1, HW_D_1, \
-HW_A_2, HW_B_2, HW_C_2, HW_D_2, HW_A_3, HW_B_3, HW_C_3, HW_D_3, HW_A_4, HW_B_4, HW_C_4, HW_D_4,\
-QUESTIONARY, REMINDER_LOOP_LEVEL, AUTHOR, EMPTY, GOTO_GROUP, GOTO_VISUAL_1, GOTO_VISUAL_2 = range(44)
+HW_A_2, HW_B_2, HW_C_2, HW_D_2, HW_A_3, HW_B_3, HW_C_3, HW_D_3, HW_A_4, HW_B_4, HW_C_4, HW_D_4, \
+QUESTIONARY, REMINDER_LOOP_LEVEL, AUTHOR, EMPTY, GOTO_GROUP, GOTO_VISUAL_1, GOTO_VISUAL_2, GETTING_VOICE = range(45)
 
 # job_due_1 = datetime.combine(date(2019, 11, 7), time(20, 00))
 # job_due_2 = datetime.combine(date(2019, 11, 8), time(13, 00))
@@ -586,14 +586,10 @@ def set_reminder_4(update, context):
 def start_visual_1(update, context):
     query = update.callback_query
     chat_id = query.message.chat_id
-    keyboard = [
-        [InlineKeyboardButton("Получить визуализацию", callback_data=str(GOTO_VISUAL_1))]
-    ]
-    inline_reply_markup = InlineKeyboardMarkup(keyboard)
     context.bot.sendVoice(chat_id,
                           voice=open('voice-messages/visualization/v1.ogg', 'rb'),
                           caption='ВИЗУАЛИЗАЦИЯ - успешный день',
-                          reply_markup=default_markup
+                          reply_markup=None
                           )
     return DEFAULT_CHOOSING
 
@@ -601,16 +597,21 @@ def start_visual_1(update, context):
 def start_visual_2(update, context):
     query = update.callback_query
     chat_id = query.message.chat_id
-    keyboard = [
-        [InlineKeyboardButton("Получить визуализацию", callback_data=str(GOTO_VISUAL_1))]
-    ]
-    inline_reply_markup = InlineKeyboardMarkup(keyboard)
     context.bot.sendVoice(chat_id,
                           voice=open('voice-messages/visualization/v2.ogg', 'rb'),
                           caption='ВИЗУАЛИЗАЦИЯ - хобби',
-                          reply_markup=default_markup
+                          reply_markup=None
                           )
     return DEFAULT_CHOOSING
+
+
+def voice_received_1(update, context):
+    # voice = update.message.voice
+    reply_text = 'Благодарю! Мы тем временем готовим подробный отчет :)'
+
+    update.message.reply_text(reply_text)
+    return DEFAULT_CHOOSING
+
 
 ################################################################################################
 
@@ -644,7 +645,7 @@ def start_user_queue(update, context):
     # context.job_queue.run_once(job_13, job_due_13, context=chat_id)
     # context.job_queue.run_once(job_14, job_due_14, context=chat_id)
     context.job_queue.run_once(job_15, job_due_15, context=chat_id)
-    context.job_queue.run_once(job_17, job_due_17, context=chat_id)
+    # context.job_queue.run_once(job_17, job_due_17, context=chat_id)
 
     print(" All jobs in the queue  ")
 
@@ -837,8 +838,8 @@ def job_14(context):
                     u'опыт. Если не было официальной работы, возможно, у тебя был опыт в молодежной организации ' \
                     u'или группе.'
     question_1 = u'Задание 9. Вспомни, пожалуйста, компании в которых ты работал, если уже был профессиональный ' \
-                    u'опыт. Если не было официальной работы, возможно, у тебя был опыт в молодежной организации ' \
-                    u'или группе.'
+                 u'опыт. Если не было официальной работы, возможно, у тебя был опыт в молодежной организации ' \
+                 u'или группе.'
     question_2 = u'Задание 9. Вспомни, пожалуйста, компании в которых ты работал, если уже был профессиональный ' \
                  u'опыт. Если не было официальной работы, возможно, у тебя был опыт в молодежной организации ' \
                  u'или группе.'
@@ -1065,10 +1066,6 @@ def main():
                                               ask_author,
                                               pass_job_queue=True,
                                               pass_chat_data=True),
-                               MessageHandler(Filters.regex('^Something else...$'),
-                                              custom_choice,
-                                              pass_job_queue=True,
-                                              pass_chat_data=True),
                                CallbackQueryHandler(dialog_1_yes, pattern='^' + str(HW_YES_1) + '$',
                                                     pass_job_queue=True,
                                                     pass_chat_data=True),
@@ -1141,6 +1138,8 @@ def main():
             TYPING_REPLY: [MessageHandler(Filters.text, received_information),
                            ],
             TYPING_CHOICE: [MessageHandler(Filters.text, default_choice),
+                            ],
+            GETTING_VOICE: [MessageHandler(Filters.text, received_information),
                             ],
             AUTHOR: [MessageHandler(Filters.text, send_question_to_author)
                      ],
