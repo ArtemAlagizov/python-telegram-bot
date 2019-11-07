@@ -1057,7 +1057,6 @@ def received_information(update, context):
     text = update.message.text
     now = datetime.now()
     user_id = context.user_data['id']
-    print(now.hour)
 
     if (now.day == 8) or (now.day == 9) or ((now.day == 10) and (now.hour < 18)):
         print("HW 1")
