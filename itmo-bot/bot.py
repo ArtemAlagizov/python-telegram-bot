@@ -52,30 +52,46 @@ QUESTIONARY, REMINDER_LOOP_LEVEL, AUTHOR, EMPTY, GOTO_GROUP, GOTO_VISUAL_1, GOTO
 # job_due_16 = datetime.combine(date(2019, 11, 16), time(20, 00))
 # job_due_17 = datetime.combine(date(2019, 11, 19), time(11, 00))
 
-job_due_base_1 = 16
-job_due_base_2 = 24
+job_due_base_1 = 23
+job_due_base_2 = 6
 
 ob_due_base_3 = 11
 job_due_base_4 = 7
 job_due_base_5 = 2019
 
 job_due_1 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2))
-job_due_2 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2))
-job_due_3 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2))
-job_due_4 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2))
-job_due_5 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2))
-job_due_6 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2))
-job_due_7 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2))
-job_due_8 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2))
-job_due_9 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2))
-job_due_10 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2))
-job_due_11 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2))
-job_due_12 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2))
-job_due_13 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2))
-job_due_14 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2))
-job_due_15 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2))
-job_due_16 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2))
-job_due_17 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2))
+job_due_2 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2
+                                                                                       + 1))
+job_due_3 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2
+                                                                                       + 2))
+job_due_4 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2
+                                                                                       + 3))
+job_due_5 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2
+                                                                                       + 4))
+job_due_6 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2
+                                                                                       + 5))
+job_due_7 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2
+                                                                                       + 6))
+job_due_8 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2
+                                                                                       + 7))
+job_due_9 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2
+                                                                                       + 8))
+job_due_10 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2
+                                                                                        + 9))
+job_due_11 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2
+                                                                                        + 10))
+job_due_12 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2
+                                                                                        + 11))
+job_due_13 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2
+                                                                                        + 12))
+job_due_14 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2
+                                                                                        + 13))
+job_due_15 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2
+                                                                                        + 14))
+job_due_16 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2
+                                                                                        + 15))
+job_due_17 = datetime.combine(date(job_due_base_5, ob_due_base_3, job_due_base_4), time(job_due_base_1, job_due_base_2
+                                                                                        + 16))
 
 question_group_id = '-382184251'# -382184251 #-272961482
 intro_choice_1 = u'Изучить новую теорию'
@@ -387,8 +403,8 @@ def dialog_2_yes(update, context):
     bot = context.bot
     text_reply_a = u'Материальные достижения, имеющиеся ресурсы'
     text_reply_b = u'Социальное положение, статус'
-    text_reply_c = u'Глубина экспертизы и знаний'
-    text_reply_d = u'Эмоциональный контакт, нравится-не нравится'
+    text_reply_c = u'Эмоциональный контакт, нравится-не нравится'
+    text_reply_d = u'Глубина экспертизы и знаний'
     text_reply_yes = u'Отлично!'
     text_reply_quest = u'Задание 4. На что обращает внимание в коммуникации с другим человеком человек с ' \
                        u'архетипом Любящего?'
@@ -469,9 +485,9 @@ def dialog_3_yes(update, context):
     query = update.callback_query
     bot = context.bot
     text_reply_a = u'Жизнь – это подиум, и надо выглядеть ярко на нем'
-    text_reply_b = u'Можно найти лучшее решение, давайте обсудим еще'
+    text_reply_b = u'Делай что должен, и будь что будет'
     text_reply_c = u'Когда я в потоке, забываю счет времени'
-    text_reply_d = u'Делай что должен, и будь что будет'
+    text_reply_d = u'Можно найти лучшее решение, давайте обсудим еще'
     text_reply_yes = u'Отлично!'
     text_reply_quest = u'Задание 6. Какая фраза лучше всего описывает человека с архетипом Воина?'
     keyboard_second_stage = [
@@ -1329,12 +1345,12 @@ def main():
                                   CallbackQueryHandler(dialog_1_correct, pattern='^' + str(HW_D_1) + '$'),
                                   CallbackQueryHandler(dialog_2_incorrect, pattern='^' + str(HW_A_2) + '$'),
                                   CallbackQueryHandler(dialog_2_incorrect, pattern='^' + str(HW_B_2) + '$'),
-                                  CallbackQueryHandler(dialog_2_incorrect, pattern='^' + str(HW_C_2) + '$'),
-                                  CallbackQueryHandler(dialog_2_correct, pattern='^' + str(HW_D_2) + '$'),
+                                  CallbackQueryHandler(dialog_2_correct, pattern='^' + str(HW_C_2) + '$'),
+                                  CallbackQueryHandler(dialog_2_incorrect, pattern='^' + str(HW_D_2) + '$'),
                                   CallbackQueryHandler(dialog_3_incorrect, pattern='^' + str(HW_A_3) + '$'),
-                                  CallbackQueryHandler(dialog_3_incorrect, pattern='^' + str(HW_B_3) + '$'),
+                                  CallbackQueryHandler(dialog_3_correct, pattern='^' + str(HW_B_3) + '$'),
                                   CallbackQueryHandler(dialog_3_incorrect, pattern='^' + str(HW_C_3) + '$'),
-                                  CallbackQueryHandler(dialog_3_correct, pattern='^' + str(HW_D_3) + '$'),
+                                  CallbackQueryHandler(dialog_3_incorrect, pattern='^' + str(HW_D_3) + '$'),
                                   CallbackQueryHandler(dialog_4_incorrect, pattern='^' + str(HW_A_4) + '$'),
                                   CallbackQueryHandler(dialog_4_incorrect, pattern='^' + str(HW_B_4) + '$'),
                                   CallbackQueryHandler(dialog_4_incorrect, pattern='^' + str(HW_C_4) + '$'),
