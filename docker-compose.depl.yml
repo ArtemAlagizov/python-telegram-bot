@@ -1,0 +1,19 @@
+version: '3.2'
+services:
+  bot:
+    image: python-telegram-bot_bot:latest
+    command: python3 bot.py
+    deploy:
+      replicas: 6
+      update_config:
+        parallelism: 2
+      restart_policy:
+        condition: on-failure
+    volumes:
+      - botVolume:/data
+    ports:
+      - "5000:5000"
+volumes:
+  botVolume:
+    external:
+      name: 'botVolume-{{.Task.Slot}}'
