@@ -31,3 +31,6 @@ what happens:
   * if a replica dies => swarm tries to restart it while keeping the volume on disk
     * volumes map some folder in a container to some folder on host (from where you start the swarm stack)
   * swarm will try always have amount of replicas specified  
+----
+to do:
+* add healthcheck for docker swarm to be able to understand when to restart a container
