@@ -1,3 +1,15 @@
+to create docker swarm cluster:
+```
+dockerswarm init --advertise-addr <private ip address of the host>
+```
+to see all the deployed stacks in the cluster:
+```
+docker stack ls
+```
+to remove the stack:
+```
+docker stack rm <name of the stack>
+```
 to deploy the stack:
 ```
 docker stack deploy botStackk -c docker-compose.depl.yml
