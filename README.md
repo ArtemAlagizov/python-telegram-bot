@@ -1,6 +1,6 @@
 to create docker swarm cluster:
 ```
-dockerswarm init --advertise-addr <private ip address of the host>
+docker swarm init --advertise-addr <private ip address of the host>
 ```
 to see all the deployed stacks in the cluster:
 ```
