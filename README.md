@@ -25,7 +25,7 @@ docker volume ls | grep botVolume
 
 ----
 what happens:
-* stack is docker swarm
+* stack is a docker swarm concept, it is a logically grouped set of services
 * service instances are scaled with corresponding volumes
   * replicas in docker-compose.depl.yml dictate the amount of scaled services
   * if a replica dies => swarm tries to restart it while keeping the volume on disk
